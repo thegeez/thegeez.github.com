@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>thegeez blog</title>
+ <link rel="self" href="http://thegeez.github.com/atom.xml" />
+ <link href="http://thegeez.github.com/" />
+ <updated>2012-03-12T13:27:28Z</updated>
+ <id>http://thegeez.github.com/</id>
+ <author>
+   <name>Gijs Stuurman</name>
+ </author>
+ <entry>
+   <title>Hello world form clj-static-blog! this on e has
+  a very long title, some say it is a bit too long</title>
+   <link href="http://thegeez.github.com/2012/03/10/hello_world.html" />
+   <updated>2012-03-10T00:00:00Z</updated>
+   <id>http://thegeez.github.com/2012/03/10/hello_world.html</id>
+   <content type="html">&lt;html&gt;&lt;body&gt;&lt;div&gt;
+  &lt;h1 id="post-title"&gt;Hello world form clj-static-blog! this on e has
+  a very long title, some say it is a bit too long&lt;/h1&gt;
+  &lt;div id="post-time"&gt;Mar 10 2012&lt;/div&gt;
+  &lt;div&gt;
+      &lt;h1&gt;Racket Gin Rummy in ClojureScript&lt;/h1&gt;
+      &lt;p&gt;Read how to play this game in
+      the &lt;a href="http://docs.racket-lang.org/games/ginrummy.html"&gt;Racket
+      documentation&lt;/a&gt;. The code is on &lt;a href="https://github.com/thegeez/cljs-gin"&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+      &lt;h2&gt;The Aces are:&lt;/h2&gt;
+      &lt;dl&gt;
+        &lt;dt&gt;Ace of diamonds: Racket&lt;/dt&gt;
+
+        &lt;dd&gt;&lt;a href=""&gt;Racket&lt;/a&gt; (formerly PLT Scheme) includes the
+        Gin Rummy game as a part of a suite of games built with
+        Scheme.&lt;/dd&gt;
+        &lt;dt&gt;Ace of spades: Clojure / ClojureScript&lt;/dt&gt;
+        &lt;dd&gt;&lt;a href="https://github.com/clojure/clojurescript"&gt;ClojureScript&lt;/a&gt; is a new compiler for &lt;a href="http://www.clojure.org"&gt;Clojure&lt;/a&gt; that targets JavaScript.&lt;/dd&gt;
+        &lt;dt&gt;Ace of hearts: Google Closure&lt;/dt&gt;
+
+        &lt;dd&gt;ClojureScript leverages
+        the &lt;a href="http://code.google.com/closure/compiler/"&gt;Google
+        Closure
+        Compiler&lt;/a&gt;. The &lt;a href="http://code.google.com/closure/library/"&gt;Google
+        Closure Library&lt;/a&gt; is a cross-browser JavaScript library,
+        used here mostly for the drag functionality of the cards.&lt;/dd&gt;
+        &lt;dt&gt;Ace of clubs: Amsterdam Clojurians&lt;/dt&gt;
+        &lt;dd&gt;The monthly &lt;a href="http://www.meetup.com/The-Amsterdam-Clojure-Meetup-Group/"&gt;meetup&lt;/a&gt; for everything Clojure in Amsterdam.&lt;/dd&gt;
+
+      &lt;/dl&gt;
+      &lt;h2&gt;Notes:&lt;/h2&gt;
+      &lt;p&gt;The Clojure code for the opponent is from a program that
+        takes control of the mouse to play the game against the
+        original Scheme client. This code worked without change in
+        ClojureScript, but its naive algorithm from the Scheme source
+        has been optimized for speed in the browser.&lt;br /&gt;
+        The &lt;a href="index-dev.html"&gt;development version&lt;/a&gt; has a view of the
+        table state, including the cards of the opponent. This is a
+        consequence of the whole application living at the
+        client. However the code is written to support communication
+        with a server for a remote opponent in the future.&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/body&gt;&lt;/html&gt;</content>
+ </entry><entry>
+   <title>Hello world</title>
+   <link href="http://thegeez.github.com/2012/03/10/post2.html" />
+   <updated>2012-03-10T00:00:00Z</updated>
+   <id>http://thegeez.github.com/2012/03/10/post2.html</id>
+   <content type="html">&lt;html&gt;&lt;body&gt;&lt;h1 id="post-title"&gt;Hello world&lt;/h1&gt;
+&lt;/body&gt;&lt;/html&gt;</content>
+ </entry>
+
+</feed>

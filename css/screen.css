@@ -1,0 +1,176 @@
+/*****************************************************************************/
+/*
+/* Common
+/*
+/*****************************************************************************/
+
+/* Global Reset */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+img {
+  border: 0;
+}
+
+img.floatright {
+  float: right;
+  margin-left: 10px;
+}
+
+img.floatleft {
+  float: left;
+  margin-right: 10px;
+}
+
+body {
+  background-color: white;
+  font: 13.34px helvetica, arial, clean, sans-serif;
+  *font-size: small;
+  text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+}
+
+h1 {
+  margin-bottom: 1em;
+}
+
+p {
+  margin: 1em 0;
+}
+
+a {
+  color: #00a;
+}
+
+a:hover {
+  color: black;
+}
+
+a:visited {
+  color: #a0a;
+}
+
+table {
+  font-size: inherit;
+  font: 100%;
+}
+
+/*****************************************************************************/
+/*
+/* Home
+/*
+/*****************************************************************************/
+
+ul.posts {
+  list-style-type: none;
+  margin-bottom: 2em;
+}
+
+ul.posts li {
+    line-height: 1.75em;
+}
+
+#post-list .date {
+    display: inline;
+}
+
+#post-list .post-title {
+    display: inline;
+
+}
+/*****************************************************************************/
+/*
+/* Site
+/*
+/*****************************************************************************/
+
+.site {
+  font-size: 110%;
+  text-align: left;
+  width: 40em;
+  margin: 3em auto 2em auto;
+  line-height: 1.5em;
+}
+
+.lambda {
+    color: #f86005;
+}
+
+.title {
+  color: #f86005;
+  font-weight: bold;
+  margin-bottom: 2em;
+}
+
+  .site .title a {
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .site .title a:hover {
+    color: black;
+  }
+
+  .site .title a.extra {
+    color: #aaa;
+    text-decoration: underline;
+
+  }
+  
+  .site .title a.extra:hover {
+    color: black;
+  }
+
+  .site .meta {
+    color: #aaa;
+  }
+
+  .site .footer {
+    color: #aaa;
+    border-top: 4px solid #000;
+    margin-top: 2em;
+    overflow: hidden;
+  }
+  
+    .site .footer .contact {
+      float: left;
+      margin-right: 3em;
+      font-weight: bold;
+    }
+
+      .site .footer .contact a {
+        color: #aaa;
+      }
+    
+      .site .footer .contact a:hover {
+        color: #000;
+      }
+    .site .footer .rss {
+      margin-top: 1.1em;
+      margin-right: -.2em;
+      float: right;
+    }
+    
+      .site .footer .rss img {
+        border: 0;
+      }
+    
+/*****************************************************************************/
+/*
+/* Posts
+/*
+/*****************************************************************************/
+
+#post {
+  
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> - <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><html><body><div>
+  <h1 id="post-title">Hello world form clj-static-blog! this on e has
+  a very long title, some say it is a bit too long</h1>
+  <div id="post-time">Mar 10 2012</div>
+  <div>
+      <h1>Racket Gin Rummy in ClojureScript</h1>
+      <p>Read how to play this game in
+      the <a href="http://docs.racket-lang.org/games/ginrummy.html">Racket
+      documentation</a>. The code is on <a href="https://github.com/thegeez/cljs-gin">GitHub</a>.</p>
+      <h2>The Aces are:</h2>
+      <dl>
+        <dt>Ace of diamonds: Racket</dt>
+
+        <dd><a href="">Racket</a> (formerly PLT Scheme) includes the
+        Gin Rummy game as a part of a suite of games built with
+        Scheme.</dd>
+        <dt>Ace of spades: Clojure / ClojureScript</dt>
+        <dd><a href="https://github.com/clojure/clojurescript">ClojureScript</a> is a new compiler for <a href="http://www.clojure.org">Clojure</a> that targets JavaScript.</dd>
+        <dt>Ace of hearts: Google Closure</dt>
+
+        <dd>ClojureScript leverages
+        the <a href="http://code.google.com/closure/compiler/">Google
+        Closure
+        Compiler</a>. The <a href="http://code.google.com/closure/library/">Google
+        Closure Library</a> is a cross-browser JavaScript library,
+        used here mostly for the drag functionality of the cards.</dd>
+        <dt>Ace of clubs: Amsterdam Clojurians</dt>
+        <dd>The monthly <a href="http://www.meetup.com/The-Amsterdam-Clojure-Meetup-Group/">meetup</a> for everything Clojure in Amsterdam.</dd>
+
+      </dl>
+      <h2>Notes:</h2>
+      <p>The Clojure code for the opponent is from a program that
+        takes control of the mouse to play the game against the
+        original Scheme client. This code worked without change in
+        ClojureScript, but its naive algorithm from the Scheme source
+        has been optimized for speed in the browser.<br />
+        The <a href="index-dev.html">development version</a> has a view of the
+        table state, including the cards of the opponent. This is a
+        consequence of the whole application living at the
+        client. However the code is written to support communication
+        with a server for a remote opponent in the future.</p>
+    </div>
+  </div>
+
+</body></html></div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
