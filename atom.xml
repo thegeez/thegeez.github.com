@@ -4,19 +4,19 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2012-03-12T13:27:28Z</updated>
+ <updated>2012-03-12T14:44:56Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
-   <title>Hello world form clj-static-blog! this on e has
+   <title>Hello world from clj-static-blog! this on e has
   a very long title, some say it is a bit too long</title>
    <link href="http://thegeez.github.com/2012/03/10/hello_world.html" />
    <updated>2012-03-10T00:00:00Z</updated>
    <id>http://thegeez.github.com/2012/03/10/hello_world.html</id>
    <content type="html">&lt;html&gt;&lt;body&gt;&lt;div&gt;
-  &lt;h1 id="post-title"&gt;Hello world form clj-static-blog! this on e has
+  &lt;h1 id="post-title"&gt;Hello world from clj-static-blog! this on e has
   a very long title, some say it is a bit too long&lt;/h1&gt;
   &lt;div id="post-time"&gt;Mar 10 2012&lt;/div&gt;
   &lt;div&gt;
