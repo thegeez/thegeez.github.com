@@ -86,7 +86,21 @@ ul.posts li {
 
 #post-list .post-title {
     display: inline;
+}
 
+#post-list .post-title a {
+    color: #f86005;
+    text-decoration: underline;
+}
+
+#post-list .post-title a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+#post-list .post-title a:active {
+    color: #000;
+    text-decoration: underline;
 }
 /*****************************************************************************/
 /*
@@ -173,4 +187,62 @@ ul.posts li {
 
 #post {
   
+}
+
+/*****************************************************************************/
+/*
+/* Syntax Highlighting
+/*
+/*****************************************************************************/
+pre {
+    color: #dcdccc;
+    background-color: #3f3f3f;
+}
+.builtin {
+    /* font-lock-builtin-face */
+    color: #8cd0d3;
+}
+.comment {
+    /* font-lock-comment-face */
+    color: #7f9f7f;
+}
+.comment-delimiter {
+    /* font-lock-comment-delimiter-face */
+    color: #708070;
+}
+.esk-paren {
+    /* esk-paren-face */
+    color: #7f7f7f;
+}
+.function-name {
+    /* font-lock-function-name-face */
+    color: #f0dfaf;
+}
+.hl-line {
+    /* hl-line */
+    background-color: #2e3330;
+}
+.keyword {
+    /* font-lock-keyword-face */
+    color: #f0dfaf;
+    font-weight: bold;
+}
+.string {
+    /* font-lock-string-face */
+    color: #cc9393;
+}
+.type {
+    /* font-lock-type-face */
+    color: #dfdfbf;
+    font-weight: bold;
+}
+
+a {
+    color: inherit;
+    background-color: inherit;
+    font: inherit;
+    text-decoration: inherit;
+}
+a:hover {
+    text-decoration: underline;
 }
