@@ -4,12 +4,58 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2012-03-15T21:12:23Z</updated>
+ <updated>2012-03-20T06:20:47Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Racket Gin Rummy in ClojureScript</title>
+   <link href="http://thegeez.github.com/2012/03/20/racket_gin_clojurescript.html" />
+   <updated>2012-03-20T00:00:00Z</updated>
+   <id>http://thegeez.github.com/2012/03/20/racket_gin_clojurescript.html</id>
+   <content type="html">&lt;html&gt;&lt;body&gt;&lt;h1 id="post-title"&gt;Racket Gin Rummy in ClojureScript&lt;/h1&gt;
+&lt;p&gt;A ClojureScript implementation of a simple card game. The game can
+  be played &lt;a href="http://thegeez-gin.s3-website-eu-west-1.amazonaws.com/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The Racket programming environment comes with a couple of example
+  games written in Scheme. My favorite of these games is Gin
+  Rummy. The object of this game is to make a hand of 10 cards,
+  consisting of a set of four cards and two sets of three cards. A set
+  of cards are cards of the same rank (i.e. three Jacks) or subsequent
+  cards of the same suit (i.e. 8,9,10,J of hearts). An ace can be low
+  or high. The game has two players with ten cards each. In the middle
+  are the deck of cards faced down and a discard pile, with cards face
+  up. Players take turns and can choose to pick to top card of the
+  discard pile or a face down card from the deck. The chosen card has
+  to be exchanged for a card in the players hand, which is placed on
+  top of the discard pile. For more information see the
+  &lt;a href="http://docs.racket-lang.org/games/ginrummy.html"&gt; Racket documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/thegeez/cljs-gin"&gt;cljs-gin&lt;/a&gt; is an
+  implementation of Gin Rummy in ClojureScript. The games runs
+  completely in the browser. The Clojure code for the opponent is from
+  a program that takes control of the mouse to play the game against
+  the original Scheme client. This code worked  without change in
+  ClojureScript, but its naive algorithm from the Scheme source has
+  been optimized for speed in the browser. The cards are draggable
+  div elements, using
+  the &lt;a href="http://closure-library.googlecode.com/svn/docs/class_goog_fx_Dragger.html"&gt;Dragger&lt;/a&gt;
+  class from the google closure library.&lt;/p&gt;
+
+&lt;p&gt;The game is hosted on Amazon
+  S3: &lt;a href="http://thegeez-gin.s3-website-eu-west-1.amazonaws.com/"&gt;Gin
+  Rummy&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href="http://thegeez-gin.s3-website-eu-west-1.amazonaws.com/index-dev.html"&gt;development
+    version&lt;/a&gt; has a view of the table state, including the cards of
+  the opponent. This is a consequence of the whole application living
+  at the client. However the code is written to support communication
+  with a server for a remote opponent in the future.&lt;/p&gt; 
+
+&lt;p&gt;The code is on &lt;a href="https://github.com/thegeez/cljs-gin"&gt;Github&lt;/a&gt;.&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</content>
+ </entry><entry>
    <title>Simple static blog with Clojure</title>
    <link href="http://thegeez.github.com/2012/03/15/static_blog_on_github_with_enlive.html" />
    <updated>2012-03-15T00:00:00Z</updated>
