@@ -4,7 +4,7 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2012-04-02T20:37:51Z</updated>
+ <updated>2012-04-02T21:01:38Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
@@ -84,7 +84,8 @@ firebug, goto gmail.com and look for the GET and POST requests to
 
 &lt;img src="/images/gmail_browserchannel.png" /&gt;
 &lt;p&gt;For further information see the &lt;a href="https://github.com/thegeez/clj-browserchannel-demo"&gt;README&lt;/a&gt; of the clj-browserchannel-demo
-project on GitHub.&lt;/p&gt;
+project on GitHub. The demo runs on
+  Heroku: &lt;a href="http://cold-stream-6156.herokuapp.com/index.html"&gt;BrowserChannel app&lt;/a&gt;&lt;/p&gt;
 
 &lt;/body&gt;&lt;/html&gt;</content>
  </entry><entry>
