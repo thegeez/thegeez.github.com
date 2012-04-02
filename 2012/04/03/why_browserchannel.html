@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - Why BrowserChannel?</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><html><body><h1 id="post-title">Why BrowserChannel?</h1>03 Apr 2012
+<p>After the release
+  of <a href="https://github.com/thegeez/clj-browserchannel-demo">clj-browserchannel-demo</a>,
+  I have been asked what BrowserChannel is exactly. This post will
+  hopefully clarify what BrowserChannel is and why it is a great fit
+  for ClojureScript and Clojure web applications.</p>
+
+<p><a href="http://closure-library.googlecode.com/svn-history/r144/docs/closure_goog_net_browserchannel.js.html">BrowserChannel</a> is a protocol developed by Google. It provides cross-browser compatible, real-time, bi-directional communication
+  for various Google web apps, including Google Docs and GMail.</p>
+
+<p>An important part of this definition is the <b>bi-directional</b>
+  communication. The client can send messages to the server and
+  the server can send messages to the client. Canonical examples
+  that require these types of communication are chat applications and
+  stock/news tickers. In a chat app the client can send
+  something to the server and whenever somebody else says something
+  this needs to be pushed to all the clients. A stock ticker might not
+  need the client to send stuff to the server, but the server needs to
+  be able to constantly push messages to the client. This
+  bi-directional communication is more elaborate than just AJAX
+  request that don't need a page refresh. An example of
+  uni-directional client-&gt;server communication is the <a href="http://clojurescriptone.com/">ClojureScriptOne</a>
+  example application.</p>
+
+<p>Similar bi-directional communication functionality is provided by
+  <a href="http://en.wikipedia.org/wiki/Comet">Comet</a> libraries,
+  <a href="http://socket.io/">Socket.io</a>, <a href="http://sockjs.org">Sock.js</a>
+  and <a href="http://en.wikipedia.org/wiki/WebSocket">WebSockets</a>.</p>
+
+<p>For ClojureScript and Clojure web apps that need bi-directional
+  communication BrowserChannel is a good fit. The client side part of
+  BrowserChannel is part of the <a href="https://developers.google.com/closure/library/">Google Closure Library</a> and
+  ClojureScript leverages the Google Closure compiler and library
+  extensively already. In the clj-browserchannel-demo this good fit
+  shows by the
+  few <a href="https://github.com/thegeez/clj-browserchannel-demo/blob/master/cljs/bc/core.cljs">lines</a>
+  of ClojureScript that are required. There are no external JavaScript
+  dependencies besides the Closure library. The server side portion of
+  BrowserChannel has not been open-sourced. clj-browserchannel-demo
+  fills this hole with an <a href="https://github.com/thegeez/clj-browserchannel-demo/blob/master/src/net/thegeez/browserchannel.clj">implementation</a> in Clojure.</p>
+
+<h2>WebSockets</h2>
+<p>WebSockets will ultimately replace BrowserChannel completely, as it
+  serves the exact same purpose. But WebSockets is under heavy
+  development and constant change. Therefore very few clients properly
+  support WebSockets. BrowserChannel delivers the functionality right
+  now, with support on almost every client imaginable, including
+  Internet Explorer 5.5+. I know of only one shop that used WebSockets
+  in production and they dropped support for WebSockets after users
+  reported problems, mostly behind firewalls.</p>
+
+<p>BrowserChannel is a pragmatic alternative to WebSockets that works on
+many clients today:
+</p><ul>
+<li>XHR connections or forever iframes for Internet Explorer</li>
+<li>Both in streaming and non-streaming versions</li>
+<li>Explicit testing for buffering problems on the connection</li>
+<li>Cross domain possible by using XPC</li>
+<li>Work around for connection limits to the same domain</li>
+</ul>
+
+<p>The cost over WebSockets is the overhead of requiring more requests between the client and server.</p>
+
+<h2>The punchline</h2>
+<p>Of course the question is if BrowserChannel is production ready: open
+firebug, goto gmail.com and look for the GET and POST requests to
+  /channel/test?VER=8 and /channel/bind?VER=8:</p>
+
+<img src="/images/gmail_browserchannel.png" />
+<p>For further information see the <a href="https://github.com/thegeez/clj-browserchannel-demo">README</a> of the clj-browserchannel-demo
+project on GitHub.</p>
+
+</body></html></div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
