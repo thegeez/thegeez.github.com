@@ -4,12 +4,67 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2012-04-02T21:01:38Z</updated>
+ <updated>2012-05-16T18:56:20Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>BrowserChannel and the Rijksmuseum API at
+  The Next Web HackBattle</title>
+   <link href="http://thegeez.github.com/2012/05/16/the_next_web_rijksmuseum.html" />
+   <updated>2012-05-16T00:00:00Z</updated>
+   <id>http://thegeez.github.com/2012/05/16/the_next_web_rijksmuseum.html</id>
+   <content type="html">&lt;html&gt;&lt;body&gt;&lt;h1 id="post-title"&gt;BrowserChannel and the Rijksmuseum API at
+  The Next Web HackBattle&lt;/h1&gt;
+
+&lt;p&gt;The
+  last &lt;a href="http://thenextweb.com/conference/amsterdam/2012/"&gt;The
+  Next Web conference&lt;/a&gt; in Amsterdam on the 23rd to 25th of April
+  2012 included a two
+  day &lt;a href="http://thenextweb.com/conference/amsterdam/2012/hackbattle"&gt;HackBattle&lt;/a&gt;. During
+  this HackBattle I built a website combining the API from the
+  &lt;a href="http://www.rijksmuseum.nl/api"&gt;Rijksmuseum&lt;/a&gt; with my
+  &lt;a href="https://github.com/thegeez/clj-browserchannel"&gt;clj-browserchannel&lt;/a&gt;
+  library.&lt;/p&gt;
+
+&lt;p&gt;The Rijksmuseum API contains all the works from the museum in
+  digital format, with loads of metadata. The website I build displays
+  a selection from these works and allows people to add 'notes' to the
+  paintings. When a note is placed, everybody looking at that painting
+  will see the note pop-up on the site. The idea behind this was that
+  this could be used in a group tour setting through the museum. Of
+  course the real-time aspect of the website is provided by
+  clj-browserchannel. This group tour aspect is also the motivation
+  behind the simple design of the website, which makes it usable on at
+  least Android smartphones.
+&lt;/p&gt;
+
+&lt;b&gt;Screenshot of a note on a painting:&lt;/b&gt;&lt;br /&gt;
+&lt;img src="/images/screenshot-rijks.png" /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;h2&gt;How big?!&lt;/h2&gt;
+&lt;p&gt;Part of the metadata of a painting is its size. Rather than just
+  including this information in text, the website has a 'How big?!'
+  button. When 'How big?!' is enabled a painting is shown with a
+  common object as an overlay, in the proper scale. This is meant to
+  communicate the real-life size of the work. For smaller paintings a soccer
+  ball is used for the comparison. The large 'Nachtwacht' by Rembrandt uses a
+  Dutch bicycle to show its dimensions.&lt;/p&gt;
+
+&lt;b&gt;Van Gogh's portrait with a soccer ball:&lt;/b&gt;&lt;br /&gt;
+&lt;img src="/images/screenshot-rijks-howbig.png" /&gt;
+
+&lt;p&gt;This project made me able to complete my goal for the conference:
+  plugging Clojure on stage. This was done during the 1-minute presentations of the HackBattle entries on stage in the Green Room.&lt;/p&gt;
+
+&lt;p&gt;The code is
+  here: &lt;a href="https://github.com/thegeez/rijks-hackbattle"&gt;rijks-hackbattle&lt;/a&gt;. Many
+  thanks to the kind people from TNW and the Rijksmuseum for
+  organizing the HackBattle.&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</content>
+ </entry><entry>
    <title>Why BrowserChannel?</title>
    <link href="http://thegeez.github.com/2012/04/03/why_browserchannel.html" />
    <updated>2012-04-03T00:00:00Z</updated>
