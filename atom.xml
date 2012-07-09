@@ -4,12 +4,50 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2012-06-12T19:03:57Z</updated>
+ <updated>2012-07-09T18:53:41Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Testing clj-browserchannel</title>
+   <link href="http://thegeez.github.com/2012/07/10/test_selenium_browserchannel.html" />
+   <updated>2012-07-10T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2012/07/10/test_selenium_browserchannel.html</id>
+   <content type="html">&lt;html&gt;&lt;body&gt;&lt;h1 id="post-title"&gt;Testing clj-browserchannel&lt;/h1&gt;
+
+&lt;p&gt;The &lt;a href="https://github.com/thegeez/clj-browserchannel"&gt;clj-browserchannel&lt;/a&gt; project now also contains a test
+  project. The &lt;a href="https://github.com/thegeez/clj-browserchannel/tree/master/test"&gt;test project&lt;/a&gt; contains a small executable test that
+  tests the whole browserchannel stack, by using the &lt;a href="https://github.com/thegeez/clj-browserchannel/tree/master/chat-demo"&gt;chat-demo&lt;/a&gt;
+  application. The test project is meant to test the server-side
+  component of the BrowserChannel protocol in
+  clj-browserchannel. Together with the client-side implementation as
+  part of the Google Closure library this provides real-time
+  bi-directional communication for web apps.&lt;/p&gt;
+
+&lt;p&gt;The test is done by mimicking people chatting in the chat-demo
+  application. Testing the server component in clj-browserchannel by
+  itself is nearly impossible. This is because the server-side is
+  fully dependent on cooperation with the client-side to comply to
+  the BrowserChannel protocol. However both the protocol and the
+  client-side implementation are very sparsely documented. The
+  client-side implementation is a black box that can not easily be
+  mocked or stubbed. Therefore the approach is to do &lt;a href="http://thinkrelevance.com/blog/2012/04/26/thinkrelevance-the-podcast-episode-010-stu-halloway"&gt;simulation testing&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The people chatting in the chat-demo are programmed through the
+  &lt;a href="https://github.com/semperos/clj-webdriver/"&gt;clj-webdriver&lt;/a&gt; wrapper for Selenium. A chatter can send and receive
+  messages. Chatters can also cancel connections to create connection
+  failures. This tests the basic promise of the BrowserChannel
+  protocol to be resilient to connection failures. At the end of a
+  test there is a check to see if all the messages that have been
+  sent have been received and have been received in the proper order.&lt;/p&gt;
+
+&lt;p&gt;The test project currently contains one scenario, but different
+  scenarios can be generated and tested. These scenarios could
+  check different write/read ratios, chatter counts, failure rates and different
+  browsers. The knobs to tune these parameters are in place.&lt;/p&gt;
+&lt;/body&gt;&lt;/html&gt;</content>
+ </entry><entry>
    <title>My understanding of reducers after
   EuroClojure</title>
    <link href="http://thegeez.github.com/2012/06/12/euroclojure_reducers.html" />
