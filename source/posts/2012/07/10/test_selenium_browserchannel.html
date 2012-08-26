@@ -1,0 +1,32 @@
+<h1 id="post-title">Testing clj-browserchannel</h1>
+
+<p>The <a href="https://github.com/thegeez/clj-browserchannel">clj-browserchannel</a> project now also contains a test
+  project. The <a href="https://github.com/thegeez/clj-browserchannel/tree/master/test">test project</a> contains a small executable test that
+  tests the whole browserchannel stack, by using the <a href="https://github.com/thegeez/clj-browserchannel/tree/master/chat-demo">chat-demo</a>
+  application. The test project is meant to test the server-side
+  component of the BrowserChannel protocol in
+  clj-browserchannel. Together with the client-side implementation as
+  part of the Google Closure library this provides real-time
+  bi-directional communication for web apps.</p>
+
+<p>The test is done by mimicking people chatting in the chat-demo
+  application. Testing the server component in clj-browserchannel by
+  itself is nearly impossible. This is because the server-side is
+  fully dependent on cooperation with the client-side to comply to
+  the BrowserChannel protocol. However both the protocol and the
+  client-side implementation are very sparsely documented. The
+  client-side implementation is a black box that can not easily be
+  mocked or stubbed. Therefore the approach is to do <a href="http://thinkrelevance.com/blog/2012/04/26/thinkrelevance-the-podcast-episode-010-stu-halloway">simulation testing</a>.</p>
+
+<p>The people chatting in the chat-demo are programmed through the
+  <a href="https://github.com/semperos/clj-webdriver/">clj-webdriver</a> wrapper for Selenium. A chatter can send and receive
+  messages. Chatters can also cancel connections to create connection
+  failures. This tests the basic promise of the BrowserChannel
+  protocol to be resilient to connection failures. At the end of a
+  test there is a check to see if all the messages that have been
+  sent have been received and have been received in the proper order.</p>
+
+<p>The test project currently contains one scenario, but different
+  scenarios can be generated and tested. These scenarios could
+  check different write/read ratios, chatter counts, failure rates and different
+  browsers. The knobs to tune these parameters are in place.</p>

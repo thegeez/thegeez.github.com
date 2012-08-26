@@ -1,0 +1,47 @@
+What is goog.net.BrowserChannel?
+
+Since releasing clj-browserchannel-demo people have asked and are
+confused what it is
+
+AJAX question/answer
+
+COMET/Server puch notification
+
+the canonical example is chat. A one way server -> client connection
+is a stock ticker or news page.
+
+THe stack
+Cljs              Clj
+Closure           Server
+BrowserChannel    ?
+
+As a wise man said. Clojure Rocks, JavaScript Reaches. For single page
+webapps a way 
+
+No javascript dependencies outside the Google Closure Library.
+
+Two transports XHR and IE forever frames
+Streaming and non streaming
+
+* cross domain support with xpc
+* work around connection limits to the same domain. For instance for
+people that have many tabs open with documents from Google Docs.
+
+WebSockets?
+In an ideal world we would only have websockets.
+As XKCD duly noted: n+1 standards.
+I know of one nodejs shop that ran WebSockets in production. They
+dropped support for websockets after users reported connection
+problems, particularly behind firewalls. WebSockets is is heavy
+development. BrowserChannel is about working now and everywhere. For
+now the pragmatic choice is to skip WebSockets. It is certainly out of
+scope for the clj-browserchannel project. The trade is ofcourse that
+websockets has less overhead due to requiring less full requests to
+the server.
+
+The punchline
+Of course the question is if goog.net.BrowserChannel is production
+ready.
+
+Open firebug, goto GMail and look for the GET and POST request the
+/channel/test and /channel/bind

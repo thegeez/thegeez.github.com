@@ -1,0 +1,66 @@
+<h1 id="post-title">Playing "Racket Gin Rummy in ClojureScript" with
+  Clojure</h1>
+
+<p>In 2010 I built my first real Clojure application. It was a tool to
+execute semantic specifications of modeling languages and was part of
+my master thesis. Before I decided
+to use Clojure for this tool I built a little program to test the
+waters. This program was <a href="https://github.com/thegeez/clj-ginbot">GinBot</a>.</p>
+
+<p>Whilst dabbling with functional programming languages I tried PLT
+Scheme (now <a href="http://racket-lang.org">PLT Racket</a>). As part of the DrScheme editor came a couple
+of example games. My favorite is the Gin Rummy card game. The object of this game is to make a hand of 10 cards,
+  consisting of a set of four cards and two sets of three cards. Players take turns and can choose to pick the top card of the
+  discard pile or a face down card from the deck. For more information see the
+  rules for Gin Rummy in the <a href="http://docs.racket-lang.org/games/ginrummy.html"> Racket
+  documentation</a>.</p>
+
+<p><a href="https://github.com/thegeez/clj-ginbot">GinBot</a> is a robot in software form that plays the Gin Rummy game
+against the computer opponent, using the strategy of the opponent,
+which is part of the available source in DrScheme.</p>
+
+
+<object style="height: 390px; width: 640px"><param name="movie" value="http://www.youtube.com/v/3mybLKYsmxU?version=3&feature=player_detailpage"><param name="allowFullScreen" value="true"><param name="allowScriptAccess" value="always"><embed src="http://www.youtube.com/v/3mybLKYsmxU?version=3&feature=player_detailpage" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="640" height="360"></object>
+<b>GinBot playing Gin Rummy against a computer opponent by using screenshots and moving the mouse pointer</b>
+<br/><br/>
+
+<h2>The Java robot</h2>
+
+<p>In order to autonomously let GinBot execute its strategy it needs to
+be able to see the cards on the table and be able to move cards
+around. Both of these are supported by
+the <a href="http://docs.oracle.com/javase/1.4.2/docs/api/java/awt/Robot.html">java.awt.Robot</a>
+class. The aptly named createScreenCapture() does just that, and the
+other methods can move the mouse and execute mouse button presses and
+releases.</p>
+
+<p>The final missing piece is to recognize the rank and face of a card
+from a screenshot. GinBot does this by first
+  finding the borders of a playing card and then looking in the upper
+  left corner for the rank number or character and suit symbol. A bit
+  of experimentation showed that sampling a couple of pixels was
+  sufficient to differentiate all the different cards. The experiment setup for this can be found in <a href="https://github.com/thegeez/clj-ginbot/blob/master/src/clj_ginbot/card.clj">card.clj</a>.</p>
+
+<h2>Gin Rummy in ClojureScript</h2>
+<p>To try out ClojureScript I ported the Scheme version to a
+  webpage. (See <a href="/2012/03/20/racket_gin_clojurescript.html">Racket
+  Gin Rummy in ClojureScript</a>). The code for the opponent strategy
+  in the ClojureScript version is verbatim copy of the version from
+  the GinBot in Clojure. The latest version of GinBot plays against the
+  ClojureScript version rather than the original Scheme version.</p>
+
+<p>As an evaluation of the Clojure language the GinBot program was a great
+success. The strategy algorithm benefited greatly from the
+datastructures and sequence abstraction in Clojure for readability
+over the Scheme version. The Java interop also made Clojure a more
+  convenient Java than Java.</p>
+
+<h2>From starting with Clojure to EuroClojure</h2>
+<p>Since I began using Clojure with the GinBot project, I have enjoyed
+  working with Clojure. This includes starting as a freelance Clojure
+  programmer. A particular highlight was the
+  first <a href="http://euroclojure.com/2012/">EuroClojure</a>
+  conference in London in May 2012. During dinner we were joined by
+  Rich Hickey and got to talk about Clojure with its
+  creator.</p>
+<p>Cheers to many more years enjoying Clojure.</p>

@@ -1,0 +1,65 @@
+<h1 id="post-title">My understanding of reducers after
+  EuroClojure</h1>
+
+<p>At EuroClojure Rich Hickey gave a second, unscheduled talk about the new
+  reducers library. The talk clarified a few points for me, that I
+  didn't initially get from the explaining blogposts on
+  <a href="http://clojure.com/blog">clojure.com/blog</a>. For the <a href="http://www.meetup.com/The-Amsterdam-Clojure-Meetup-Group/">Amsterdam Clojure Meetup</a> I wrote down
+  these notes:</p>
+
+<h2>Reducers vs seq/lazy-seq api</h2> 
+<p>This is mostly explained in the first
+  blogpost: <a href="http://clojure.com/blog/2012/05/08/reducers-a-library-and-model-for-collection-processing.html">Reducers
+  - A Library and Model for Collection Processing</a>.<br/>
+The reducers are partly about de-complecting representation, order
+  and mechanism. For example: the map reducer is only a recipe to apply a function to each item in the collection. Compare the following:</p>
+
+    <pre>
+[2 3 4] === 
+<span class="esk-paren">(</span><span class="builtin">vec</span> <span class="esk-paren">(</span><span class="builtin">map</span> inc [1 2 3]<span class="esk-paren">))</span> === 
+<span class="esk-paren">(</span><span class="builtin">into</span> [] <span class="esk-paren">(</span>r/map inc [1 2 3]<span class="esk-paren">))</span> === 
+<span class="esk-paren">(</span><span class="builtin">reduce</span> conj [] <span class="esk-paren">(</span>r/map inc [1 2 3]<span class="esk-paren">))</span></pre>
+
+(here map is the clojure.core/map, r/map is the new clojure.core.reducers/map)
+
+<p>A reducer is only the recipe step of transforming a collection. Building a collection or a result is an explicit, separate reduce step. The building of the collection and the what to do with the input collection are separate here. When you replace r/map with a composition of various reducers the actual construction of the results is only the final step. Compare this to the intermediate lazy-seq results that are produced when composing the old seq functions.</p>
+
+<h2>Reducers and fold for parallelism</h2> 
+<p>This is mostly explained in the second
+  blogpost: <a href="http://clojure.com/blog/2012/05/15/anatomy-of-reducer.html">Anatomy
+  of a Reducer</a>.<br/>
+The split between building results and the reducer recipes also opens up some nice possibilities for parallelism, through the fork/join framework.</p>
+
+The example Rich gave was (not verbatim this, but close enough):
+    <pre>
+<span class="esk-paren">(</span><span class="keyword">def</span> <span class="function-name">v</span> <span class="esk-paren">(</span><span class="builtin">vec</span> <span class="esk-paren">(</span><span class="builtin">range</span> 100000000000<span class="esk-paren">)))</span>
+<span class="esk-paren">(</span><span class="builtin">reduce</span> + <span class="esk-paren">(</span><span class="builtin">map</span> inc v<span class="esk-paren">))</span> vs.
+<span class="esk-paren">(</span><span class="builtin">reduce</span> + <span class="esk-paren">(</span>r/map inc v<span class="esk-paren">))</span> vs.
+<span class="esk-paren">(</span>r/fold + <span class="esk-paren">(</span>r/map inc v<span class="esk-paren">))</span>
+</pre>
+
+<p>I think the timings were: reduce+r/map 2x fast as reduce+map, and r/fold+r/map 4x fast as reduce+map.</p>
+
+<p>Fold is simply the name for the new parallel reduce function, it is not meant to refer to a function with the same name in other languages.</p>
+
+<p>In the example the fold function is not passed a combiner. The
+  plus function is used for the combiner here as well. The seed for
+  the reduce at the leafs is the combiner function called with 0 arguments.</p>
+
+<p>Fold will try to do the computation in parallel using fork/join,
+  when the input collection that is asked to apply the reducer to
+  itself supports this and when the reducer supports this. The check
+  for support is done through protocols: for the datastructures:
+  PersistentVector extends CollFold, for the reducers: r/map is
+  defined as a folder, while r/take-while is defined as a reducer (and
+  does not support fold, because partitioning does not make sense for
+  this computation). When parallel fold is not supported, then fold
+  will just do a reduce. See the implementation for details: <a href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/core/reducers.clj">reducers.clj</a></p>
+
+<p>A common approach for parallel processing is to use map+reduce. The work is divided into partitions and map is applied to each partition and the intermediate results are combined with reduce. In fold the approach is reduce+combine. The work on the smallest partition is done with a reduce rather than with map. Compare the two approaches by trying to express filter in map+reduce versus reduce+combine. It appeals to the functional programming sensibilities that reduce is a better fit for most operations than map.</p>
+
+<p>Fold works nicely with Clojure datastructures. Many datastructures in Clojure are trees, which can be easily partitioned. As Rich explained: explicit parallel datastructures (as found in other languages) make no sense because being parallel is a property of an algorithm, not the data.</p>
+
+<p>The ultimate benefit of the reducers library is this: In the past you could make your programs faster if you simply waited a while for faster hardware (Moore's law). Fold and reduce+combine bring back that promise for data processing with more cores, rather than faster cpu's.</p>
+
+
