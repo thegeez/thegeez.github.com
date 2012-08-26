@@ -4,60 +4,48 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2012-08-26T20:22:36Z</updated>
+ <updated>2012-08-26T13:20:46Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
-   <title>Count aggregator in Cascalog</title>
-   <link href="http://thegeez.github.com/2012/08/26/cascalog_clojure_count.html" />
-   <updated>2012-08-26T23:00:00Z</updated>
-   <id>http://thegeez.github.com/2012/08/26/cascalog_clojure_count.html</id>
-   <content type="html">&lt;h1 id="post-title"&gt;Count aggregator in Cascalog&lt;/h1&gt;
-
-&lt;p&gt;At my current job we use the excellent &lt;a href="https://github.com/nathanmarz/cascalog"&gt;Cascalog&lt;/a&gt; library. Cascalog
-  is a declarative query language for "Big Data" processing on top of
-  Hadoop. Cascalog queries get compiled into MapReduce tasks (through
-  the underlying &lt;a href="http://www.cascading.org/"&gt;Cascading&lt;/a&gt; library). This approach is a huge win over
-  writing MapReduce tasks yourself. The "Hello World" of MapReduce
-  tasks is the &lt;a href="http://wiki.apache.org/hadoop/WordCount"&gt;word-count&lt;/a&gt; example. However this example is a bit
-  deceptive as it consists of only one Map task and one Reduce task.
-  Most queries that we run require multiple MapReduce tasks chained
-  together. With Cascalog we write a query declaratively
-  while the underlying libraries take care to create (efficient!)
-  chains of MapReduce tasks.&lt;/p&gt;
-
-&lt;p&gt;In the beginning I struggled with writing Cascalog queries with
-  aggregators. The best example of this is the count aggregator. The
-  following code uses "count" in Cascalog and SQL.&lt;/p&gt;
-
-</content>
- </entry><entry>
    <title>Testing clj-browserchannel</title>
    <link href="http://thegeez.github.com/2012/07/10/test_selenium_browserchannel.html" />
    <updated>2012-07-10T23:00:00Z</updated>
    <id>http://thegeez.github.com/2012/07/10/test_selenium_browserchannel.html</id>
-   <content type="html">&lt;h1 id="post-title"&gt;Testing clj-browserchannel&lt;/h1&gt;
+   <content type="html"><h1 id="post-title">Testing clj-browserchannel</h1>
 
-&lt;p&gt;The &lt;a href="https://github.com/thegeez/clj-browserchannel"&gt;clj-browserchannel&lt;/a&gt; project now also contains a test
-  project. The &lt;a href="https://github.com/thegeez/clj-browserchannel/tree/master/test"&gt;test project&lt;/a&gt; contains a small executable test that
-  tests the whole browserchannel stack, by using the &lt;a href="https://github.com/thegeez/clj-browserchannel/tree/master/chat-demo"&gt;chat-demo&lt;/a&gt;
+<p>The <a href="https://github.com/thegeez/clj-browserchannel">clj-browserchannel</a> project now also contains a test
+  project. The <a href="https://github.com/thegeez/clj-browserchannel/tree/master/test">test project</a> contains a small executable test that
+  tests the whole browserchannel stack, by using the <a href="https://github.com/thegeez/clj-browserchannel/tree/master/chat-demo">chat-demo</a>
   application. The test project is meant to test the server-side
   component of the BrowserChannel protocol in
   clj-browserchannel. Together with the client-side implementation as
   part of the Google Closure library this provides real-time
-  bi-directional communication for web apps.&lt;/p&gt;
+  bi-directional communication for web apps.</p>
 
-&lt;p&gt;The test is done by mimicking people chatting in the chat-demo
+<p>The test is done by mimicking people chatting in the chat-demo
   application. Testing the server component in clj-browserchannel by
   itself is nearly impossible. This is because the server-side is
   fully dependent on cooperation with the client-side to comply to
   the BrowserChannel protocol. However both the protocol and the
   client-side implementation are very sparsely documented. The
   client-side implementation is a black box that can not easily be
-  mocked or stubbed. Therefore the approach is to do &lt;a href="http://thinkrelevance.com/blog/2012/04/26/thinkrelevance-the-podcast-episode-010-stu-halloway"&gt;simulation testing&lt;/a&gt;.&lt;/p&gt;
+  mocked or stubbed. Therefore the approach is to do <a href="http://thinkrelevance.com/blog/2012/04/26/thinkrelevance-the-podcast-episode-010-stu-halloway">simulation testing</a>.</p>
 
+<p>The people chatting in the chat-demo are programmed through the
+  <a href="https://github.com/semperos/clj-webdriver/">clj-webdriver</a> wrapper for Selenium. A chatter can send and receive
+  messages. Chatters can also cancel connections to create connection
+  failures. This tests the basic promise of the BrowserChannel
+  protocol to be resilient to connection failures. At the end of a
+  test there is a check to see if all the messages that have been
+  sent have been received and have been received in the proper order.</p>
+
+<p>The test project currently contains one scenario, but different
+  scenarios can be generated and tested. These scenarios could
+  check different write/read ratios, chatter counts, failure rates and different
+  browsers. The knobs to tune these parameters are in place.</p>
 </content>
  </entry><entry>
    <title>My understanding of reducers after
@@ -65,16 +53,71 @@
    <link href="http://thegeez.github.com/2012/06/12/euroclojure_reducers.html" />
    <updated>2012-06-12T23:00:00Z</updated>
    <id>http://thegeez.github.com/2012/06/12/euroclojure_reducers.html</id>
-   <content type="html">&lt;h1 id="post-title"&gt;My understanding of reducers after
-  EuroClojure&lt;/h1&gt;
+   <content type="html"><h1 id="post-title">My understanding of reducers after
+  EuroClojure</h1>
 
-&lt;p&gt;At EuroClojure Rich Hickey gave a second, unscheduled talk about the new
+<p>At EuroClojure Rich Hickey gave a second, unscheduled talk about the new
   reducers library. The talk clarified a few points for me, that I
   didn't initially get from the explaining blogposts on
-  &lt;a href="http://clojure.com/blog"&gt;clojure.com/blog&lt;/a&gt;. For the &lt;a href="http://www.meetup.com/The-Amsterdam-Clojure-Meetup-Group/"&gt;Amsterdam Clojure Meetup&lt;/a&gt; I wrote down
-  these notes:&lt;/p&gt;
+  <a href="http://clojure.com/blog">clojure.com/blog</a>. For the <a href="http://www.meetup.com/The-Amsterdam-Clojure-Meetup-Group/">Amsterdam Clojure Meetup</a> I wrote down
+  these notes:</p>
 
-&lt;h2&gt;Reducers vs seq/lazy-seq api&lt;/h2&gt; 
+<h2>Reducers vs seq/lazy-seq api</h2> 
+<p>This is mostly explained in the first
+  blogpost: <a href="http://clojure.com/blog/2012/05/08/reducers-a-library-and-model-for-collection-processing.html">Reducers
+  - A Library and Model for Collection Processing</a>.<br />
+The reducers are partly about de-complecting representation, order
+  and mechanism. For example: the map reducer is only a recipe to apply a function to each item in the collection. Compare the following:</p>
+
+    <pre>
+[2 3 4] === 
+<span class="esk-paren">(</span><span class="builtin">vec</span> <span class="esk-paren">(</span><span class="builtin">map</span> inc [1 2 3]<span class="esk-paren">))</span> === 
+<span class="esk-paren">(</span><span class="builtin">into</span> [] <span class="esk-paren">(</span>r/map inc [1 2 3]<span class="esk-paren">))</span> === 
+<span class="esk-paren">(</span><span class="builtin">reduce</span> conj [] <span class="esk-paren">(</span>r/map inc [1 2 3]<span class="esk-paren">))</span></pre>
+
+(here map is the clojure.core/map, r/map is the new clojure.core.reducers/map)
+
+<p>A reducer is only the recipe step of transforming a collection. Building a collection or a result is an explicit, separate reduce step. The building of the collection and the what to do with the input collection are separate here. When you replace r/map with a composition of various reducers the actual construction of the results is only the final step. Compare this to the intermediate lazy-seq results that are produced when composing the old seq functions.</p>
+
+<h2>Reducers and fold for parallelism</h2> 
+<p>This is mostly explained in the second
+  blogpost: <a href="http://clojure.com/blog/2012/05/15/anatomy-of-reducer.html">Anatomy
+  of a Reducer</a>.<br />
+The split between building results and the reducer recipes also opens up some nice possibilities for parallelism, through the fork/join framework.</p>
+
+The example Rich gave was (not verbatim this, but close enough):
+    <pre>
+<span class="esk-paren">(</span><span class="keyword">def</span> <span class="function-name">v</span> <span class="esk-paren">(</span><span class="builtin">vec</span> <span class="esk-paren">(</span><span class="builtin">range</span> 100000000000<span class="esk-paren">)))</span>
+<span class="esk-paren">(</span><span class="builtin">reduce</span> + <span class="esk-paren">(</span><span class="builtin">map</span> inc v<span class="esk-paren">))</span> vs.
+<span class="esk-paren">(</span><span class="builtin">reduce</span> + <span class="esk-paren">(</span>r/map inc v<span class="esk-paren">))</span> vs.
+<span class="esk-paren">(</span>r/fold + <span class="esk-paren">(</span>r/map inc v<span class="esk-paren">))</span>
+</pre>
+
+<p>I think the timings were: reduce+r/map 2x fast as reduce+map, and r/fold+r/map 4x fast as reduce+map.</p>
+
+<p>Fold is simply the name for the new parallel reduce function, it is not meant to refer to a function with the same name in other languages.</p>
+
+<p>In the example the fold function is not passed a combiner. The
+  plus function is used for the combiner here as well. The seed for
+  the reduce at the leafs is the combiner function called with 0 arguments.</p>
+
+<p>Fold will try to do the computation in parallel using fork/join,
+  when the input collection that is asked to apply the reducer to
+  itself supports this and when the reducer supports this. The check
+  for support is done through protocols: for the datastructures:
+  PersistentVector extends CollFold, for the reducers: r/map is
+  defined as a folder, while r/take-while is defined as a reducer (and
+  does not support fold, because partitioning does not make sense for
+  this computation). When parallel fold is not supported, then fold
+  will just do a reduce. See the implementation for details: <a href="https://github.com/clojure/clojure/blob/master/src/clj/clojure/core/reducers.clj">reducers.clj</a></p>
+
+<p>A common approach for parallel processing is to use map+reduce. The work is divided into partitions and map is applied to each partition and the intermediate results are combined with reduce. In fold the approach is reduce+combine. The work on the smallest partition is done with a reduce rather than with map. Compare the two approaches by trying to express filter in map+reduce versus reduce+combine. It appeals to the functional programming sensibilities that reduce is a better fit for most operations than map.</p>
+
+<p>Fold works nicely with Clojure datastructures. Many datastructures in Clojure are trees, which can be easily partitioned. As Rich explained: explicit parallel datastructures (as found in other languages) make no sense because being parallel is a property of an algorithm, not the data.</p>
+
+<p>The ultimate benefit of the reducers library is this: In the past you could make your programs faster if you simply waited a while for faster hardware (Moore's law). Fold and reduce+combine bring back that promise for data processing with more cores, rather than faster cpu's.</p>
+
+
 </content>
  </entry><entry>
    <title>Playing "Racket Gin Rummy in ClojureScript" with
@@ -82,23 +125,72 @@
    <link href="http://thegeez.github.com/2012/06/01/ginbot_euroclojure.html" />
    <updated>2012-06-01T23:00:00Z</updated>
    <id>http://thegeez.github.com/2012/06/01/ginbot_euroclojure.html</id>
-   <content type="html">&lt;h1 id="post-title"&gt;Playing "Racket Gin Rummy in ClojureScript" with
-  Clojure&lt;/h1&gt;
+   <content type="html"><h1 id="post-title">Playing "Racket Gin Rummy in ClojureScript" with
+  Clojure</h1>
 
-&lt;p&gt;In 2010 I built my first real Clojure application. It was a tool to
+<p>In 2010 I built my first real Clojure application. It was a tool to
 execute semantic specifications of modeling languages and was part of
 my master thesis. Before I decided
 to use Clojure for this tool I built a little program to test the
-waters. This program was &lt;a href="https://github.com/thegeez/clj-ginbot"&gt;GinBot&lt;/a&gt;.&lt;/p&gt;
+waters. This program was <a href="https://github.com/thegeez/clj-ginbot">GinBot</a>.</p>
 
-&lt;p&gt;Whilst dabbling with functional programming languages I tried PLT
-Scheme (now &lt;a href="http://racket-lang.org"&gt;PLT Racket&lt;/a&gt;). As part of the DrScheme editor came a couple
+<p>Whilst dabbling with functional programming languages I tried PLT
+Scheme (now <a href="http://racket-lang.org">PLT Racket</a>). As part of the DrScheme editor came a couple
 of example games. My favorite is the Gin Rummy card game. The object of this game is to make a hand of 10 cards,
   consisting of a set of four cards and two sets of three cards. Players take turns and can choose to pick the top card of the
   discard pile or a face down card from the deck. For more information see the
-  rules for Gin Rummy in the &lt;a href="http://docs.racket-lang.org/games/ginrummy.html"&gt; Racket
-  documentation&lt;/a&gt;.&lt;/p&gt;
+  rules for Gin Rummy in the <a href="http://docs.racket-lang.org/games/ginrummy.html"> Racket
+  documentation</a>.</p>
 
+<p><a href="https://github.com/thegeez/clj-ginbot">GinBot</a> is a robot in software form that plays the Gin Rummy game
+against the computer opponent, using the strategy of the opponent,
+which is part of the available source in DrScheme.</p>
+
+
+<object style="height: 390px; width: 640px"><param value="http://www.youtube.com/v/3mybLKYsmxU?version=3&amp;feature=player_detailpage" name="movie"></param><param value="true" name="allowFullScreen"></param><param value="always" name="allowScriptAccess"></param><embed height="360" width="640" allowscriptaccess="always" allowfullscreen="true" type="application/x-shockwave-flash" src="http://www.youtube.com/v/3mybLKYsmxU?version=3&amp;feature=player_detailpage"></embed></object>
+<b>GinBot playing Gin Rummy against a computer opponent by using screenshots and moving the mouse pointer</b>
+<br /><br />
+
+<h2>The Java robot</h2>
+
+<p>In order to autonomously let GinBot execute its strategy it needs to
+be able to see the cards on the table and be able to move cards
+around. Both of these are supported by
+the <a href="http://docs.oracle.com/javase/1.4.2/docs/api/java/awt/Robot.html">java.awt.Robot</a>
+class. The aptly named createScreenCapture() does just that, and the
+other methods can move the mouse and execute mouse button presses and
+releases.</p>
+
+<p>The final missing piece is to recognize the rank and face of a card
+from a screenshot. GinBot does this by first
+  finding the borders of a playing card and then looking in the upper
+  left corner for the rank number or character and suit symbol. A bit
+  of experimentation showed that sampling a couple of pixels was
+  sufficient to differentiate all the different cards. The experiment setup for this can be found in <a href="https://github.com/thegeez/clj-ginbot/blob/master/src/clj_ginbot/card.clj">card.clj</a>.</p>
+
+<h2>Gin Rummy in ClojureScript</h2>
+<p>To try out ClojureScript I ported the Scheme version to a
+  webpage. (See <a href="/2012/03/20/racket_gin_clojurescript.html">Racket
+  Gin Rummy in ClojureScript</a>). The code for the opponent strategy
+  in the ClojureScript version is verbatim copy of the version from
+  the GinBot in Clojure. The latest version of GinBot plays against the
+  ClojureScript version rather than the original Scheme version.</p>
+
+<p>As an evaluation of the Clojure language the GinBot program was a great
+success. The strategy algorithm benefited greatly from the
+datastructures and sequence abstraction in Clojure for readability
+over the Scheme version. The Java interop also made Clojure a more
+  convenient Java than Java.</p>
+
+<h2>From starting with Clojure to EuroClojure</h2>
+<p>Since I began using Clojure with the GinBot project, I have enjoyed
+  working with Clojure. This includes starting as a freelance Clojure
+  programmer. A particular highlight was the
+  first <a href="http://euroclojure.com/2012/">EuroClojure</a>
+  conference in London in May 2012. During dinner we were joined by
+  Rich Hickey and got to talk about Clojure with its
+  creator.</p>
+<p>Cheers to many more years enjoying Clojure.</p>
 </content>
  </entry><entry>
    <title>BrowserChannel and the Rijksmuseum API at
@@ -106,20 +198,20 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
    <link href="http://thegeez.github.com/2012/05/16/the_next_web_rijksmuseum.html" />
    <updated>2012-05-16T23:00:00Z</updated>
    <id>http://thegeez.github.com/2012/05/16/the_next_web_rijksmuseum.html</id>
-   <content type="html">&lt;h1 id="post-title"&gt;BrowserChannel and the Rijksmuseum API at
-  The Next Web HackBattle&lt;/h1&gt;
+   <content type="html"><h1 id="post-title">BrowserChannel and the Rijksmuseum API at
+  The Next Web HackBattle</h1>
 
-&lt;p&gt;The
-  last &lt;a href="http://thenextweb.com/conference/amsterdam/2012/"&gt;The
-  Next Web conference&lt;/a&gt; in Amsterdam on the 23rd to 25th of April
+<p>The
+  last <a href="http://thenextweb.com/conference/amsterdam/2012/">The
+  Next Web conference</a> in Amsterdam on the 23rd to 25th of April
   2012 included a two
-  day &lt;a href="http://thenextweb.com/conference/amsterdam/2012/hackbattle"&gt;HackBattle&lt;/a&gt;. During
+  day <a href="http://thenextweb.com/conference/amsterdam/2012/hackbattle">HackBattle</a>. During
   this HackBattle I built a website combining the API from the
-  &lt;a href="http://www.rijksmuseum.nl/api"&gt;Rijksmuseum&lt;/a&gt; with my
-  &lt;a href="https://github.com/thegeez/clj-browserchannel"&gt;clj-browserchannel&lt;/a&gt;
-  library.&lt;/p&gt;
+  <a href="http://www.rijksmuseum.nl/api">Rijksmuseum</a> with my
+  <a href="https://github.com/thegeez/clj-browserchannel">clj-browserchannel</a>
+  library.</p>
 
-&lt;p&gt;The Rijksmuseum API contains all the works from the museum in
+<p>The Rijksmuseum API contains all the works from the museum in
   digital format, with loads of metadata. The website I build displays
   a selection from these works and allows people to add 'notes' to the
   paintings. When a note is placed, everybody looking at that painting
@@ -129,23 +221,109 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
   clj-browserchannel. This group tour aspect is also the motivation
   behind the simple design of the website, which makes it usable on at
   least Android smartphones.
-&lt;/p&gt;
+</p>
 
+<b>Screenshot of a note on a painting:</b><br />
+<img src="/images/screenshot-rijks.png" />
+<br />
+<br />
+<h2>How big?!</h2>
+<p>Part of the metadata of a painting is its size. Rather than just
+  including this information in text, the website has a 'How big?!'
+  button. When 'How big?!' is enabled a painting is shown with a
+  common object as an overlay, in the proper scale. This is meant to
+  communicate the real-life size of the work. For smaller paintings a soccer
+  ball is used for the comparison. The large 'Nachtwacht' by Rembrandt uses a
+  Dutch bicycle to show its dimensions.</p>
+
+<b>Van Gogh's portrait with a soccer ball:</b><br />
+<img src="/images/screenshot-rijks-howbig.png" />
+
+<p>This project made me able to complete my goal for the conference:
+  plugging Clojure on stage. This was done during the 1-minute presentations of the HackBattle entries on stage in the Green Room.</p>
+
+<p>The code is
+  here: <a href="https://github.com/thegeez/rijks-hackbattle">rijks-hackbattle</a>. Many
+  thanks to the kind people from TNW and the Rijksmuseum for
+  organizing the HackBattle.</p>
 </content>
  </entry><entry>
    <title>Why BrowserChannel?</title>
    <link href="http://thegeez.github.com/2012/04/03/why_browserchannel.html" />
    <updated>2012-04-03T23:00:00Z</updated>
    <id>http://thegeez.github.com/2012/04/03/why_browserchannel.html</id>
-   <content type="html">&lt;h1 id="post-title"&gt;Why BrowserChannel?&lt;/h1&gt;
-&lt;p&gt;After the release
-  of &lt;a href="https://github.com/thegeez/clj-browserchannel-demo"&gt;clj-browserchannel-demo&lt;/a&gt;,
+   <content type="html"><h1 id="post-title">Why BrowserChannel?</h1>
+<p>After the release
+  of <a href="https://github.com/thegeez/clj-browserchannel-demo">clj-browserchannel-demo</a>,
   I have been asked what BrowserChannel is exactly. This post will
   hopefully clarify what BrowserChannel is and why it is a great fit
-  for ClojureScript and Clojure web applications.&lt;/p&gt;
+  for ClojureScript and Clojure web applications.</p>
 
-&lt;p&gt;&lt;a href="http://closure-library.googlecode.com/svn-history/r144/docs/closure_goog_net_browserchannel.js.html"&gt;BrowserChannel&lt;/a&gt; is a protocol developed by Google. It provides cross-browser compatible, real-time, bi-directional communication
-  for various Google web apps, including Google Docs and GMail.&lt;/p&gt;
+<p><a href="http://closure-library.googlecode.com/svn-history/r144/docs/closure_goog_net_browserchannel.js.html">BrowserChannel</a> is a protocol developed by Google. It provides cross-browser compatible, real-time, bi-directional communication
+  for various Google web apps, including Google Docs and GMail.</p>
+
+<p>An important part of this definition is the <b>bi-directional</b>
+  communication. The client can send messages to the server and
+  the server can send messages to the client. Canonical examples
+  that require these types of communication are chat applications and
+  stock/news tickers. In a chat app the client can send
+  something to the server and whenever somebody else says something
+  this needs to be pushed to all the clients. A stock ticker might not
+  need the client to send stuff to the server, but the server needs to
+  be able to constantly push messages to the client. This
+  bi-directional communication is more elaborate than just AJAX
+  request that don't need a page refresh. An example of
+  uni-directional client-&gt;server communication is the <a href="http://clojurescriptone.com/">ClojureScriptOne</a>
+  example application.</p>
+
+<p>Similar bi-directional communication functionality is provided by
+  <a href="http://en.wikipedia.org/wiki/Comet">Comet</a> libraries,
+  <a href="http://socket.io/">Socket.io</a>, <a href="http://sockjs.org">Sock.js</a>
+  and <a href="http://en.wikipedia.org/wiki/WebSocket">WebSockets</a>.</p>
+
+<p>For ClojureScript and Clojure web apps that need bi-directional
+  communication BrowserChannel is a good fit. The client side part of
+  BrowserChannel is part of the <a href="https://developers.google.com/closure/library/">Google Closure Library</a> and
+  ClojureScript leverages the Google Closure compiler and library
+  extensively already. In the clj-browserchannel-demo this good fit
+  shows by the
+  few <a href="https://github.com/thegeez/clj-browserchannel-demo/blob/master/cljs/bc/core.cljs">lines</a>
+  of ClojureScript that are required. There are no external JavaScript
+  dependencies besides the Closure library. The server side portion of
+  BrowserChannel has not been open-sourced. clj-browserchannel-demo
+  fills this hole with an <a href="https://github.com/thegeez/clj-browserchannel-demo/blob/master/src/net/thegeez/browserchannel.clj">implementation</a> in Clojure.</p>
+
+<h2>WebSockets</h2>
+<p>WebSockets will ultimately replace BrowserChannel completely, as it
+  serves the exact same purpose. But WebSockets is under heavy
+  development and constant change. Therefore very few clients properly
+  support WebSockets. BrowserChannel delivers the functionality right
+  now, with support on almost every client imaginable, including
+  Internet Explorer 5.5+. I know of only one shop that used WebSockets
+  in production and they dropped support for WebSockets after users
+  reported problems, mostly behind firewalls.</p>
+
+<p>BrowserChannel is a pragmatic alternative to WebSockets that works on
+many clients today:
+</p><ul>
+<li>XHR connections or forever iframes for Internet Explorer</li>
+<li>Both in streaming and non-streaming versions</li>
+<li>Explicit testing for buffering problems on the connection</li>
+<li>Cross domain possible by using XPC</li>
+<li>Work around for connection limits to the same domain</li>
+</ul>
+
+<p>The cost over WebSockets is the overhead of requiring more requests between the client and server.</p>
+
+<h2>The punchline</h2>
+<p>Of course the question is if BrowserChannel is production ready: open
+firebug, goto gmail.com and look for the GET and POST requests to
+  /channel/test?VER=8 and /channel/bind?VER=8:</p>
+
+<img src="/images/gmail_browserchannel.png" />
+<p>For further information see the <a href="https://github.com/thegeez/clj-browserchannel-demo">README</a> of the clj-browserchannel-demo
+project on GitHub. The demo runs on
+  Heroku: <a href="http://cold-stream-6156.herokuapp.com/index.html">BrowserChannel app</a></p>
 
 </content>
  </entry><entry>
@@ -153,11 +331,11 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
    <link href="http://thegeez.github.com/2012/03/20/racket_gin_clojurescript.html" />
    <updated>2012-03-20T23:00:00Z</updated>
    <id>http://thegeez.github.com/2012/03/20/racket_gin_clojurescript.html</id>
-   <content type="html">&lt;h1 id="post-title"&gt;Racket Gin Rummy in ClojureScript&lt;/h1&gt;
-&lt;p&gt;A ClojureScript implementation of a simple card game. The game can
-  be played &lt;a href="http://thegeez-gin.s3-website-eu-west-1.amazonaws.com/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+   <content type="html"><h1 id="post-title">Racket Gin Rummy in ClojureScript</h1>
+<p>A ClojureScript implementation of a simple card game. The game can
+  be played <a href="http://thegeez-gin.s3-website-eu-west-1.amazonaws.com/">here</a>.</p>
 
-&lt;p&gt;The Racket programming environment comes with a couple of example
+<p>The Racket programming environment comes with a couple of example
   games written in Scheme. My favorite of these games is Gin
   Rummy. The object of this game is to make a hand of 10 cards,
   consisting of a set of four cards and two sets of three cards. A set
@@ -169,22 +347,115 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
   discard pile or a face down card from the deck. The chosen card has
   to be exchanged for a card in the players hand, which is placed on
   top of the discard pile. For more information see the
-  &lt;a href="http://docs.racket-lang.org/games/ginrummy.html"&gt; Racket documentation&lt;/a&gt;.&lt;/p&gt;
+  <a href="http://docs.racket-lang.org/games/ginrummy.html"> Racket documentation</a>.</p>
 
+<p><a href="https://github.com/thegeez/cljs-gin">cljs-gin</a> is an
+  implementation of Gin Rummy in ClojureScript. The games runs
+  completely in the browser. The Clojure code for the opponent is from
+  a program that takes control of the mouse to play the game against
+  the original Scheme client. This code worked  without change in
+  ClojureScript, but its naive algorithm from the Scheme source has
+  been optimized for speed in the browser. The cards are draggable
+  div elements, using
+  the <a href="http://closure-library.googlecode.com/svn/docs/class_goog_fx_Dragger.html">Dragger</a>
+  class from the google closure library.</p>
+
+<p>The game is hosted on Amazon
+  S3: <a href="http://thegeez-gin.s3-website-eu-west-1.amazonaws.com/">Gin
+  Rummy</a></p>
+
+<p>The <a href="http://thegeez-gin.s3-website-eu-west-1.amazonaws.com/index-dev.html">development
+    version</a> has a view of the table state, including the cards of
+  the opponent. This is a consequence of the whole application living
+  at the client. However the code is written to support communication
+  with a server for a remote opponent in the future.</p> 
+
+<p>The code is on <a href="https://github.com/thegeez/cljs-gin">Github</a>.</p>
 </content>
  </entry><entry>
    <title>Simple static blog with Clojure</title>
    <link href="http://thegeez.github.com/2012/03/15/static_blog_on_github_with_enlive.html" />
    <updated>2012-03-15T23:00:00Z</updated>
    <id>http://thegeez.github.com/2012/03/15/static_blog_on_github_with_enlive.html</id>
-   <content type="html">&lt;h1 id="post-title"&gt;Simple static blog with Clojure&lt;/h1&gt;
-&lt;p&gt;This inaugural post for this Clojure blog describes how it is
+   <content type="html"><h1 id="post-title">Simple static blog with Clojure</h1>
+<p>This inaugural post for this Clojure blog describes how it is
 created. This blog is hosted by GitHub Pages and the static pages are
 generated by a minimal clone for Jekyll written in Clojure and
 using Enlive. The code is by no means a replacement for Jekyll, but
-can serve as a starting point for people wanting to do the same.&lt;/p&gt;
+can serve as a starting point for people wanting to do the same.</p>
 
-&lt;p&gt;The code for the static pages generator is in the &lt;a href="https://github.com/thegeez/clj-static-blog"&gt;clj-static-blog&lt;/a&gt; project.&lt;/p&gt;
+<p>The code for the static pages generator is in the <a href="https://github.com/thegeez/clj-static-blog">clj-static-blog</a> project.</p>
+
+<p><a href="http://pages.github.com">Github Pages</a> can host static pages under username.github.com.
+Their suggested method to generate static pages is with <a href="http://github.com/mojombo/jekyll/">Jekyll</a>. As I
+could not get Jekyll to run, I had enough of an excuse to use Clojure
+and Enlive for the task.</p>
+
+<p>
+What clj-static-blog does:
+</p><ul>
+<li>Put each post in a template with a header and footer</li>
+<li>Create an index.html with a list of posts</li>
+<li>Create an atom rss feed whit a list of posts</li>
+</ul>
+
+<p>It also includes a small webserver to browse the generated pages
+locally. GitHub Pages runs Jekyll when changes are pushed to a pages
+repository. For this blog the static pages are checked-in,
+rather than the sources, because the generator is not run on
+GitHub. The Jekyll processing is disabled by the .nojekyll file in
+this repo.</p>
+
+<p>The core of clj-static-blog is the Enlive library. <a href="https://github.com/cgrand/enlive">Enlive</a> is a
+selector-based (à la CSS) templating library for Clojure, by
+  Christophe Grand. The readme of Enlive points to two good
+tutorials. Here I just want to highlight to core functionality of
+Enlive.</p>
+
+<p>Enlive does selection and transformations. Using only the
+selectors Enlive can be used to scrape websites. With the addition of
+transformations Enlive can be used for HTML templating.</p>
+
+<pre>
+<span class="comment-delimiter">;; </span><span class="comment">html is seq of {:tag :attrs :content}
+</span><span class="esk-paren">(</span><span class="keyword">def</span> <span class="function-name">html</span> <span class="esk-paren">(</span>html-resource 
+            <span class="esk-paren">(</span>io/file <span class="string">"/source/_postlist.html"</span><span class="esk-paren">)))</span>
+<span class="comment-delimiter">;; </span><span class="comment">=&gt; ({:tag :html, :attrs nil, :content ({:tag :body, :attrs ...
+</span>  
+<span class="comment-delimiter">;; </span><span class="comment">back to textual html again
+</span><span class="esk-paren">(</span>emit* html<span class="esk-paren">)</span>
+<span class="comment-delimiter">;; </span><span class="comment">=&gt; ("&lt;" "html" "&gt;" "&lt;" "body" "&gt;" "&lt;" "div" " " "id" "=\"" ...
+</span>
+<span class="comment-delimiter">;; </span><span class="comment">back to a string
+</span><span class="esk-paren">(</span><span class="builtin">apply</span> str <span class="esk-paren">(</span>emit* html<span class="esk-paren">))</span>
+<span class="comment-delimiter">;; </span><span class="comment">=&gt; "&lt;html&gt;&lt;body&gt;&lt;div id=\"home.....
+</span>
+<span class="comment-delimiter">;; </span><span class="comment">select a seq of nodes from html with the css-like selector
+</span><span class="esk-paren">(</span><span class="keyword">def</span> <span class="function-name">date-node</span> <span class="esk-paren">(</span><span class="type">select</span> html [<span class="builtin">:div.date</span>]<span class="esk-paren">))</span>
+<span class="comment-delimiter">;; </span><span class="comment">=&gt; ({:tag :div, :attrs {:class "date"}, :content ("YYYY/MM/DD")})
+</span>
+<span class="comment-delimiter">;; </span><span class="comment">tranform applies a transformation to a node
+</span><span class="esk-paren">(</span>transform date-node
+           [<span class="builtin">:div.date</span>]
+           <span class="esk-paren">(</span><span class="builtin">fn</span> [match]
+             <span class="esk-paren">(</span><span class="builtin">assoc</span> match <span class="builtin">:content</span> <span class="string">"2012/03/15"</span><span class="esk-paren">)))</span>
+<span class="comment-delimiter">;; </span><span class="comment">=&gt; ({:tag :div, :attrs {:class "date"}, :content "2012/03/15"})
+</span>  
+<span class="comment-delimiter">;; </span><span class="comment">the results of a transformation may also be a seq of nodes
+</span><span class="esk-paren">(</span>transform date-node
+           [<span class="builtin">:div.date</span>]
+           <span class="esk-paren">(</span><span class="builtin">fn</span> [match-node]
+             [{<span class="builtin">:tag</span> <span class="string">"hr"</span> <span class="builtin">:attrs</span> nil <span class="builtin">:content</span> []}
+              {<span class="builtin">:tag</span> <span class="string">"p"</span> <span class="builtin">:attrs</span> nil <span class="builtin">:content</span> <span class="string">"new structure"</span>}]<span class="esk-paren">))</span>
+<span class="comment-delimiter">;; </span><span class="comment">=&gt;
+  ({:tag "hr", :attrs nil, :content []} 
+   {:tag "p", :content "new structure", :attrs nil})
+</span>  </pre>
+<p>This code is also in clj-static-blog/src/clj_static_blog/core.clj.</p>
+
+
+
+
 
 </content>
  </entry>
