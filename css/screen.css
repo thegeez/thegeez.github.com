@@ -49,11 +49,16 @@ p {
 }
 
 a {
-  color: #00a;
+  color: #a0a;
+  text-decoration: none;
 }
 
 a:hover {
   color: black;
+}
+
+a:active {
+  color: #a0a; 
 }
 
 a:visited {
@@ -142,7 +147,7 @@ ul.posts li {
   }
   
   .site .title a.extra:hover {
-    color: black;
+    color: yellow;/*black;*/
   }
 
   .site .meta {
@@ -198,51 +203,51 @@ pre {
     color: #dcdccc;
     background-color: #3f3f3f;
 }
-.builtin {
+pre .builtin {
     /* font-lock-builtin-face */
     color: #8cd0d3;
 }
-.comment {
+pre .comment {
     /* font-lock-comment-face */
     color: #7f9f7f;
 }
-.comment-delimiter {
+pre .comment-delimiter {
     /* font-lock-comment-delimiter-face */
     color: #708070;
 }
-.esk-paren {
+pre .esk-paren {
     /* esk-paren-face */
     color: #7f7f7f;
 }
-.function-name {
+pre .function-name {
     /* font-lock-function-name-face */
     color: #f0dfaf;
 }
-.hl-line {
+pre .hl-line {
     /* hl-line */
     background-color: #2e3330;
 }
-.keyword {
+pre .keyword {
     /* font-lock-keyword-face */
     color: #f0dfaf;
     font-weight: bold;
 }
-.string {
+pre .string {
     /* font-lock-string-face */
     color: #cc9393;
 }
-.type {
+pre .type {
     /* font-lock-type-face */
     color: #dfdfbf;
     font-weight: bold;
 }
 
-a {
+pre a {
     color: inherit;
     background-color: inherit;
     font: inherit;
     text-decoration: inherit;
 }
-a:hover {
+pre a:hover {
     text-decoration: underline;
 }
