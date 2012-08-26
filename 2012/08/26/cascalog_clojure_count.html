@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - Count aggregator in Cascalog</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Count aggregator in Cascalog</h1>26 Aug 2012
+
+<p>At my current job we use the excellent <a href="https://github.com/nathanmarz/cascalog">Cascalog</a> library. Cascalog
+  is a declarative query language for "Big Data" processing on top of
+  Hadoop. Cascalog queries get compiled into MapReduce tasks (through
+  the underlying <a href="http://www.cascading.org/">Cascading</a> library). This approach is a huge win over
+  writing MapReduce tasks yourself. The "Hello World" of MapReduce
+  tasks is the <a href="http://wiki.apache.org/hadoop/WordCount">word-count</a> example. However this example is a bit
+  deceptive as it consists of only one Map task and one Reduce task.
+  Most queries that we run require multiple MapReduce tasks chained
+  together. With Cascalog we write a query declaratively
+  while the underlying libraries take care to create (efficient!)
+  chains of MapReduce tasks.</p>
+
+<p>In the beginning I struggled with writing Cascalog queries with
+  aggregators. The best example of this is the count aggregator. The
+  following code uses "count" in Cascalog and SQL.</p>
+
+<p>
+</p><pre>
+ 1 <span class="esk-paren">(</span><span class="keyword">ns</span> cascalog-count.core-test
+ 2   <span class="esk-paren">(</span><span class="builtin">:use</span> clojure.test
+ 3         cascalog.api
+ 4         cascalog.testing
+ 5         midje.cascalog<span class="esk-paren">)</span>
+ 6   <span class="esk-paren">(</span><span class="builtin">:require</span> [cascalog.ops <span class="builtin">:as</span> c]
+ 7             [clojure.java.jdbc <span class="builtin">:as</span> jdbc]<span class="esk-paren">))</span>
+ 8 
+ 9 <span class="esk-paren">(</span><span class="keyword">def</span> <span class="function-name">in</span> [[5] [6] [7] [5] [6] [5]]<span class="esk-paren">)</span>
+10 
+11 <span class="esk-paren">(</span><span class="keyword">def</span> <span class="function-name">db</span> <span class="string">"postgresql://test:test@localhost:5432/testdb"</span><span class="esk-paren">)</span>
+12 
+13 <span class="esk-paren">(</span><span class="type">use-fixtures</span> <span class="builtin">:once</span>
+14               <span class="esk-paren">(</span><span class="builtin">fn</span> [f]
+15                 <span class="esk-paren">(</span>jdbc/with-connection db
+16                   <span class="esk-paren">(</span>jdbc/do-commands <span class="string">"CREATE TABLE integers
+17                                      (n integer)"</span><span class="esk-paren">)</span>
+18                   <span class="esk-paren">(</span><span class="builtin">apply</span> jdbc/insert-values <span class="string">"integers"</span> [<span class="string">"n"</span>] in<span class="esk-paren">)</span>
+19                   <span class="esk-paren">(</span>f<span class="esk-paren">)</span>
+20                   <span class="esk-paren">(</span>jdbc/do-commands <span class="string">"DROP TABLE integers"</span><span class="esk-paren">)</span>
+21                   <span class="esk-paren">)))</span>
+22 
+23 <span class="esk-paren">(</span><span class="type">deftest</span> count-all
+24   <span class="esk-paren">(</span><span class="keyword">let</span> [count-all-out [[6]]]
+25     <span class="esk-paren">(</span><span class="type">testing</span> <span class="string">"count all sql"</span>
+26       <span class="esk-paren">(</span>jdbc/with-query-results res
+27         [<span class="string">"SELECT count(*) as count
+28           FROM integers;"</span>]
+29         <span class="esk-paren">(</span><span class="type">is</span> <span class="esk-paren">(</span><span class="builtin">=</span> count-all-out
+30                <span class="esk-paren">(</span><span class="builtin">map</span> <span class="esk-paren">(</span><span class="builtin">juxt</span> <span class="builtin">:count</span><span class="esk-paren">)</span> res<span class="esk-paren">)))))</span>
+31     <span class="esk-paren">(</span><span class="type">testing</span> <span class="string">"count all cascalog"</span>
+32       <span class="esk-paren">(</span>fact?- count-all-out
+33               <span class="esk-paren">(</span>&lt;- [?count]
+34                   <span class="esk-paren">(</span>in _<span class="esk-paren">)</span>
+35                   <span class="esk-paren">(</span>c/count ?count<span class="esk-paren">)</span>
+36                   <span class="esk-paren">)))))</span>
+37 
+38 
+39 <span class="esk-paren">(</span><span class="type">deftest</span> count-group-by
+40   <span class="esk-paren">(</span><span class="keyword">let</span> [count-group-by-out [[5 3] [6 2] [7 1]]]
+41     <span class="esk-paren">(</span><span class="type">testing</span> <span class="string">"count group-by sql"</span>
+42       <span class="esk-paren">(</span>jdbc/with-query-results res
+43         [<span class="string">"SELECT n, count(*) as count
+44           FROM integers
+45           GROUP BY n;"</span>]
+46         <span class="esk-paren">(</span><span class="type">is</span> <span class="esk-paren">(</span><span class="builtin">=</span> count-group-by-out
+47                <span class="esk-paren">(</span><span class="builtin">map</span> <span class="esk-paren">(</span><span class="builtin">juxt</span> <span class="builtin">:n</span> <span class="builtin">:count</span><span class="esk-paren">)</span> res<span class="esk-paren">)))))</span>
+48     <span class="esk-paren">(</span><span class="type">testing</span> <span class="string">"count group-by cascalog"</span>
+49         <span class="esk-paren">(</span>fact?- count-group-by-out
+50                 <span class="esk-paren">(</span>&lt;- [?n ?count]
+51                     <span class="esk-paren">(</span>in ?n<span class="esk-paren">)</span>
+52                     <span class="esk-paren">(</span>c/count ?count<span class="esk-paren">)</span>
+53                     <span class="esk-paren">)))))</span>
+</pre>
+ 
+
+
+<p>SQL is also a declarative query, albeit more well known than
+  Cascalog. The "GROUP BY" clause in the SQL query on line 45 is
+  explicit. The Cascalog query on lines 50 through 52 has no group by
+  clause, as this is done implicitly. The "GROUP BY" clause for the
+  Cascalog query is derived from variables in query. All the variables
+  that are not output from aggregates are used to group by. In this
+  case that is only the "?n" variable. Compare this to the Cascalog on
+  line 33 where all the tuples are counted.</p>
+
+<p>The following great resources helped me to understand Cascalog:
+</p><ul>
+<li><a href="https://github.com/nathanmarz/cascalog">Cascalog on GitHub</a></li>
+<li><a href="http://jimdrannbauer.com/2011/02/04/cascalog-made-easier/">Cascalog made easy</a> - Explains aggregators and custom operators</li>
+<li><a href="http://www.manning.com/marz/">Big Data MEAP</a> - Book on
+  "Big Data" architectures by Cascalog author Nathan Marz, Chapter 5 discusses the Java variant of Cascalog</li>
+</ul>
+
+
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>
