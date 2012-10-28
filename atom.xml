@@ -4,12 +4,24 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2012-08-26T20:34:24Z</updated>
+ <updated>2012-10-28T11:44:45Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>October Amsterdam Clojure Presentation</title>
+   <link href="http://thegeez.github.com/2012/10/28/october_amsterdam_clojure.html" />
+   <updated>2012-10-28T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2012/10/28/october_amsterdam_clojure.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;October Amsterdam Clojure Presentation&lt;/h1&gt;
+
+&lt;p&gt;The slides from my presentation
+  at &lt;a href="http://amsclj.nl/october.html"&gt;#OctAmsClj&lt;/a&gt; are in the ams-clj repo: &lt;a href="https://github.com/ams-clj/octamsclj-2012/"&gt;Simpler webapps with Clojure&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The code for the example in the presentation is here: &lt;a href="https://github.com/thegeez/amscljoct-example"&gt;amscljoct-example&lt;/a&gt;.&lt;/p&gt;
+</content>
+ </entry><entry>
    <title>Count aggregator in Cascalog</title>
    <link href="http://thegeez.github.com/2012/08/26/cascalog_clojure_count.html" />
    <updated>2012-08-26T23:00:00Z</updated>
