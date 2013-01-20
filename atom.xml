@@ -4,12 +4,36 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2012-10-28T11:44:45Z</updated>
+ <updated>2013-01-20T18:35:20Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Haskell Picnic</title>
+   <link href="http://thegeez.github.com/2013/01/20/haskell_picnic.html" />
+   <updated>2013-01-20T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2013/01/20/haskell_picnic.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Haskell Picnic&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href="http://lisperati.com/haskell/"&gt;PicnicMob&lt;/a&gt; is a Haskell
+  tutorial for beginners. It is different from many other
+  introductory tutorials as it has an interesting,
+non-trivial algorithm as the subject and it produces pictures at every
+step. Also you can't go wrong by reading something by Conrad Barski,
+author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I worked through the tutorial when I was still at university. The
+  picnic placement pictures I first generated are from 2009. I
+  revisited the tutorial to read up on the &lt;a href="http://en.wikipedia.org/wiki/Simulated_annealing"&gt;simulated annealing&lt;/a&gt;
+  algorithm that is used. Along the way I ported the code to Clojure and this code
+  is on GitHub &lt;a href="https://gist.github.com/4580548"&gt;here&lt;/a&gt;. The Clojure code follows the Haskell code quite
+  closely. As with the original tutorial the Clojure code is
+  inefficient with its use of datastructures and its algorithmic complexity.&lt;/p&gt;
+
+
+</content>
+ </entry><entry>
    <title>October Amsterdam Clojure Presentation</title>
    <link href="http://thegeez.github.com/2012/10/28/october_amsterdam_clojure.html" />
    <updated>2012-10-28T23:00:00Z</updated>
