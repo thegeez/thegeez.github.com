@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - Testing RxJava with executable marble
+  diagrams</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Testing RxJava with executable marble
+  diagrams</h1>25 Mar 2013
+<p>Reactive Extensions (Rx) from the .Net world are observable
+  sequences. In particular they are push based sequences, in contrast
+  to the pull based seq api in Clojure. Furthermore you can subscribe
+  to and
+  unsubscribe from observable sequences. This also makes observable
+  sequences a nice candidate to replace futures and callbacks in
+  asynchronous code.<br /><br />
+
+For more information see any of the following resources:
+</p><ul>
+<li>Rx (Reactive Extensions) <a href="http://rx.codeplex.com/">.Net Source</a></li>
+<li>Erik Meijer (Rx creator) explains Rx <a href="http://channel9.msdn.com/blogs/charles/erik-meijer-rx-in-15-minutes">video</a></li>
+<li>Intro to Rx <a href="http://www.introtorx.com/">Free html ebook</a></li>
+</ul>
+<p>In particular the "Intro to Rx" book is a great resource. Every other
+example will have you wishing to be able to use Rx in Clojure. Luckily
+Netflix recently open sourced their Java variation of Rx called RxJava.</p>
+
+<ul>
+<li>RxJava: Functional Reactive Programming on the JVM <a href="https://github.com/Netflix/RxJava">Neflix/RxJava</a></li>
+<li>RxJava at
+  Netflix <a href="http://techblog.netflix.com/2013/02/rxjava-netflix-api.html">blogpost</a>
+  / <a href="https://speakerdeck.com/benjchristensen/functional-reactive-programming-in-the-netflix-api-qcon-london-2013">slideshow</a></li>
+</ul>
+<br />
+<h2>Marble diagrams</h2>
+<p>Both
+  the <a href="http://www.introtorx.com/content/v1.0.10621.0/08_Transformation.html">Intro
+  to Rx</a> book and the <a href="http://netflix.github.com/RxJava/javadoc/rx/Observable.html">RxJava javadoc</a> use the concept
+  of marble diagrams. A marble diagram shows how different operators
+  work and how sequences can be combined. The following diagram is the example from RxJava:
+<a href="https://raw.github.com/wiki/Netflix/RxJava/images/rx-operators/legend.png">
+<img style="width:40em;" src="https://raw.github.com/wiki/Netflix/RxJava/images/rx-operators/legend.png" /></a>
+Source: <a href="https://github.com/Netflix/RxJava">Neflix/RxJava</a>
+
+</p><p>The following is the same diagram in Clojure code:</p>
+ <pre>
+(deftest flip-example
+  (is (marble [<span class="builtin">:src</span> [ 1  2  3 4 5 6 | ]
+               <span class="builtin">:expr</span> (.map <span class="builtin">:src</span> (fn [value]
+                                  (<span class="keyword">if</span> (= value 4)
+                                       (<span class="keyword">throw</span> (Exception. <span class="string">"DemoFail on 4"</span>))
+                                       (* -1 value))))
+               <span class="builtin">:out</span> [-1 -2 -3 X]])))
+</pre>
+Source: <a href="https://github.com/thegeez/reactive-marbles/blob/master/test/reactive_marbles/rxjava_test.clj">test/reactive_marbles/rxjava_test.clj</a>
+
+
+<p>The benefit of the diagram being in code is that it can be
+  executed. The <a href="https://github.com/thegeez/reactive-marbles">reactive-marbles</a>
+  project contains most of the example marble diagrams
+  from RxJava in Clojure, as code and executable as tests.</p>
+
+
+<h2>Found bugs</h2>
+
+<p>Running reactive-marbles gives the following output:
+ </p><pre>
+lein test reactive-marbles.rxjava-test
+
+FAIL in (take-test) (rxjava_test.clj:139)
+Marble diagram test
+[<span class="builtin">:src</span> [1 2 3 4 5 |]
+ <span class="builtin">:expr</span> (Observable/take <span class="builtin">:src</span> 2)
+ <span class="builtin">:out</span> [1 2 |]]
+expected: [1 2 |]
+  actual: [1 2 -]
+
+FAIL in (to-sorted-list) (rxjava_test.clj:163)
+Marble diagram test
+[<span class="builtin">:src</span> [2 5 1 6 3 4 |]
+ <span class="builtin">:expr</span> (Observable/toSortedList <span class="builtin">:src</span>)
+ <span class="builtin">:out</span> [- - - - - - [1 2 3 4 5 6] |]]
+expected: [- - - - - - [1 2 3 4 5 6] |]
+  actual: [- - - - - - [1 1 2 2 3 3 4 4 5 5 6 6] |]
+
+FAIL in (list-test) (rxjava_test.clj:153)
+Marble diagram test
+[<span class="builtin">:src</span> [1 2 3 4 5 6 |]
+ <span class="builtin">:expr</span> (Observable/toList <span class="builtin">:src</span>)
+ <span class="builtin">:out</span> [- - - - - - [1 2 3 4 5 6] |]]
+expected: [- - - - - - [1 2 3 4 5 6] |]
+  actual: [- - - - - - [1 1 2 2 3 3 4 4 5 5 6 6] |]
+
+FAIL in (take-while-test) (rxjava_test.clj:145)
+Marble diagram test
+[<span class="builtin">:src</span> [1 2 3 4 5 |]
+ <span class="builtin">:expr</span> (Observable/takeWhile <span class="builtin">:src</span> (fn [i] (&lt; i 3)))
+ <span class="builtin">:out</span> [1 2 |]]
+expected: [1 2 |]
+  actual: [1 2 -]
+
+Ran 33 tests containing 33 assertions.
+4 failures, 0 errors.
+Tests failed.
+</pre>
+
+<p>
+The 4 failed test cases are the result of 2 bugs in RxJava
+ 0.6.1. See <a href="https://github.com/thegeez/reactive-marbles/blob/master/test/reactive_marbles/rxjava_test.clj">rxjava_test.clj</a>
+ for details on the found bugs and links to the bug reports.</p>
+
+<p>
+Marble diagrams are useful to see the difference between operators and
+to get an intuition about their behavior. As code they serve as both
+documentation and tests. However marble diagrams do not properly show
+the importance of subscriptions and how observable sequences behave
+when they produce values at variable rates. Again, the <a href="http://www.introtorx.com/">Intro to Rx</a> book
+is a great resource to learn about that.</p>
+
+<p>Code is on github: <a href="https://github.com/thegeez/reactive-marbles">thegeez/reactive-marbles</a></p>
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>
