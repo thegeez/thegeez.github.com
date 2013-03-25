@@ -4,12 +4,37 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2013-01-20T18:35:20Z</updated>
+ <updated>2013-03-25T21:17:43Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Testing RxJava with executable marble
+  diagrams</title>
+   <link href="http://thegeez.github.com/2013/03/25/neflix_rxjava_marble.html" />
+   <updated>2013-03-25T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2013/03/25/neflix_rxjava_marble.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Testing RxJava with executable marble
+  diagrams&lt;/h1&gt;
+&lt;p&gt;Reactive Extensions (Rx) from the .Net world are observable
+  sequences. In particular they are push based sequences, in contrast
+  to the pull based seq api in Clojure. Furthermore you can subscribe
+  to and
+  unsubscribe from observable sequences. This also makes observable
+  sequences a nice candidate to replace futures and callbacks in
+  asynchronous code.&lt;br /&gt;&lt;br /&gt;
+
+For more information see any of the following resources:
+&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;Rx (Reactive Extensions) &lt;a href="http://rx.codeplex.com/"&gt;.Net Source&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Erik Meijer (Rx creator) explains Rx &lt;a href="http://channel9.msdn.com/blogs/charles/erik-meijer-rx-in-15-minutes"&gt;video&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Intro to Rx &lt;a href="http://www.introtorx.com/"&gt;Free html ebook&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In particular the "Intro to Rx" book is a great resource. Every other
+example will have you wishing to be able to use Rx in Clojure. Luckily
+Netflix recently open sourced their Java variation of Rx called RxJava.&lt;/p&gt;</content>
+ </entry><entry>
    <title>Haskell Picnic</title>
    <link href="http://thegeez.github.com/2013/01/20/haskell_picnic.html" />
    <updated>2013-01-20T23:00:00Z</updated>
