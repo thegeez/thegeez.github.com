@@ -1,0 +1,33 @@
+<h1 id="post-title">Vintage JavaScript game restoration</h1>
+
+<p>At a recent <a href="http://amsclj.nl/">Amsterdam Clojurians meetup</a> the topic was game
+  development. Some of the first code I played around with in high school were games
+  in JavaScript. These games were great as an introduction to programming
+  because all that is needed to play around with them is a browser, 'view source' and
+  notepad. My favorite JavaScript games then were made by
+  K. Moriyama. His site from 1996 is still available online today in
+  its original
+  form: <a href="http://plaza.harmonix.ne.jp/~jimmeans/">K. Moriyama's
+  Home Page</a>, including a matrix led visitor counter and gradient
+  word-art like header.</p>
+
+<p>Mr. Moriyama took great care to make sure his games were playable
+  on most browsers, including Internet Explorer 4 and Netscape
+  Navigator 3. Sadly, current browsers cannot run the JavaScript
+  anymore. The game I like most
+  is <a href="http://plaza.harmonix.ne.jp/~jimmeans/falcon/">JS
+  Falcon</a>. To be able to play this game again I have dusted of the
+  old JavaScript. All that needed changing were some DOM traversal
+  paths and the main loop's update interval. The server-side high
+  score bookkeeping has been removed from this version.</p>
+
+<p>JS Falcon below works again in Chrome (at least version 30+):</p> 
+
+<iframe src="/static/jsfalcon/index.html" 
+frameborder="0"
+width="587" height="360" scrolling="no"></iframe>
+
+<p>Of course the inner workings of this game are available through
+  right click and 'view source'.</p>
+<p>This <a href="http://plaza.harmonix.ne.jp/~jimmeans/game03w.htm">Invader-like game</a> by K. Moriyama that only uses ASCII in a textarea
+  still works today!</p>
