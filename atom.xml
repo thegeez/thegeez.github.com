@@ -4,12 +4,41 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2013-03-27T20:00:02Z</updated>
+ <updated>2013-12-30T15:34:46Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Vintage JavaScript game restoration</title>
+   <link href="http://thegeez.github.com/2013/12/30/vintage_javascript_game_restoration.html" />
+   <updated>2013-12-30T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2013/12/30/vintage_javascript_game_restoration.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Vintage JavaScript game restoration&lt;/h1&gt;
+
+&lt;p&gt;At a recent &lt;a href="http://amsclj.nl/"&gt;Amsterdam Clojurians meetup&lt;/a&gt; the topic was game
+  development. Some of the first code I played around with in high school were games
+  in JavaScript. These games were great as an introduction to programming
+  because all that is needed to play around with them is a browser, 'view source' and
+  notepad. My favorite JavaScript games then were made by
+  K. Moriyama. His site from 1996 is still available online today in
+  its original
+  form: &lt;a href="http://plaza.harmonix.ne.jp/~jimmeans/"&gt;K. Moriyama's
+  Home Page&lt;/a&gt;, including a matrix led visitor counter and gradient
+  word-art like header.&lt;/p&gt;
+
+&lt;p&gt;Mr. Moriyama took great care to make sure his games were playable
+  on most browsers, including Internet Explorer 4 and Netscape
+  Navigator 3. Sadly, current browsers cannot run the JavaScript
+  anymore. The game I like most
+  is &lt;a href="http://plaza.harmonix.ne.jp/~jimmeans/falcon/"&gt;JS
+  Falcon&lt;/a&gt;. To be able to play this game again I have dusted of the
+  old JavaScript. All that needed changing were some DOM traversal
+  paths and the main loop's update interval. The server-side high
+  score bookkeeping has been removed from this version.&lt;/p&gt;
+
+&lt;a href="2013/12/30/vintage_javascript_game_restoration.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Testing RxJava with executable marble
   diagrams</title>
    <link href="http://thegeez.github.com/2013/03/25/neflix_rxjava_marble.html" />

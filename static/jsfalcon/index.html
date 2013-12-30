@@ -1,0 +1,1068 @@
+<HTML>
+
+<HEAD>
+<TITLE>JS FALCON</TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var SCORE=0
+//-->
+</SCRIPT>
+
+<!--
+//contents: SCORE=12345
+<SCRIPT SRC="../cgi-bin/falcon_hs.js"></SCRIPT>
+//-->
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+var Flimit=9                            //for TEST PLAY (Fire Limit 0 to 9) 
+var BossTM=0                            //              (Boss test mode = 1)
+var BossLM=700                          //              (Boss appearance)
+var Easy=0
+
+var timerID = null
+var TimeCounter = 0
+var INT = 75 //25                            //interval
+var k=0                                 //key buffer
+var X=100                               //my chr XY
+var Y=100
+var DX=0                                //my chr move
+var DY=0
+var IX=0
+var IY=0
+var SDX=0
+var SDY=0
+var SIX=0
+var SIY=0
+var Endflg=0                            //Game End Flag
+var ff=0                                //fire flag
+var fc=0                                //fire counter
+var FX = new Array(12)                  //fire XY
+var FY = new Array(12)
+var bf=0                                //bomb flag
+var bc=0                                //bomb counter
+var BX=0                                //bomb XY
+var BY=-100
+var BDX=0                               //bomb fall speed
+var BDY=0
+var Cname = new Array(2)                //clash image No
+var Bflag=0                             //bomb FLAG
+var GND=0                               //scroll flag
+var EFX = new Array(8)                  //enemy fire XY
+var EFY = new Array(8)
+var EVX = new Array(8)                  //enemy fire speed
+var EVY = new Array(8)
+var Fmax = 3                            //enemy fire max
+var EMX = 200                           //enemy missile XY
+var EMY = 284
+var PTN = 0                             //enemy missile paturn
+var Mvx = 0                             //enemy missile speed
+var Mvy = 0
+var mCount = 100                        //missile timer
+var EX = new Array(20)                  //enemy XY
+var EY = new Array(20)
+var CH = new Array(2)                   //cobra Yspeed
+var CW = new Array(2)                   //cobra Xspeed
+var tmp1 = 0
+var tmp2 = 0
+var Endflg = 1
+var Bossflg = 0
+var BossX = 0                           //Boss X
+var BossH = 0                           //Boss Canon H (170 to 220)
+var CanonX=-200                         //Canon X,Y,counter
+var CanonY=-200
+var CanonC=0
+var Bossflg=0
+var tmpBF=0
+var sf=0                                //Start flag
+var spCOUNT=0
+
+
+// ---------------------------------
+// ======== Main function ==========
+// ---------------------------------
+
+function interval1(){
+ clearTimeout(timerID)
+
+ // --------- Clash image clear -----------
+  ccount0=ccount0+1
+  if (ccount0 >= 2){cla0.left=-100}
+  ccount1=ccount1+1
+  if (ccount1 >= 2){cla1.left=-100}
+  ccount2=ccount2+1
+  if (ccount2 >= 2){cla2.left=-100}
+
+ // --------- Enemy fire level up -----------
+ TimeCounter=TimeCounter+1
+ with (Math){Fmax=floor(TimeCounter/100)+3}
+ if (Fmax >= Flimit){Fmax=Flimit}
+ if (TimeCounter == Blimit){Bossflg=1;tmpbgc=100;tmpbgf=0}
+ if (Bossflg >= 1){
+  tmpbgc=tmpbgc-5
+  if (tmpbgf == 0){
+   if (tmpbgc <= 0){
+    tmpbgf=1
+   }
+  }
+  tmpBF=0
+  for (tmp1=0; tmp1<10; tmp1++){
+   if (EX[tmp1] >= -50){tmpBF=1}
+  }
+  if (tmpBF == 0){BossMode()}
+ }
+
+
+ // --------- GND move ----------
+ GND=GND-1;if (GND <= -16){GND=0}
+ GNDs.left=GND
+
+
+ // ---------- Mig23 move   enemy No =0,1,2   Layer No =27,28,29 ---------
+ with (Math) {
+  for (tmp1=0; tmp1<3; tmp1++){
+   EX[tmp1]=EX[tmp1]-5
+   if (EX[tmp1] <= -30){
+    if (floor(random()*12) == 3 ){
+     if (Bossflg == 0){EX[tmp1]=400;EY[tmp1]=floor(random()*12)*20+20}
+    }
+   }
+  spMOV(27+tmp1,EX[tmp1],EY[tmp1])
+  with (Math){if (floor(random()*5) == 3 ){Efire(EX[tmp1],EY[tmp1])}}
+  }
+ }
+
+ // ---------- cobra move  enemy No =3,4,5  Layer No =30,31,32 ----------
+ if (TimeCounter >= 300){
+  with (Math) {
+   for (tmp1=3; tmp1<6; tmp1++){
+    EX[tmp1]=EX[tmp1]-CW[tmp1-3]
+    if (EY[tmp1] <= 5){CH[tmp1-3]=2;CW[tmp1-3]=4}
+    if (EY[tmp1] >= 240){CH[tmp1-3]=-2;CW[tmp1-3]=2}
+    EY[tmp1]=EY[tmp1]+CH[tmp1-3]
+    if (EX[tmp1] <= -30){
+     if (floor(random()*12) == 3 ){
+      if (Bossflg == 0){EX[tmp1]=400;EY[tmp1]=floor(random()*12)*20+20}
+     }
+    }
+   spMOV(27+tmp1,EX[tmp1],EY[tmp1])
+   with (Math){if (floor(random()*5) == 3 ){Efire(EX[tmp1],EY[tmp1])}}
+   }
+  }
+ }
+
+ // ---------- shilka move  enemy No =6,7,8  Layer No =33,34,35 ----------
+ if (TimeCounter >= 200){
+  with (Math){tmpTM=TimeCounter-floor(TimeCounter/100)*100}
+  if (tmpTM <= 40){tmpTMX=3}else{if (tmpTM <= 70){tmpTMX=1}else{tmpTMX=-1}}
+  for (tmp1=0; tmp1<3; tmp1++){
+   EX[tmp1+6]=EX[tmp1+6]-tmpTMX
+   if (EX[tmp1+6] <= -30){
+    if (EX[6] <= 365){
+     if (EX[7] <= 365){
+      if (EX[8] <= 365){
+       if (Bossflg == 0){
+        with (Math){if (floor(random()*40) == 3 ){EX[tmp1+6]=400}}
+       }
+      }
+     }
+    }
+   }
+  spMOV(33+tmp1,EX[tmp1+6],EY[tmp1+6])
+  with (Math){if (floor(random()*5) == 3 ){Efire(EX[tmp1+6],EY[tmp1+6])}}
+  }
+ }
+
+ // ---------- gecko move   enemy No =9  Layer No =36 ------------
+ if (EX[9] <= -600){if (Bossflg == 0){EX[9]=400}}
+ EX[9]=EX[9]-1;if (EX[9] <= 250){EX[9]=EX[9]-4}
+ if (EX[9] == 365){EMX=EX[9]+7;EMY=EY[9]-10;mCount=0}
+ if (EX[9] == 310){EMX=EX[9]+7;EMY=EY[9]-10;mCount=0}
+ if (EX[9] == 255){EMX=EX[9]+7;EMY=EY[9]-10;mCount=0}
+ spMOV(36,EX[9],EY[9])
+
+ // ---------- bomb move -------------
+ if (bf == 1){BX=X;BY=Y+30;bc=1;bf=0;BDX=12}
+ if (bc == 1){
+  BDY=BDY+2
+  if (BDY == 10){
+  spMOV(45+Bflag,-100,-100)
+   Bflag=1
+  }
+  if (BDY >= 10){BDX=BDX+3;BX=BX+BDX}
+  BY=BY+BDY;tmpBMX=-100;tmpBMY=-100
+   for (tmp2=0; tmp2<10; tmp2++){
+    if (BX >= EX[tmp2]-30){
+     if (BX <= EX[tmp2]+16){
+      if (BY >= EY[tmp2]-3){
+       if (BY <= EY[tmp2]+16){
+        tmpBMX=BX-8;tmpBMY=BY-4
+       }
+      }
+     }
+    }
+   }
+  if (BY >= 284){tmpBMX=BX-8;tmpBMY=244}
+  if (tmpBMX != -100){
+   spMOV(45+Bflag,-100,-100)
+   spMOV(50,tmpBMX,tmpBMY)
+   Bflag=0;ccount2=0;bc=0;BY=-100;BDX=0;BDY=0
+   for (tmp2=0; tmp2<10; tmp2++){
+    if (BX >= EX[tmp2]-56){
+     if (BX <= EX[tmp2]+40){
+      if (EY[tmp2] >= tmpBMY-18){
+       if (EY[tmp2] <= tmpBMY+63){
+        spMOV(33+tmp2,-100,-100)
+        spMOV(Cname[cflag],EX[tmp2],EY[tmp2]-6)
+        if (cflag == 0){ccount0=0}else{ccount1=0}
+        cflag=cflag+1;if (cflag >= 2){cflag=0}
+        EX[tmp2]=-100;FX[tmp1]=500;score=score+50
+       }
+      }
+     }
+    }
+   }
+  }
+  spMOV(45+Bflag,BX,BY)
+ }
+
+ // ---------- My fire move -------------
+ if (ff == 1){
+  FX[fc]=X;FY[fc]=Y+12
+  fc=fc+1;if (fc >= 13){fc=0}
+  ff=0
+ }
+ for (tmp1=0; tmp1<13; tmp1++){
+  FX[tmp1]=FX[tmp1]+32
+  for (tmp2=0; tmp2<10; tmp2++){
+   if (FX[tmp1] >= EX[tmp2]-8){
+    if (FX[tmp1] <= EX[tmp2]+32){
+     if (FY[tmp1] >= EY[tmp2]-8){
+      if (FY[tmp1] <= EY[tmp2]+19){
+       spMOV(27+tmp2,-100,-100)
+       spMOV(Cname[cflag],EX[tmp2],EY[tmp2]-6)
+       if (cflag == 0){ccount0=0}else{ccount1=0}
+       cflag=cflag+1;if (cflag >= 2){cflag=0}
+       EX[tmp2]=-100;FX[tmp1]=500;score=score+10
+      }
+     }
+    }
+   }
+  }
+  spMOV(tmp1+1,FX[tmp1],FY[tmp1])
+ }
+  
+
+ // ---------- Enemy Fire/Missile Move ---------
+ Efmove()
+ Emiss()
+
+ // ---------- my chr move -----------
+ tmpIX=IX+SIX;if (tmpIX >= 1){tmpIX=5+Easy}
+ tmpIY=IY+SIY;if (tmpIY >= 1){tmpIY=5+Easy}
+ tmpDX=DX+SDX;if (tmpDX >= 1){tmpDX=5+Easy}
+ tmpDY=DY+SDY;if (tmpDY >= 1){tmpDY=5+Easy}
+ X=X+tmpIX-tmpDX
+ Y=Y+tmpIY-tmpDY
+ if (X >= 368){X=368}
+ if (X <=   0){X=  0}
+ if (Y <=   0){Y=  0}
+ if (Y >= 258){
+  
+  mycr.visibility="hidden"
+  DOC2c.visibility="hidden"
+  DOCc.visibility="visible"
+  spMOV(Cname[cflag],X,Y)
+  Endflg=1;EFX[tmp1]=-100;cflag=cflag+1;if (cflag >= 2){cflag=0}
+ }
+  for (tmp2=0; tmp2<10; tmp2++){
+   if (X >= EX[tmp2]-20){
+    if (X <= EX[tmp2]+20){
+     if (Y >= EY[tmp2]-20){
+      if (Y <= EY[tmp2]+10){
+       mycr.visibility="hidden"
+       DOC2c.visibility="hidden"
+       DOCc.visibility="visible"
+       spMOV(Cname[cflag],X,Y)
+       Endflg=1;EFX[tmp1]=-100;cflag=cflag+1;if (cflag >= 2){cflag=0}
+      }
+     }
+    }
+   }
+  }
+ spMOV(0,X,Y)
+
+ //score show
+ with (Math) {
+  s5=floor(score/10000)
+  s4=floor((score-s5*10000)/1000)
+  s3=floor((score-s5*10000-s4*1000)/100)
+  s2=floor((score-s5*10000-s4*1000-s3*100)/10)
+  s1=score-s5*10000-s4*1000-s3*100-s2*10
+ }
+ L7c.top=-16*s5
+ L8c.top=-16*s4
+ L9c.top=-16*s3
+ L10c.top=-16*s2
+ L11c.top=-16*s1
+
+ // -------- timer set ----------
+ if (Endflg != 1){timerID = setTimeout("interval1()",INT)
+ }else{
+  if (hscore <= score){
+   //SL.children.HIS.SCORE.value=score;
+   //SL.style.top = 340
+
+   document.cookie="JSFALCON="+score
+   hscore=score
+   loadSCORE()
+  }
+ }
+}
+
+
+// ---------------------------
+// ====== Sub Functions ======
+// ---------------------------
+
+// ----------- On Load ----------
+function onLD(){
+   W1c=document.all.W1.style
+   mycr=document.all.W1.children.Mychr.style
+   cla0=document.all.W1.children.clash.style
+   cla1=document.all.W1.children.clash1.style
+   cla2=document.all.W1.children.clash2.style
+   GNDs=document.all.W1.children.GND.style
+   DOCc=document.all.W1.children.doc.style
+   DOC2c=document.all.W1.children.doc2.style
+   EAS=document.all.W1.children.EASY.style
+   BOS0=document.all.W1.children.boss0.style
+   BOS1=document.all.W1.children.boss1.style
+   BOSR=document.all.W1.children.bossR.style
+   L2c=L2I.style
+   L3c=L3I.style
+   L4c=L4I.style
+   L5c=L5I.style
+   L6c=L6I.style
+   L7c=L7I.style
+   L8c=L8I.style
+   L9c=L9I.style
+   L10c=L10I.style
+   L11c=L11I.style
+   SL=document.all.sendLay
+  W1c.clip="rect(0,400,300,0)"
+
+ loadSCORE()
+ sf=1
+ QuitPlay()
+}
+
+// ---------- Easy Mode ---------
+function EASY(){
+ Easy=1
+ EAS.visibility="visible"
+}
+
+// ---------- Normal Mode ---------
+function NORMAL(){
+ Easy=0
+ EAS.visibility="hidden"
+}
+
+// ---------- Boss Mode ---------
+function BossMode(){
+  if (Bossflg == 1){
+   BossX=BossX-10
+   if (BossX==250){
+    Bossflg=3
+    if (Flimit != 0){EMX=BossX+30;EMY=218;mCount=0}
+    EVX[0]=-5;EVY[0]=-5
+    EVX[1]=-6;EVY[1]=-4
+    EVX[2]=-4;EVY[2]=-6
+    EVX[3]=-2;EVY[3]=-7
+    EVX[8]=-7;EVY[8]=-7
+    EFX[0]=BossX+101;EFY[0]=225
+    EFX[1]=BossX+98;EFY[1]=229
+    EFX[2]=BossX+104;EFY[2]=222
+    EFX[3]=BossX+109;EFY[3]=222
+    EFX[8]=BossX+7;EFY[8]=232
+ 
+   }
+   if (BossX==0){Bossflg=2}
+  }
+  if (Bossflg == 2){
+   BossX=BossX+10
+   if (BossX==150){
+    Bossflg=6
+    EVX[4]=-5;EVY[4]=-5
+    EVX[5]=-6;EVY[5]=-4
+    EVX[6]=-4;EVY[6]=-6
+    EVX[7]=-2;EVY[7]=-7
+    EVX[8]=-7;EVY[8]=-7
+    EFX[4]=BossX+101;EFY[4]=225
+    EFX[5]=BossX+98;EFY[5]=229
+    EFX[6]=BossX+104;EFY[6]=222
+    EFX[7]=BossX+109;EFY[7]=222
+    EFX[8]=BossX+7;EFY[8]=232
+   }
+   if (BossX==270){Bossflg=1}
+  }
+  BOS0.left=BossX
+
+  if (Bossflg == 3){
+   BossH=BossH-5
+   if (BossH == 170){Bossflg=4;CanonC=0}
+  }
+  if (Bossflg == 4){
+   if (CanonC==0){CanonX=BossX+55;CanonY=195;CanonC=1}else{
+                  CanonC=CanonC+1;if (CanonC==10){Bossflg=5}
+                  }
+  }
+  if (Bossflg == 5){
+   BossH=BossH+5
+   if (BossH == 220){Bossflg=1}
+  }
+  if (Bossflg == 6){
+   BossH=BossH-5
+   if (BossH == 170){Bossflg=7;CanonC=0}
+  }
+  if (Bossflg == 7){
+   if (CanonC==0){CanonX=BossX+55;CanonY=195;CanonC=1}else{
+                  CanonC=CanonC+1;if (CanonC==10){Bossflg=8}
+                  }
+  }
+  if (Bossflg == 8){
+   BossH=BossH+5
+   if (BossH == 220){Bossflg=2}
+  }
+  if (BossH == 220){tmpBHx=-200}else{tmpBHx=BossX+30}
+  CanonX=CanonX-25;CanonY=CanonY-25
+  spMOV(15,tmpBHx,BossH)
+  spMOV(14,CanonX,CanonY)
+  Fmax=Flimit;Efmove()
+
+   //Boss check1
+  for (tmp2=0; tmp2<10; tmp2++){
+   if (X >= BossX-20){
+    if (X <= BossX+124){
+     if (Y >= 188){
+       mycr.visibility="hidden"
+       DOC2c.visibility="hidden"
+       DOCc.visibility="visible"
+       spMOV(Cname[cflag],X,Y)
+       Endflg=1;cflag=cflag+1;if (cflag >= 2){cflag=0}
+     }
+    }
+   }
+  }
+
+   //boss check2
+  for (tmp2=0; tmp2<10; tmp2++){
+   if (X >= BossX+20){
+    if (X <= BossX+105){
+     if (Y >= BossH-16){
+       mycr.visibility="hidden"
+       DOC2c.visibility="hidden"
+       DOCc.visibility="visible"
+       spMOV(Cname[cflag],X,Y)
+       Endflg=1;cflag=cflag+1;if (cflag >= 2){cflag=0}
+     }
+    }
+   }
+  }
+
+  Cchkflg=0
+   //Canon check1
+   if (X >= CanonX-16){
+    if (X <= CanonX+16){
+     if (Y >= CanonY-16){
+      if (Y <= CanonY+16){
+       Cchkflg=1
+      }
+     }
+    }
+   }
+
+   //Canon check2
+   if (X >= CanonX){
+    if (X <= CanonX+34){
+     if (Y >= CanonY){
+      if (Y <= CanonY+34){
+       Cchkflg=1
+      }
+     }
+    }
+   }
+
+  if (Cchkflg == 1){
+   mycr.visibility="hidden"
+   DOC2c.visibility="hidden"
+   DOCc.visibility="visible"
+   spMOV(Cname[cflag],X,Y)
+   Endflg=1;cflag=cflag+1;if (cflag >= 2){cflag=0}
+  }
+
+  //My fire clear
+  spMOV(47,-100,-100)
+  for (tmp1=0; tmp1<13; tmp1++){
+   if (FX[tmp1] >= BossX-8){
+    if (FX[tmp1] <= BossX+128){
+     if (FY[tmp1] >= 216){
+       FX[tmp1]=500
+       spMOV(47,BossX,FY[tmp1])
+     }
+    }
+   }
+  }
+  for (tmp1=0; tmp1<13; tmp1++){
+   if (FX[tmp1] >= BossX+38){
+    if (FX[tmp1] <= BossX+70){
+     if (FY[tmp1] >= BossH-4){
+      if (FY[tmp1] < 216){
+       FX[tmp1]=500
+       spMOV(47,BossX+38,FY[tmp1])
+      }
+     }
+    }
+   }
+  }
+
+   //Bomb check
+ tmpBMX=-100
+  if (BX >= BossX-30){
+   if (BX <= BossX+144){
+    if (BY >= 216){
+     tmpBMX=BX-8;tmpBMY=BY-4
+    }
+   }
+  }
+  if (BX >= BossX+2){
+   if (BX <= BossX+94){
+    if (BY >= BossH-4){
+     tmpBMX=BX-8;tmpBMY=BY-4
+    }
+   }
+  }
+
+  if (BY >= 284){tmpBMX=BX-8;tmpBMY=244}
+  if (tmpBMX != -100){
+   spMOV(45+Bflag,-100,-100)
+   spMOV(50,tmpBMX,tmpBMY)
+   Bflag=0;ccount2=0;bc=0;BY=-100;BDX=0;BDY=0
+   if (BossH != 220){
+    if (tmpBMX >= BossX+25){
+     if (tmpBMX <= BossX+108){
+      if (tmpBMY <= BossH+22){
+       if (tmpBMY <= 219){
+        DOC2c.visibility="visible"
+        BOS1.left=-200
+        spMOV(16,tmpBHx,BossH)
+        Endflg=1;score=score+Flimit*1000
+       }
+      }
+     }
+    }
+   }
+  }
+
+
+}
+
+// ---------- Quit -------------
+function QuitPlay(){
+ focus()
+ Endflg=1
+ DOC2c.visibility="hidden"
+ DOCc.visibility="visible"
+ clearTimeout(timerID)
+ }
+
+
+// ----------- Restart ---------
+function Restart(){
+ DOCc.visibility="hidden"
+ DOC2c.visibility="hidden"
+ for (tmp1=0; tmp1<50; tmp1++){spLEFT(tmp1,-200)}
+ for (tmp1=0; tmp1<10; tmp1++){EX[tmp1]=0;EY[tmp1]=0}
+ TimeCounter = 0
+ score=0
+ Cname[0]=48
+ Cname[1]=49
+ Cname[2]=50
+ cflag=0
+ Bossflg=BossTM
+ BossX=400
+ BossH=220
+ Blimit=BossLM
+ CanonX=-200
+ CanonY=-200
+ CanonC=0
+ X=100
+ Y=100
+ DX=0
+ DY=0
+ IX=0
+ IY=0
+ SDX=0
+ SDY=0
+ SIX=0
+ SIY=0
+ Endflg=0
+ ff=0
+ fc=0
+ ccount0=0
+ ccount1=0
+ ccount2=0
+  for (tmp1=0; tmp1<13; tmp1++){FX[tmp1]=0;FY[tmp1]=-100}
+ bf=0
+ bc=0
+ BX=0
+ BY=-100
+ BDX=0
+ BDY=0
+ Bflag=0
+ GND=0
+ Mvx=0
+ Mvy=0
+ mCount=100
+ Fmax = 3
+  for (tmp1=0; tmp1<9; tmp1++){EFX[tmp1]=-100;EFY[tmp1]=-100
+  spMOV(tmp1+18,EFX[tmp1],EFY[tmp1])
+  }
+ tmpE0 = 0
+  for (tmp1=0; tmp1<3; tmp1++){
+    with (Math) {EX[tmp1] = 460 + floor(random()*200)}
+    with (Math) {EY[tmp1] = floor(random()*12)*20+20}
+  }
+   EX[3]=400;EX[4]=440;EX[5]=520
+   EY[3]=100;EY[4]=60 ;EY[5]=200
+   CH[0]=2  ;CH[1]=-2 ;CH[2]=-2
+   CW[0]=4  ;CW[1]=2 ;CW[2]=2
+  for (tmp1=0; tmp1<3; tmp1++){
+   spMOV(tmp1+30,EX[tmp1],EY[tmp1])
+  }
+
+   EX[6]=400;EX[7]=496;EX[8]=530;EX[9]=500
+  for (tmp1=0; tmp1<4; tmp1++){
+   EY[6+tmp1]=260
+   spMOV(tmp1+33,EX[tmp1],EY[tmp1])
+  }
+
+ spMOV(45,-100,-100)
+ spMOV(46,-100,-100)
+ mycr.visibility="visible"
+ if (BossTM != 0){for (tmp1=0; tmp1<10; tmp1++){EX[tmp1]=-100;Blimit=5}}
+ timerID = setTimeout("interval1()",INT)
+}
+
+// --------- Enemy Missile  Layer No 37 to 44 -----------
+function Emiss(){
+ mCount=mCount+1
+ if (mCount == 50){
+  spLEFT(37+PTN,-100)
+  spMOV(Cname[cflag],EMX-4,EMY-4)
+  if (cflag == 0){ccount0=0}else{ccount1=0}
+  cflag=cflag+1;if (cflag >= 2){cflag=0}
+    if (X >= EMX-28){
+     if (X <= EMX+24){
+      if (Y >= EMY-28){
+       if (Y <= EMY+24){
+        mycr.visibility="hidden"
+        DOC2c.visibility="hidden"
+        DOCc.visibility="visible"
+        spMOV(Cname[cflag],X,Y)
+        Endflg=1;EFX[tmp1]=-100;cflag=cflag+1;if (cflag >= 2){cflag=0}
+       }
+      }
+     }
+    }
+ }
+ if (mCount < 50){
+ tmpEMX=X-EMX;tmpEMY=EMY-Y
+ tmpPTN=PTN
+ if (tmpEMX == 0){tmpEMX=1}
+ if (tmpEMY == 0){tmpEMY=1}
+ tmpTx=tmpEMY/tmpEMX
+ if (tmpEMX > 0){
+  if (tmpTx > 2.4142){PTN=2;Mvx=Mvx/1.4;Mvy=Mvy+0.7}else{
+   if (tmpTx > 0.4142){PTN=3;Mvx=Mvx+0.5;Mvy=Mvy+0.5}else{
+    if (tmpTx > -0.4142){PTN=4;Mvx=Mvx+0.7;Mvy=Mvy/1.4}else{
+     if (tmpTx > -2.4142){PTN=5;Mvx=Mvx+0.5;Mvy=Mvy-0.5}else{
+      PTN=6;Mvx=Mvx/1.4;Mvy=Mvy-0.7
+     }
+    }
+   }
+  }
+ }else{
+  if (-tmpTx > 2.4142){PTN=2;Mvx=Mvx/1.4;Mvy=Mvy+0.7}else{
+   if (-tmpTx > 0.4142){PTN=1;Mvx=Mvx-0.5;Mvy=Mvy+0.5}else{
+    if (-tmpTx > -0.4142){PTN=0;Mvx=Mvx-0.7;Mvy=Mvy/1.4}else{
+     if (-tmpTx > -2.4142){PTN=7;Mvx=Mvx-0.5;Mvy=Mvy-0.5}else{
+      PTN=6;Mvx=Mvx/1.4;Mvy=Mvy-0.7
+     }
+    }
+   }
+  }
+ }
+ if (mCount <= 5){PTN=1;Mvx=Mvx-0.5;Mvy=Mvy+0.5}
+ if (Mvx >= 5){Mvx=5}
+ if (Mvy >= 5){Mvy=5}
+ if (Mvx <=-5){Mvx=-5}
+ if (Mvy <=-5){Mvy=-5}
+ EMX=EMX+Mvx-1;EMY=EMY-Mvy
+ spLEFT(37+tmpPTN,-100)
+ spMOV(37+PTN,EMX,EMY)
+    if (X >= EMX-24){
+     if (X <= EMX+20){
+      if (Y >= EMY-24){
+       if (Y <= EMY+20){
+        spLEFT(37+PTN,-100)
+        spMOV(Cname[cflag],EMX-4,EMY-4)
+        cflag=cflag+1;if (cflag >= 2){cflag=0}
+        mycr.visibility="hidden"
+        DOC2c.visibility="hidden"
+        DOCc.visibility="visible"
+        spMOV(Cname[cflag],X,Y)
+        cflag=cflag+1;if (cflag >= 2){cflag=0}
+        Endflg=1;EFX[tmp1]=-100
+       }
+      }
+     }
+    }
+ }
+}
+
+ // --------- Enemy fire move     Layer No =17 to 25 -------------
+function Efmove(){
+ for (tmp1=0; tmp1<Fmax; tmp1++){
+  if (EFX[tmp1] != -100){
+   EFX[tmp1]=EFX[tmp1]+EVX[tmp1];EFY[tmp1]=EFY[tmp1]+EVY[tmp1]
+    if (EFX[tmp1] < -16){EFX[tmp1]=-100;EVX[tmp1]=0;EVY[tmp1]=0}
+    if (EFX[tmp1] > 400){EFX[tmp1]=-100;EVX[tmp1]=0;EVY[tmp1]=0}
+    if (EFY[tmp1] < -16){EFX[tmp1]=-100;EVX[tmp1]=0;EVY[tmp1]=0}
+    if (EFY[tmp1] > 300){EFX[tmp1]=-100;EVX[tmp1]=0;EVY[tmp1]=0}
+  }
+   if (EFX[tmp1] >= X-4){
+    if (EFX[tmp1] <= X+26){
+     if (EFY[tmp1] >= Y+8){
+      if (EFY[tmp1] <= Y+24){
+       mycr.visibility="hidden"
+       DOC2c.visibility="hidden"
+       DOCc.visibility="visible"
+       spMOV(Cname[cflag],X,Y)
+       Endflg=1;EFX[tmp1]=-100;cflag=cflag+1;if (cflag >= 2){cflag=0}
+      }
+     }
+    }
+   }
+  spMOV(tmp1+18,EFX[tmp1],EFY[tmp1])
+ }
+}
+
+// --------- Enemy Fire   Layer No =17 to 25 -----------
+function Efire(EPX,EPY){
+ if (Bossflg == 0){
+ tmpE0=tmpE0+1;if (tmpE0 >= 9){tmpE0=0}
+ if (EFX[tmpE0] == -100){
+  EFX[tmpE0]=EPX;EFY[tmpE0]=EPY
+  tmpEx=X-EPX;tmpEy=Y-EPY
+  with (Math) {
+   tmpEr=sqrt(tmpEx*tmpEx+tmpEy*tmpEy)
+   if (tmpEr == 0){tmpEr=1}
+   EVX[tmpE0]=floor((tmpEx/tmpEr)*7);EVY[tmpE0]=floor((tmpEy/tmpEr)*7)
+  }
+ }
+ }
+}
+
+
+// ------ HIGH SCORE show ------
+function loadSCORE(){
+ if (document.cookie){
+  FALCONtop = document.cookie.indexOf("JSFALCON", 0)
+  if (FALCONtop != -1){
+   tscore = document.cookie.substring(FALCONtop+9,FALCONtop+14)
+  }else{tscore="0"}
+ }else{tscore="0"}
+ if (tscore < SCORE){tscore = SCORE}
+ with (Math) {
+  hscore=parseInt(tscore,10)
+  h5=floor(hscore/10000)
+  h4=floor((hscore-h5*10000)/1000)
+  h3=floor((hscore-h5*10000-h4*1000)/100)
+  h2=floor((hscore-h5*10000-h4*1000-h3*100)/10)
+  h1=hscore-h5*10000-h4*1000-h3*100-h2*10
+ }
+ L2c.top=-16*h5
+ L3c.top=-16*h4
+ L4c.top=-16*h3
+ L5c.top=-16*h2
+ L6c.top=-16*h1
+}
+
+
+// ------ Key Down ------
+function keyDown(DnEvents){
+  k=window.event.keyCode
+
+  if (k == 50){IY=1}                    //2
+  if (k == 56){DY=1}                    //8
+  if (k == 54){IX=1}                    //6
+  if (k == 52){DX=1}                    //4
+
+  if (k == 98 ){IY=1}                   //2
+  if (k == 104){DY=1}                   //8
+  if (k == 102){IX=1}                   //6
+  if (k == 100){DX=1}                   //4
+
+  if (k == 75){IY=1}                    //K
+  if (k == 73){DY=1}                    //I
+  if (k == 76){IX=1}                    //L
+  if (k == 74){DX=1}                    //J
+
+  if (k == 107){IY=1}                   //k
+  if (k == 105){DY=1}                   //i
+  if (k == 108){IX=1}                   //l
+  if (k == 106){DX=1}                   //j
+
+  if (k == 49){SDX=1;SIY=1}             //1
+  if (k == 51){SIX=1;SIY=1}             //3
+  if (k == 55){SDX=1;SDY=1}             //7
+  if (k == 57){SIX=1;SDY=1}             //9
+
+  if (k == 32){ff=1}                    //spc
+  if (k == 90){ff=1}                    //Z
+  if (k == 122){ff=1}                   //z
+  if (k == 0){ff=1}                     //shift Ctrl Caps etc..
+
+  if (k == 48){if (bc == 0){bf=1}}      //0
+  if (k == 96){if (bc == 0){bf=1}}      //0
+
+  if (k == 13){if (bc == 0){bf=1}}      //Enter
+  if (k == 88){if (bc == 0){bf=1}}      //X
+  if (k == 120){if (bc == 0){bf=1}}     //x
+  if (k == 83){if (Endflg == 1){if (sf == 1){Restart()}}}           //S
+  if (k == 115){if (Endflg == 1){if (sf == 1){Restart()}}}          //s
+  if (k == 69){if (Endflg == 1){Flimit=3;EASY()}}     //E
+  if (k == 101){if (Endflg == 1){Flimit=3;EASY()}}    //e
+  if (k == 78){if (Endflg == 1){Flimit=9;NORMAL()}}   //N
+  if (k == 110){if (Endflg == 1){Flimit=9;NORMAL()}}  //n
+  if (k == 81){QuitPlay()}              //Q
+  if (k == 113){QuitPlay()}             //q
+
+}
+
+// ------- Key Up --------
+function keyUp(UpEvents){
+  k=window.event.keyCode
+
+  if (k == 50){IY=0}
+  if (k == 56){DY=0}
+  if (k == 54){IX=0}
+  if (k == 52){DX=0}
+
+  if (k == 98 ){IY=0}                   //2
+  if (k == 104){DY=0}                   //8
+  if (k == 102){IX=0}                   //6
+  if (k == 100){DX=0}                   //4
+
+  if (k == 75){IY=0}                    //K
+  if (k == 73){DY=0}                    //I
+  if (k == 76){IX=0}                    //L
+  if (k == 74){DX=0}                    //J
+
+  if (k == 107){IY=0}                   //k
+  if (k == 105){DY=0}                   //i
+  if (k == 108){IX=0}                   //l
+  if (k == 106){DX=0}                   //j
+
+
+  if (k == 49){SDX=0;SIY=0}
+  if (k == 51){SIX=0;SIY=0}
+  if (k == 55){SDX=0;SDY=0}
+  if (k == 57){SIX=0;SDY=0}
+
+}
+
+// -------- LAYER SETUP ----------
+function spINI(spNAME,spX,spY,spW,spH,spIMG){
+ with (document) {
+  write("<IMG ID="+spNAME+" WIDTH="+spW+" HEIGHT="+spH+" SRC='"+spIMG+"' STYLE='position:absolute'>")
+  images[spCOUNT+14].style.left = spX
+  images[spCOUNT+14].style.top =  spY
+ }
+spCOUNT=spCOUNT+1
+}
+
+// ------- LAYER MOVE -------------
+function spMOV(spNO,spX,spY){
+ document.images[spNO+14].style.left = spX
+ document.images[spNO+14].style.top =  spY
+}
+
+// ------- LAYER LEFT -------------
+function spLEFT(spNO,spX){
+ document.images[spNO+14].style.left = spX
+}
+
+
+// ------- Key event init --------
+ document.onkeydown = keyDown
+ document.onkeyup = keyUp
+ 
+//-->
+</SCRIPT>
+</HEAD>
+
+
+<BODY BGCOLOR="#00003F" TEXT="#FFFFFF" ONLOAD="onLD()">
+<DIV ID="BG"></DIV>
+
+
+<DIV STYLE='position:absolute; left:16; top:0'><IMG WIDTH=50 HEIGHT=16 SRC="highc.gif"></DIV>
+<DIV STYLE='position:absolute; left:60; top:0'><IMG WIDTH=50 HEIGHT=16 SRC="score.gif"></DIV>
+<DIV ID="L2I" STYLE='position:absolute; left:120; top:0'>
+<IMG WIDTH=16 HEIGHT=160 SRC="number.gif"></DIV>
+<DIV ID="L3I" STYLE='position:absolute; left:130; top:0'>
+<IMG WIDTH=16 HEIGHT=160 SRC="number.gif"></DIV>
+<DIV ID="L4I" STYLE='position:absolute; left:140; top:0'>
+<IMG WIDTH=16 HEIGHT=160 SRC="number.gif"></DIV>
+<DIV ID="L5I" STYLE='position:absolute; left:150; top:0'>
+<IMG WIDTH=16 HEIGHT=160 SRC="number.gif"></DIV>
+<DIV ID="L6I" STYLE='position:absolute; left:160; top:0'>
+<IMG WIDTH=16 HEIGHT=160 SRC="number.gif"></DIV>
+
+<DIV STYLE='position:absolute; left:290; top:0'><IMG WIDTH=50 HEIGHT=16 SRC="score.gif"></DIV>
+<DIV ID="L7I" STYLE='position:absolute; left:350; top:0'>
+<IMG WIDTH=16 HEIGHT=160 SRC="number.gif"></DIV>
+<DIV ID="L8I" STYLE='position:absolute; left:360; top:0'>
+<IMG WIDTH=16 HEIGHT=160 SRC="number.gif"></DIV>
+<DIV ID="L9I" STYLE='position:absolute; left:370; top:0'>
+<IMG WIDTH=16 HEIGHT=160 SRC="number.gif"></DIV>
+<DIV ID="L10I" STYLE='position:absolute; left:380; top:0'>
+<IMG WIDTH=16 HEIGHT=160 SRC="number.gif"></DIV>
+<DIV ID="L11I" STYLE='position:absolute; left:390; top:0'>
+<IMG WIDTH=16 HEIGHT=160 SRC="number.gif"></DIV>
+<DIV STYLE='position:absolute; left:16; top:16'>
+<IMG WIDTH=400 HEIGHT=300 SRC="skybg.gif">
+</DIV>
+
+
+<DIV ID="TITL" STYLE='position:absolute; left:424; top:16'>
+<PRE>
+<FONT COLOR="#FFFF00" SIZE="+2"><B>JS FALCON</B></FONT>
+
+
+
+
+   <A HREF="http://plaza.harmonix.ne.jp/~jimmeans/">(C) K. Moriyama</A>
+ 
+</PRE>
+</DIV>
+
+
+<DIV ID="KEYS" STYLE='position:absolute; left:16; top:320'><PRE><FONT SIZE="-1">Move..2,4,6,8 or K,J,L,I  /  Fire..SPACE or Z  /  Bomb..0 or X</FONT></PRE></DIV>
+
+<!--
+<DIV ID="sendLay" STYLE='position:absolute; left:48; top:-1000'>
+<FORM NAME="HIS" method="post" action="../cgi-bin/falcon_his.cgi">
+<INPUT NAME="SCORE" type="hidden" size="20">
+<INPUT NAME="B1" type="submit" value="Send HIGH SCORE" onSubmit="reload(true)">
+</FORM>
+</DIV>
+//-->
+
+<DIV ID="W1" STYLE='position:absolute; left:16; top:16; clip:rect(0,400,300,0)'>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+  spINI("Mychr",100,100,32,32,"f16c.gif")
+
+  spINI("MyF01",-100,0,32,8,"fire0c.gif")
+  spINI("MyF02",-100,0,32,8,"fire0c.gif")
+  spINI("MyF03",-100,0,32,8,"fire0c.gif")
+  spINI("MyF04",-100,0,32,8,"fire0c.gif")
+  spINI("MyF05",-100,0,32,8,"fire0c.gif")
+  spINI("MyF06",-100,0,32,8,"fire0c.gif")
+  spINI("MyF07",-100,0,32,8,"fire0c.gif")
+  spINI("MyF08",-100,0,32,8,"fire0c.gif")
+  spINI("MyF09",-100,0,32,8,"fire0c.gif")
+  spINI("MyF10",-100,0,32,8,"fire0c.gif")
+  spINI("MyF11",-100,0,32,8,"fire0c.gif")
+  spINI("MyF12",-100,0,32,8,"fire0c.gif")
+  spINI("MyF13",-100,0,32,8,"fire0c.gif")
+
+  spINI("boss2",-180,120,50,50,"boss2c.gif")
+  spINI("boss1",-230,170,80,50,"boss1c.gif")
+  spINI("bossR",-230,170,80,50,"boss1rc.gif")
+  spINI("boss0",-200,220,128,64,"boss0c.gif")
+
+  spINI("EnF1",-100,0,8,8,"fire1c.gif")
+  spINI("EnF2",-100,0,8,8,"fire1c.gif")
+  spINI("EnF3",-100,0,8,8,"fire1c.gif")
+  spINI("EnF4",-100,0,8,8,"fire1c.gif")
+  spINI("EnF5",-100,0,8,8,"fire1c.gif")
+  spINI("EnF6",-100,0,8,8,"fire1c.gif")
+  spINI("EnF7",-100,0,8,8,"fire1c.gif")
+  spINI("EnF8",-100,0,8,8,"fire1c.gif")
+  spINI("EnF9",-100,0,8,8,"fire1c.gif")
+
+  spINI("M231",-100,0,32,19,"m23c.gif")
+  spINI("M232",-100,0,32,19,"m23c.gif")
+  spINI("M233",-100,0,32,19,"m23c.gif")
+
+  spINI("cob1",-100,0,32,19,"cobrac.gif")
+  spINI("cob2",-100,0,32,19,"cobrac.gif")
+  spINI("cob3",-100,0,32,19,"cobrac.gif")
+
+  spINI("shi1",-100,0,32,24,"shilkac.gif")
+  spINI("shi2",-100,0,32,24,"shilkac.gif")
+  spINI("shi3",-100,0,32,24,"shilkac.gif")
+
+  spINI("sa81",-100,0,32,24,"sa8c.gif")
+
+  spINI("msl0",-100,0,24,24,"msl0c.gif")
+  spINI("msl1",-100,0,24,24,"msl1c.gif")
+  spINI("msl2",-100,0,24,24,"msl2c.gif")
+  spINI("msl3",-100,0,24,24,"msl3c.gif")
+  spINI("msl4",-100,0,24,24,"msl4c.gif")
+  spINI("msl5",-100,0,24,24,"msl5c.gif")
+  spINI("msl6",-100,0,24,24,"msl6c.gif")
+  spINI("msl7",-100,0,24,24,"msl7c.gif")
+
+  spINI("bom0",-100,0,32,8,"bom0c.gif")
+  spINI("bom1",-100,0,32,8,"bom1c.gif")
+  spINI("miss",-100,0,16,16,"clashc.gif")
+
+  spINI("clash",-100,0,32,32,"clashc.gif")
+  spINI("clash1",-100,0,32,32,"clashc.gif")
+  spINI("clash2",-100,0,64,64,"clash2c.gif")
+
+
+//-->
+</SCRIPT>
+
+
+  <DIV ID="GND" STYLE='position:absolute; left:0; top:284'><NOBR><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"><IMG HEIGHT=16 WIDTH=16 SRC="block.gif"></NOBR></DIV>
+
+ <DIV ID="doc" STYLE='position:absolute; left:0; top:150; visibility: hidden'>
+ <PRE>
+  Full <FONT COLOR="#0000FF">KEYBOARD</FONT> operation
+     Start/Restart..<FONT COLOR="#FF0000">Hit <B>S</B> key!</FONT>
+     <FONT SIZE="-1">( Easy Mode ..E  / Normal Mode ..N )</FONT>
+ </PRE>
+ </DIV>
+
+ <DIV ID="doc2" STYLE='position:absolute; left:0; top:150; visibility: hidden'>
+ <PRE>
+  <FONT COLOR="#0000FF" SIZE="+1"><B>MISSION COMPLETE</B></FONT>
+     Do you play again? ..<FONT COLOR="#FF0000">Hit <B>S</B> key!</FONT>
+     <FONT SIZE="-1">( Easy Mode ..E  / Normal Mode ..N )</FONT>
+ </PRE>
+ </DIV>
+ <DIV ID="EASY" STYLE='position:absolute; left:2; top:2; visibility: hidden'>
+  <FONT COLOR="#FF0000" SIZE="-1">EASY MODE</FONT>
+ </DIV>
+</DIV>
+
+</BODY>
+</HTML>

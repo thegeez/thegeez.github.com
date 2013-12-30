@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - Vintage JavaScript game restoration</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Vintage JavaScript game restoration</h1>30 Dec 2013
+
+<p>At a recent <a href="http://amsclj.nl/">Amsterdam Clojurians meetup</a> the topic was game
+  development. Some of the first code I played around with in high school were games
+  in JavaScript. These games were great as an introduction to programming
+  because all that is needed to play around with them is a browser, 'view source' and
+  notepad. My favorite JavaScript games then were made by
+  K. Moriyama. His site from 1996 is still available online today in
+  its original
+  form: <a href="http://plaza.harmonix.ne.jp/~jimmeans/">K. Moriyama's
+  Home Page</a>, including a matrix led visitor counter and gradient
+  word-art like header.</p>
+
+<p>Mr. Moriyama took great care to make sure his games were playable
+  on most browsers, including Internet Explorer 4 and Netscape
+  Navigator 3. Sadly, current browsers cannot run the JavaScript
+  anymore. The game I like most
+  is <a href="http://plaza.harmonix.ne.jp/~jimmeans/falcon/">JS
+  Falcon</a>. To be able to play this game again I have dusted of the
+  old JavaScript. All that needed changing were some DOM traversal
+  paths and the main loop's update interval. The server-side high
+  score bookkeeping has been removed from this version.</p>
+
+<p>JS Falcon below works again in Chrome (at least version 30+):</p> 
+
+<iframe scrolling="no" height="360" width="587" frameborder="0" src="/static/jsfalcon/index.html"></iframe>
+
+<p>Of course the inner workings of this game are available through
+  right click and 'view source'.</p>
+<p>This <a href="http://plaza.harmonix.ne.jp/~jimmeans/game03w.htm">Invader-like game</a> by K. Moriyama that only uses ASCII in a textarea
+  still works today!</p>
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>
