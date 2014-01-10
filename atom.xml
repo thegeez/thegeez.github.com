@@ -4,12 +4,33 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2013-12-30T15:34:46Z</updated>
+ <updated>2014-01-10T16:11:26Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Solving 4clojure problems in an editor</title>
+   <link href="http://thegeez.github.com/2014/01/10/4clojure_in_editor.html" />
+   <updated>2014-01-10T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2014/01/10/4clojure_in_editor.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Solving 4clojure problems in an editor&lt;/h1&gt;
+
+&lt;p&gt;On
+ Twitter &lt;a href="https://twitter.com/xeqixeqi/status/421323628190244865"&gt;xeqixeqi&lt;/a&gt;
+ asked for a leiningen template to be able to solve to the problems
+ from &lt;a href="http://www.4clojure.org"&gt;4clojure&lt;/a&gt; in an editor rather
+ than the browser. He then solved this problem himself by building a
+ &lt;a href="https://github.com/xeqi/foreclojure"&gt;lein template for
+ 4clojure&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I did most of the problems in emacs by copy-pasting the
+  test cases from each problem page. To turn the text on
+  4clojure into a runnable test I used this
+  utility: &lt;a href="https://gist.github.com/thegeez/8352754"&gt;gist:
+  4clojure in editor&lt;/a&gt;.&lt;/p&gt;
+&lt;a href="2014/01/10/4clojure_in_editor.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Vintage JavaScript game restoration</title>
    <link href="http://thegeez.github.com/2013/12/30/vintage_javascript_game_restoration.html" />
    <updated>2013-12-30T23:00:00Z</updated>
