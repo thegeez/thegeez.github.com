@@ -4,12 +4,35 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2014-01-10T16:11:26Z</updated>
+ <updated>2014-03-12T10:16:14Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Bayesian Inference with Markov Chain Monte Carlo
+  in Clojure</title>
+   <link href="http://thegeez.github.com/2014/03/12/bayes_mcmc_clojure.html" />
+   <updated>2014-03-12T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2014/03/12/bayes_mcmc_clojure.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Bayesian Inference with Markov Chain Monte Carlo
+  in Clojure&lt;/h1&gt;
+
+&lt;p&gt;I've been working through the
+  book &lt;a href="https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers"&gt;Probabilistic
+  Programming and Bayesian Methods for Hackers&lt;/a&gt; (ProbHack)
+  by Cam Davidson-Pilon. This online book is an introduction to
+  bayesian methods and probabilistic programming for
+  programmers. Its main focus is Bayesian Inference with Markov Chain
+  Monte Carlo (BI-MCMC). The ProbHack book uses Python and the PyMC library. For my own
+  understanding of the inner-workings of BI-MCMC I ported the code to
+  Clojure in
+  the &lt;a href="https://github.com/thegeez/bi-mcmc"&gt;bi-mcmc&lt;/a&gt; (bi-mcmc) project on github. &lt;/p&gt;
+
+&lt;h2&gt;BI-MCMC Algorithm&lt;/h2&gt;
+
+&lt;a href="2014/03/12/bayes_mcmc_clojure.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Solving 4clojure problems in an editor</title>
    <link href="http://thegeez.github.com/2014/01/10/4clojure_in_editor.html" />
    <updated>2014-01-10T23:00:00Z</updated>
