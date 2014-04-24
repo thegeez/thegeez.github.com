@@ -4,12 +4,35 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2014-03-12T10:16:14Z</updated>
+ <updated>2014-04-24T12:09:38Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Using SendGrid with Clojure in The Next Web HackBattle</title>
+   <link href="http://thegeez.github.com/2014/04/24/tnw_hackbattle_sendgrid.html" />
+   <updated>2014-04-24T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2014/04/24/tnw_hackbattle_sendgrid.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Using SendGrid with Clojure in The Next Web HackBattle&lt;/h1&gt;
+
+&lt;p&gt;This week is &lt;a href="http://thenextweb.com/conference/europe/"&gt;The Next Web&lt;/a&gt; conference in Amsterdam, where I participated
+  in the &lt;a href="http://thenextweb.com/conference/europe/hack-battle/"&gt;HackBattle&lt;/a&gt;. Like I did two years ago, I took
+  a project I am currently working on and tried to use one of the
+  HackBattle API partners. Last time I used &lt;a href="http://thegeez.net/2012/05/16/the_next_web_rijksmuseum.html"&gt;BrowserChannel and the Rijksmuseum API&lt;/a&gt;. The current project I am working on is
+  to complete the Clojure web application story by building a
+  back-end for a &lt;a href="http://todomvc.com/"&gt;TodoMVC&lt;/a&gt; ClojureScript front-end. I've integrated
+  &lt;a href="http://sendgrid.com/docs/API_Reference/Webhooks/parse.html"&gt;SendGrid's
+  Inbound Parse Webhook&lt;/a&gt; API to be able to add todos via email.&lt;/p&gt;
+
+&lt;p&gt;Using &lt;a href="http://sendgrid.com"&gt;SendGrid&lt;/a&gt; you can send an
+  email with your todo to add it to your todo
+  list, when you use your profile name in the subject line. On the
+  server side this was easily implemented by adding a POST handler and
+  setting some DNS settings properly.&lt;/p&gt;
+
+</content>
+ </entry><entry>
    <title>Bayesian Inference with Markov Chain Monte Carlo
   in Clojure</title>
    <link href="http://thegeez.github.com/2014/03/12/bayes_mcmc_clojure.html" />
@@ -31,7 +54,7 @@
 
 &lt;h2&gt;BI-MCMC Algorithm&lt;/h2&gt;
 
-&lt;a href="2014/03/12/bayes_mcmc_clojure.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>Solving 4clojure problems in an editor</title>
    <link href="http://thegeez.github.com/2014/01/10/4clojure_in_editor.html" />
@@ -52,7 +75,7 @@
   4clojure into a runnable test I used this
   utility: &lt;a href="https://gist.github.com/thegeez/8352754"&gt;gist:
   4clojure in editor&lt;/a&gt;.&lt;/p&gt;
-&lt;a href="2014/01/10/4clojure_in_editor.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>Vintage JavaScript game restoration</title>
    <link href="http://thegeez.github.com/2013/12/30/vintage_javascript_game_restoration.html" />
@@ -81,7 +104,7 @@
   paths and the main loop's update interval. The server-side high
   score bookkeeping has been removed from this version.&lt;/p&gt;
 
-&lt;a href="2013/12/30/vintage_javascript_game_restoration.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>Testing RxJava with executable marble
   diagrams</title>
@@ -106,7 +129,7 @@ For more information see any of the following resources:
 &lt;/ul&gt;
 &lt;p&gt;In particular the "Intro to Rx" book is a great resource. Every other
 example will have you wishing to be able to use Rx in Clojure. Luckily
-Netflix recently open sourced their Java variation of Rx called RxJava.&lt;/p&gt;&lt;a href="2013/03/25/neflix_rxjava_marble.html"&gt;Read more&lt;/a&gt;</content>
+Netflix recently open sourced their Java variation of Rx called RxJava.&lt;/p&gt;</content>
  </entry><entry>
    <title>Haskell Picnic</title>
    <link href="http://thegeez.github.com/2013/01/20/haskell_picnic.html" />
@@ -130,7 +153,7 @@ author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&g
   inefficient with its use of datastructures and its algorithmic complexity.&lt;/p&gt;
 
 
-&lt;a href="2013/01/20/haskell_picnic.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>October Amsterdam Clojure Presentation</title>
    <link href="http://thegeez.github.com/2012/10/28/october_amsterdam_clojure.html" />
@@ -142,7 +165,7 @@ author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&g
   at &lt;a href="http://amsclj.nl/october.html"&gt;#OctAmsClj&lt;/a&gt; are in the ams-clj repo: &lt;a href="https://github.com/ams-clj/octamsclj-2012/"&gt;Simpler webapps with Clojure&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The code for the example in the presentation is here: &lt;a href="https://github.com/thegeez/amscljoct-example"&gt;amscljoct-example&lt;/a&gt;.&lt;/p&gt;
-&lt;a href="2012/10/28/october_amsterdam_clojure.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>Count aggregator in Cascalog</title>
    <link href="http://thegeez.github.com/2012/08/26/cascalog_clojure_count.html" />
@@ -166,7 +189,7 @@ author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&g
   aggregators. The best example of this is the count aggregator. The
   following code uses "count" in Cascalog and SQL.&lt;/p&gt;
 
-&lt;a href="2012/08/26/cascalog_clojure_count.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>Testing clj-browserchannel</title>
    <link href="http://thegeez.github.com/2012/07/10/test_selenium_browserchannel.html" />
@@ -192,7 +215,7 @@ author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&g
   client-side implementation is a black box that can not easily be
   mocked or stubbed. Therefore the approach is to do &lt;a href="http://thinkrelevance.com/blog/2012/04/26/thinkrelevance-the-podcast-episode-010-stu-halloway"&gt;simulation testing&lt;/a&gt;.&lt;/p&gt;
 
-&lt;a href="2012/07/10/test_selenium_browserchannel.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>My understanding of reducers after
   EuroClojure</title>
@@ -209,7 +232,7 @@ author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&g
   these notes:&lt;/p&gt;
 
 &lt;h2&gt;Reducers vs seq/lazy-seq api&lt;/h2&gt; 
-&lt;a href="2012/06/12/euroclojure_reducers.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>Playing "Racket Gin Rummy in ClojureScript" with
   Clojure</title>
@@ -233,7 +256,7 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
   rules for Gin Rummy in the &lt;a href="http://docs.racket-lang.org/games/ginrummy.html"&gt; Racket
   documentation&lt;/a&gt;.&lt;/p&gt;
 
-&lt;a href="2012/06/01/ginbot_euroclojure.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>BrowserChannel and the Rijksmuseum API at
   The Next Web HackBattle</title>
@@ -265,7 +288,7 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
   least Android smartphones.
 &lt;/p&gt;
 
-&lt;a href="2012/05/16/the_next_web_rijksmuseum.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>Why BrowserChannel?</title>
    <link href="http://thegeez.github.com/2012/04/03/why_browserchannel.html" />
@@ -281,7 +304,7 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
 &lt;p&gt;&lt;a href="http://closure-library.googlecode.com/svn-history/r144/docs/closure_goog_net_browserchannel.js.html"&gt;BrowserChannel&lt;/a&gt; is a protocol developed by Google. It provides cross-browser compatible, real-time, bi-directional communication
   for various Google web apps, including Google Docs and GMail.&lt;/p&gt;
 
-&lt;a href="2012/04/03/why_browserchannel.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>Racket Gin Rummy in ClojureScript</title>
    <link href="http://thegeez.github.com/2012/03/20/racket_gin_clojurescript.html" />
@@ -305,7 +328,7 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
   top of the discard pile. For more information see the
   &lt;a href="http://docs.racket-lang.org/games/ginrummy.html"&gt; Racket documentation&lt;/a&gt;.&lt;/p&gt;
 
-&lt;a href="2012/03/20/racket_gin_clojurescript.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry><entry>
    <title>Simple static blog with Clojure</title>
    <link href="http://thegeez.github.com/2012/03/15/static_blog_on_github_with_enlive.html" />
@@ -320,7 +343,7 @@ can serve as a starting point for people wanting to do the same.&lt;/p&gt;
 
 &lt;p&gt;The code for the static pages generator is in the &lt;a href="https://github.com/thegeez/clj-static-blog"&gt;clj-static-blog&lt;/a&gt; project.&lt;/p&gt;
 
-&lt;a href="2012/03/15/static_blog_on_github_with_enlive.html"&gt;Read more&lt;/a&gt;</content>
+</content>
  </entry>
 
 </feed>

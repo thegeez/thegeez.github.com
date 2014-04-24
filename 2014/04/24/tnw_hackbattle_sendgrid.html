@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - Using SendGrid with Clojure in The Next Web HackBattle</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Using SendGrid with Clojure in The Next Web HackBattle</h1>24 Apr 2014
+
+<p>This week is <a href="http://thenextweb.com/conference/europe/">The Next Web</a> conference in Amsterdam, where I participated
+  in the <a href="http://thenextweb.com/conference/europe/hack-battle/">HackBattle</a>. Like I did two years ago, I took
+  a project I am currently working on and tried to use one of the
+  HackBattle API partners. Last time I used <a href="http://thegeez.net/2012/05/16/the_next_web_rijksmuseum.html">BrowserChannel and the Rijksmuseum API</a>. The current project I am working on is
+  to complete the Clojure web application story by building a
+  back-end for a <a href="http://todomvc.com/">TodoMVC</a> ClojureScript front-end. I've integrated
+  <a href="http://sendgrid.com/docs/API_Reference/Webhooks/parse.html">SendGrid's
+  Inbound Parse Webhook</a> API to be able to add todos via email.</p>
+
+<p>Using <a href="http://sendgrid.com">SendGrid</a> you can send an
+  email with your todo to add it to your todo
+  list, when you use your profile name in the subject line. On the
+  server side this was easily implemented by adding a POST handler and
+  setting some DNS settings properly.</p>
+
+<p>To make your emailed todos show up instantaneously, the todo page
+  now also has <a href="http://en.wikipedia.org/wiki/Server-sent_events">Server Sent Events</a> for push notifications.</p>
+
+<p>You can try it for yourself
+  at <a href="http://clj-crud.herokuapp.com/">clj-crud.herokuapp.com</a>.
+  The main page includes instructions on how to sign up or log in
+  using one of the demo accounts. Once you're logged in click the
+  "Todos" button in the menu bar to go to the TodoMVC page. There
+  you'll find the instructions on how to add a todo via email.</p>
+
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>
