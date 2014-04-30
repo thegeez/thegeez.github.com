@@ -251,3 +251,9 @@ pre a {
 pre a:hover {
     text-decoration: underline;
 }
+
+#about-me {
+    border-left: 4px solid #F0AD4E;
+    padding-left: 7px;
+    background-color: #FCF8F2;
+}
