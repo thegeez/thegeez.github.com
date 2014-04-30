@@ -4,12 +4,30 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2014-04-25T09:12:46Z</updated>
+ <updated>2014-04-30T13:02:45Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Datascript and React.js for a Clojure web app</title>
+   <link href="http://thegeez.github.com/2014/04/30/datascript_clojure_web_app.html" />
+   <updated>2014-04-30T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2014/04/30/datascript_clojure_web_app.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Datascript and React.js for a Clojure web app&lt;/h1&gt;
+&lt;p&gt;When building a web application with Clojure there are a lot of
+  building blocks to choose from. For ClojureScript there has been a
+  particularly interesting new offer with the release of &lt;a href="https://github.com/tonsky/datascript"&gt;Datascript&lt;/a&gt;.
+  Datascript is a way to manage application state in ClojureScript following
+  the database properties of &lt;a href="http://www.datomic.com/"&gt;Datomic&lt;/a&gt; (although not related to that
+  project in any way). Together with &lt;a href="http://facebook.github.io/react/"&gt;React.js&lt;/a&gt; to handle the rendering
+  of the user interface, this is a nice way to build dynamic,
+  data-driven browser front-ends. It also fits in nicely with an
+  example &lt;a href="http://clj-crud.herokuapp.com/"&gt;todo&lt;/a&gt; list application I have been working on.&lt;/p&gt;
+
+&lt;h2&gt;Datascript&lt;/h2&gt;
+&lt;a href="2014/04/30/datascript_clojure_web_app.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Using SendGrid with Clojure in The Next Web HackBattle</title>
    <link href="http://thegeez.github.com/2014/04/24/tnw_hackbattle_sendgrid.html" />
    <updated>2014-04-24T23:00:00Z</updated>
