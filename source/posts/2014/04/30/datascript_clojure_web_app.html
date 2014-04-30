@@ -77,21 +77,24 @@ And for the front-end:
 <li><a href="https://github.com/JulianBirch/cljs-ajax">cljs-ajax</a>,
   client-server communication</li>
 <li><a href="https://github.com/cemerick/clojurescript.test">cemerick.cljs.test</a></li>
-</ul>
+</ul><br/></p>
 
-Not complete yet but CLojureCup, instead of needed much more than 48
-to just get started.
+<h2>Code</h2>
+<p>The code is on
+  GitHub: <a href="https://github.com/thegeez/clj-crud">thegeez/clj-crud</a>.
+  It is a work in progress, but as-is it
+  should be a more fruitful starting point to build a complete
+  Clojure web application. A demo is deployed <a href="http://clj-crud.herokuapp.com/">here</a>.</p>
+<p>The front-end code is split up in <a href="https://github.com/thegeez/clj-crud/blob/master/cljs-src/todomvc/transact.cljs">
+   Datascript transactions</a>, the <a href="https://github.com/thegeez/clj-crud/blob/master/cljs-src/todomvc/render.cljs">Quiescent rendering</a>
+  and <a href="https://github.com/thegeez/clj-crud/blob/master/cljs-src/todomvc/services.cljs">client-server communications</a>. Compilation of the
+  ClojureScript requires a checkout of the Datascript library that
+  includes support for <a href="https://github.com/tonsky/datascript/commit/54053beac3d2aea87114e04e9ce085c660181ae7">transaction functions</a>.</p>
 
-<h2>Where to start</h2>
-Datascript/react parts in code, currently needs a checkout for
-transactions support
+<p>The back-end code is structured to
+ use <a href="https://github.com/thegeez/clj-crud/blob/master/src/clj_crud/core.clj">components</a>.
+ Most of the other code is to make all the libraries work together. This
+ allows functionality to be written like
+ this: <a href="https://github.com/thegeez/clj-crud/blob/master/src/clj_crud/todos.clj">todos
+ request handling</a> and <a href="https://github.com/thegeez/clj-crud/blob/master/src/clj_crud/data/todos.clj">todos database access</a>.</p>
 
-Back-end stuff, in memory db highlight that all the support code is to
-enable adding functionality by writing files such as todos.clj
-
-
-<p>Looking for work:
-I'm available for work.
-Web applications, Web services on AWS and machine learning. I'm
-located in Amsterdam, The Netherlands. I can work locally, remote and
-can travel. My email is on my github account.</p>
