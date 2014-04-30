@@ -1,0 +1,97 @@
+<h1 id="post-title">Datascript and React.js for a Clojure web app</h1>
+<p>When building a web application with Clojure there are a lot of
+  building blocks to choose from. For ClojureScript there has been a
+  particularly interesting new offer with the release of <a href="https://github.com/tonsky/datascript">Datascript</a>.
+  Datascript is a way to manage application state in ClojureScript following
+  the database properties of <a href="http://www.datomic.com/">Datomic</a> (although not related to that
+  project in any way). Together with <a href="http://facebook.github.io/react/">React.js</a> to handle the rendering
+  of the user interface, this is a nice way to build dynamic,
+  data-driven browser front-ends. It also fits in nicely with an
+  example <a href="http://clj-crud.herokuapp.com/">todo</a> list application I have been working on.</p>
+
+<h2>Datascript</h2>
+<p>Datascript is an immutable uniform state management solution, as
+  explained by
+  its <a href="http://tonsky.me/blog/decomposing-web-app-development/">author</a>.
+  The most difficult part of state management in ClojureScript apps
+  for me was how to notify components of changes in the state.
+  Clojure's standard reference types for state management such as
+  refs, atoms and agents can nofity listeners of changes
+  through <a href="http://clojure.github.io/clojure/clojure.core-api.html#clojure.core/add-watch">watchers</a>.
+  Watchers include the old state and the new state, but I always found
+  it difficult to derive from this what the actual change was, and why
+  this change was made. Datascript is a nice improvement over this by
+  providing the <a href="https://github.com/tonsky/datascript/blob/54053beac3d2aea87114e04e9ce085c660181ae7/src/datascript.cljs#L402">listen!</a> functionality, that provides a transaction
+  report for all changes to the state.</p>
+
+ <p>Front ends in browsers have always at least two components that need
+to read and write to the state and be notified of changes: the user
+  interface components and the part that communicates with the back
+   end. With Datascript these parts can be kept completely independent.</p>
+
+<h2>React.js/Quiescent</h2>
+<p>Of course, rendering a user interface based on a new state is what
+  React.js is made for. <a href="https://github.com/levand/quiescent">Quiescent</a>
+  is ClojureScipt wrapper library around React.js that does rendering,
+  without making any assumptions on how the state is managed. This
+  makes it very nice to combine with Datascript.</p>
+
+<h2>Clojure web development</h2>
+<p>Recently I have been working on getting together a complete
+  Clojure web application. Web development in Clojure is done by composing libraries. This works
+great for building web services in a controlled environment. But for
+building user facing web applications it is not apparent how these
+libraries should be composed. Great Clojure web applications exists,
+but sadly none of these are open source, which means that many
+developers need to repeat the struggle of trying to fit the libraries
+from the Clojure web ecosystem together.  It is difficult to address the many
+  details of a user facing web application when the details impact the
+  many tiny libraries you use. This has been highlighted recently for
+  the security aspect of Clojure web applications
+  by <a href="http://www.youtube.com/watch?v=CBL59w7fXw4">Aaron
+  Bedra</a>, as summarized <a href="http://www.lispcast.com/clojure-web-security">here</a>.</p>
+
+<h2>Clj-crud as an example</h2>
+<p><a href="http://clj-crud.herokuapp.com/">Clj-crud</a> is meant to
+  be relatively feature complete example of a Clojure web application.
+  A web application is defined here as a database backed website that
+  can runs on Heroku, with a login system, an admin section, uses
+  Bootstrap templates, has a ClojureScript front-end and supports repl-based development and has
+  acceptance tests.</p>
+
+<p>The libraries used in clj-crud are:<p>
+<ul>
+<li>Stuart Sierra's <a href="https://github.com/stuartsierra/component">Component</a></li>
+<li><a href="http://clojure-liberator.github.io/liberator/">Liberator</a>,
+  for the common web request flow</li>
+<li><a href="https://github.com/clojure/java.jdbc/">clojure.java.jdbc</a></li>
+<li><a href="https://github.com/cgrand/enlive">Enlive</a>, for templating</li>
+<li><a href="https://github.com/cemerick/friend">Friend</a>, for authentication and authorization</li>
+<li><a href="https://github.com/ring-clojure/ring/">ring</a> & <a href="https://github.com/weavejester/compojure">compojure</a></li>
+<li><a href="https://github.com/xeqi/kerodon">Kerodon</a>/<a href="https://github.com/xeqi/peridot">Peridot</a>, for testing</li>
+</ul>
+And for the front-end:
+<ul>
+<li><a href="https://github.com/tonsky/datascript">Datascript</a></li>
+<li><a href="https://github.com/levand/quiescent">Quiescent</a>, React.js wrapper</li>
+<li><a href="https://github.com/JulianBirch/cljs-ajax">cljs-ajax</a>,
+  client-server communication</li>
+<li><a href="https://github.com/cemerick/clojurescript.test">cemerick.cljs.test</a></li>
+</ul>
+
+Not complete yet but CLojureCup, instead of needed much more than 48
+to just get started.
+
+<h2>Where to start</h2>
+Datascript/react parts in code, currently needs a checkout for
+transactions support
+
+Back-end stuff, in memory db highlight that all the support code is to
+enable adding functionality by writing files such as todos.clj
+
+
+<p>Looking for work:
+I'm available for work.
+Web applications, Web services on AWS and machine learning. I'm
+located in Amsterdam, The Netherlands. I can work locally, remote and
+can travel. My email is on my github account.</p>
