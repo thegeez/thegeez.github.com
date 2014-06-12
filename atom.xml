@@ -4,12 +4,34 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2014-05-01T15:12:37Z</updated>
+ <updated>2014-06-12T12:11:05Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Gin Rummy with Datomic</title>
+   <link href="http://thegeez.github.com/2014/06/12/gin_datomic.html" />
+   <updated>2014-06-12T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2014/06/12/gin_datomic.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Gin Rummy with Datomic&lt;/h1&gt;
+
+&lt;p&gt;When I began to learn Clojure I found the &lt;a href="http://docs.racket-lang.org/games/ginrummy.html"&gt;Gin Rummy&lt;/a&gt; game in the &lt;a href="http://racket-lang.org/"&gt;PLT
+  Racket/Scheme&lt;/a&gt; programming environment. Gin is a simple card game and
+  it includes a simple AI for an opponent. This game has been the
+  basis for some previous hobby projects, specifically a &lt;a href="/2012/03/20/racket_gin_clojurescript.html"&gt;ClojureScript
+  implementation&lt;/a&gt; and
+  a &lt;a href="/2012/06/01/ginbot_euroclojure.html"&gt;software robot&lt;/a&gt;
+  to play the game. But the project I always wanted to make was a way
+  to play Gin over the internet. Some 5 years later it is finally
+  done:&lt;/p&gt;
+
+&lt;p&gt;At &lt;a href="http://gin.thegeez.net/"&gt;gin.thegeez.net&lt;/a&gt; you can
+  play the Gin card game against a ClojureScript AI, a remote Clojure AI or a remote human opponent.&lt;/p&gt;
+
+
+&lt;a href="2014/06/12/gin_datomic.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Datascript and Quiescent TodoMVC stand-alone</title>
    <link href="http://thegeez.github.com/2014/05/01/datascript_quiescent_standalone.html" />
    <updated>2014-05-01T23:00:00Z</updated>

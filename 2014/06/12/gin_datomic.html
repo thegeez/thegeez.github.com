@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - Gin Rummy with Datomic</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Gin Rummy with Datomic</h1>12 Jun 2014
+
+<p>When I began to learn Clojure I found the <a href="http://docs.racket-lang.org/games/ginrummy.html">Gin Rummy</a> game in the <a href="http://racket-lang.org/">PLT
+  Racket/Scheme</a> programming environment. Gin is a simple card game and
+  it includes a simple AI for an opponent. This game has been the
+  basis for some previous hobby projects, specifically a <a href="/2012/03/20/racket_gin_clojurescript.html">ClojureScript
+  implementation</a> and
+  a <a href="/2012/06/01/ginbot_euroclojure.html">software robot</a>
+  to play the game. But the project I always wanted to make was a way
+  to play Gin over the internet. Some 5 years later it is finally
+  done:</p>
+
+<p>At <a href="http://gin.thegeez.net/">gin.thegeez.net</a> you can
+  play the Gin card game against a ClojureScript AI, a remote Clojure AI or a remote human opponent.</p>
+
+
+<p>The code for the project is
+  at <a href="https://github.com/thegeez/gin">github.com/thegeez/gin</a></p>
+
+<h2>Design</h2>
+
+<p>Gin is a web application with Clojure on the server and
+  ClojureScript in the browser. In the middle of the architecture is a
+  <a href="http://www.datomic.com/">Datomic</a> database. Datomic
+  transactions and listening to the changes in the database via the transaction report queue are the fundamental interactions in the
+  application. On the client-side <a href="https://github.com/tonsky/datascript/">DataScript</a> is used to keep to
+  drawing, AI and communication components separate.</p>
+<p><img width="570" src="/images/gin_arch.png" /></p>
+
+
+<h2>Round trip of a single move</h2>
+
+<p>Suppose we are playing against a human opponent and it is our turn
+  to make a move. We decide to take a card from the pile, which is a
+  card that is face down. Once we dragged that card to our hand the UI
+  will transact this event into the DataScript database. The
+  communication service sees this transaction report and sends an AJAX
+  request to the game server for this event. The response for this
+  AJAX request is not used, unless an error occurred. Later, via
+  <a href="http://en.wikipedia.org/wiki/Server-sent_events">Server-Sent Events</a> (SSE), the client will be notified of updates if there
+  were any. On the server side the event is transacted into the
+  Datomic database. All the listening components on the server are
+  notified of the update via the transaction report queue. For the two
+  human opponents this means a message will be sent via SSE. Perhaps
+  the dealer component on the server decides to transact a shuffle
+  when the pile has been exhausted. When an event comes in on the
+  client that event is transacted into the DataScript store. Then
+  the entire game is re-rendered, which will start the animations.
+  The message that is sent to either client might be different, because
+  an opponent should not be told what the cards are that its opponent
+  got or has.</p>
+
+<h2>Gin in Datomic</h2>
+<p>Gin is a turn-based card game. The game is a sequence of events of
+  taking or discarding a card and at every point in the game every
+  card is somewhere on the table, either in the hand of a player or in
+  the pile or stack of discards. With Datomic all the events are a
+  transaction and the entire state before and after each transaction
+  is readily available. Having both the history of the sequence of
+  events available and the whole state at each point in time is pretty
+  great. For instance when a player has discarded a card, the event
+  only contains which card this player took from his hand. Based on
+  the event the dealer will receive the transaction and will need to
+  look at all the cards to see if there is a winner. Because both the
+  sequence of events and the whole current state are always needed it
+  is nice that they do not need to be derived from each other which
+  can be complicated or even impossible.</p>
+
+<a name="stream-from"></a>
+<h2>Reconstructing the transaction queue with stream-from</h2>
+<p>The communication between the server and the client is a stream of
+  events based on the transaction queue. Of course this connection is
+  subject to reconnects. Therefore this stream needs to be able to be
+  joined from any point in time. Consider the case for instance where
+  a client reconnects to a different web-server that as a Datomic peer
+  has not yet seen
+  all the transactions yet. Or a client reconnects and needs to see
+  transactions that have already passed through
+  the <a href="http://docs.datomic.com/clojure/#datomic.api/tx-report-queue">transaction
+  report queue</a>. The <a href="https://github.com/thegeez/gin/blob/master/src/gin/system/database_datomic.clj#L169">stream-from</a> function is meant to cover these
+  cases. stream-from provides a stream of transaction reports from a
+  tx t, where this t can be earlier or later than the t currently
+  available in the peer. A more elaborate set-up should perhaps move
+  the transaction report queue into a
+separate
+<a href="http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying">log</a>.</p>
+
+<h2>core.async</h2>
+<p>Datomic provides a single tx-report-queue. Gin has multiple consumers
+of this queue; the dealer process, the AI process and every
+client server-sent events connection. Providing multiple copies of
+  this stream is done with
+  a <a href="http://clojure.github.io/core.async/#clojure.core.async/mult">mult</a>
+  from core.async. Each copy of the stream is used as a 1-to-1
+  channel, while core.async channels are many-to-many channels
+  (technically core.async does not care but certainly does not assume
+  1-to-1 usage). When a server-sent events connection is closed I use
+  backward 'close!' propagation to manage the 'mult'. However backward
+  'close!' propagation does not work with the many-to-many nature of
+core.async. So I couldn't reuse 'mapcat&gt;' and other operations. Because
+these operations will close the output when the input closes, but not the input
+when the output closes. This means the code has some go-loop's where
+library functions would have been nicer.</p>
+
+<h2>Client with ClojureScript</h2>
+
+<p>The biggest reason this project took a while to complete was that I
+  was never quite sure how to do the client side. I had already made a
+ClojureScript <a href="/2012/03/20/racket_gin_clojurescript.html">version</a>
+  but that one did not include client-server communication. The
+  missing piece
+  was <a href="https://github.com/tonsky/datascript/">DataScript</a>.
+  DataScript is a much better storage for state than an
+  atom+watcher combination. As with Datomic on the server side it is
+  very nice to have both the sequence of events or latest event
+  available, as well as the entire current state. The client-server
+  communication is usually only interested in the last event, while
+  the UI component needs the entire state to redraw everything.
+  Because all the components only talk and listen to DataScript I
+  could develop the new game UI while running a ClojureScript AI as an
+  opponent. Adding the client-server communication did not impact the
+  other components. Putting the data store in the middle of the
+  client-side architecture is a lot like
+  the <a href="http://facebook.github.io/react/docs/flux-overview.html">Flux</a>
+  idea. Most client-side architectures have at least 2 components that
+  are best kept separate; at least one UI component and a
+  communication component.</p> 
+
+<h2>Animation</h2>
+<p>The animation of the moving cards in the game is done
+  like <a href="http://facebook.github.io/react/">React.js</a> but not
+  with React.js. After each transaction the whole game is redraw by
+  initializing an animation for every card to the position it now
+  needs to be. If a card is already where it needs to be this
+  animation is not done. Most importantly this supports redrawing the
+  game while animations from the previous event are still in
+  progress.</p>
+
+<h2>Server-Sent Events</h2>
+<p>Another reason this project took long to finish were some detour
+  projects. As a card game Gin requires notifications from the server to
+  the client when the opponent makes a move. There are many ways to do
+  this, but most of these approaches were very opaque to me or
+  required server-side implementations that do not work well with
+  Clojure or simply had no Clojure implementation available. One of
+  the alternatives I pursued was <a href="http://closure-library.googlecode.com/svn-history/r144/docs/closure_goog_net_browserchannel.js.html">BrowserChannel</a>, which is a
+  WebSocket-like functionality
+  in <a href="https://developers.google.com/closure/library/">goog
+  closure</a>. I created an implementation for the server-side
+  component for BrowserChannel in Clojure
+  with <a href="https://github.com/diligenceengine/clj-browserchannel">clj-browserchannel</a>,
+  as described <a href="/2012/04/03/why_browserchannel.html">here</a>,
+  <a href="/2012/05/16/the_next_web_rijksmuseum.html">here</a>
+  and <a href="/2012/07/10/test_selenium_browserchannel.html">here</a>.
+Both WebSockets and BrowserChannel provide bi-directional
+  communication between a browser and a server. It turned out that
+  using Server-Sent Events was much simpler. Server-Sent Events only
+  provides one directional server-client communication, but for the
+  client-server communication we can just use regular AJAX constructs.
+  This also means that the server code is just handling requests
+  rather than having to shuffle all the code into a single
+  bi-directional handler.
+  The key to Server-Sent Events is that it will send along the last-event-id that has been received when it automatically reconnects.
+  For the Gin game the last-event-id is the t of the Datomic database,
+  which uniquely identifies the current state. This is also the
+  motivation for the <a href="#stream-from">stream-from</a> function mentioned earlier.
+  Server-Sent Events is not supported by all browsers. For Gin I use
+  the <a href="https://github.com/amvtek/EventSource">AmvTek
+  EventSource polyfill</a>. Due to my server-side code Gin only supports modern
+  browsers and IE10 or better.
+ </p>
+
+<h2>Resilience</h2>
+<p>A million things can go wrong while running a web application. Therefore
+  the Gin game always supports reloading the page. This will
+  reconstruct the game state where it left off.</p>
+
+<h2>Scalability</h2>
+<p>Currently the demo is deployed on a single instance. But
+  architecturally there is nothing that would prevent a deployment
+  behind a load-balancer with multiple, rotating instances. For this the Datomic part would need a persistent storage and a stand-alone transactor.
+  Also the dealer and AI components would need to be run on a
+  dedicated instance. It would be quite easy to run these separately
+  because of the <a href="https://github.com/stuartsierra/component">component</a> library.</p>
+
+<h2>Web application with Clojure</h2><h2>
+</h2><p>Another detour project was to sort out how to develop and deploy a
+  complete web application with Clojure, with persistence, templates
+  and authentication. This work ended up in
+  <a href="https://github.com/thegeez/clj-crud">clj-crud</a> and is
+  described <a href="/2014/04/30/datascript_clojure_web_app.html">here</a>.
+
+</p><h2>Conclusion</h2>
+<p>The Gin game is
+  here: <a href="http://gin.thegeez.net/">gin.thegeez.net</a> and the
+  code is
+  here: <a href="https://github.com/thegeez/gin">github.com/thegeez/gin</a>.</p>
+</div>
+  <div id="about-me">
+<h3>About thegeez.net</h3>
+<p>Hi, I'm Gijs Stuurman, a Clojure programmer from the Netherlands. I
+  work on web applications, web services on AWS and machine
+  learning in Clojure. I am currently looking for work and/or
+  projects. I can work locally in
+  Amsterdam, remote and I can travel. Please get in touch via email, which is on my <a href="https://github.com/thegeez">github account</a>.</p>
+  </div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>
