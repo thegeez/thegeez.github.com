@@ -1,0 +1,327 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+}
+
+.navbar-spacer {
+    height: 60px;
+}
+
+#game-panel {
+    width: 580px;
+    margin: 70px 0 0 0px;
+}
+
+.region {
+    border: 1px solid grey;
+    padding: 5px;
+    width: 570px;
+    height: 155px;
+}
+
+.their_region {}
+
+.our_region {}
+
+.region_hover {
+    background-color: #25587E;
+}
+
+.pile_row {
+    height: 143px;
+}
+
+
+.pile {
+    width: 80px;
+    height: 100px;
+    margin-top: 19px;
+    margin-left: 160px;
+    padding: 4px;
+    float: left;
+}
+
+.discard_pile {
+    width: 95px;
+    height: 121px;
+    margin-top: 11px;
+    margin-right: 150px;
+    padding: 4px;
+    border: 1px solid grey;
+    float: right;
+}
+
+.card {
+    background-image: url('../images/cards_sprite.png');
+    width: 71px;
+    height: 96px;
+    display: block;
+    position: absolute;
+}
+
+.cursor_hand {
+    cursor: pointer;
+}
+
+.cursor_drag {
+    cursor: move;
+}
+/*** card images ***/
+.offscreen_loading {
+    left: -1000px;
+}
+.club_r2 {
+    background-position: 0px 0px;
+}
+.club_r3 {
+    background-position: -71px 0px;
+}
+.club_r4 {
+    background-position: -142px 0px;
+}
+.club_r5 {
+    background-position: -213px 0px;
+}
+.club_r6 {
+    background-position: -284px 0px;
+}
+.club_r7 {
+    background-position: -355px 0px;
+}
+.club_r8 {
+    background-position: -426px 0px;
+}
+.club_r9 {
+    background-position: -497px 0px;
+}
+.club_T {
+    background-position: -568px 0px;
+}
+.club_J {
+    background-position: -639px 0px;
+}
+.club_Q {
+    background-position: -710px 0px;
+}
+.club_K {
+    background-position: -781px 0px;
+}
+.club_A {
+    background-position: -852px 0px;
+}
+.diamond_r2 {
+    background-position: 0px -96px;
+}
+.diamond_r3 {
+    background-position: -71px -96px;
+}
+.diamond_r4 {
+    background-position: -142px -96px;
+}
+.diamond_r5 {
+    background-position: -213px -96px;
+}
+.diamond_r6 {
+    background-position: -284px -96px;
+}
+.diamond_r7 {
+    background-position: -355px -96px;
+}
+.diamond_r8 {
+    background-position: -426px -96px;
+}
+.diamond_r9 {
+    background-position: -497px -96px;
+}
+.diamond_T {
+    background-position: -568px -96px;
+}
+.diamond_J {
+    background-position: -639px -96px;
+}
+.diamond_Q {
+    background-position: -710px -96px;
+}
+.diamond_K {
+    background-position: -781px -96px;
+}
+.diamond_A {
+    background-position: -852px -96px;
+}
+.spade_r2 {
+    background-position: 0px -192px;
+}
+.spade_r3 {
+    background-position: -71px -192px;
+}
+.spade_r4 {
+    background-position: -142px -192px;
+}
+.spade_r5 {
+    background-position: -213px -192px;
+}
+.spade_r6 {
+    background-position: -284px -192px;
+}
+.spade_r7 {
+    background-position: -355px -192px;
+}
+.spade_r8 {
+    background-position: -426px -192px;
+}
+.spade_r9 {
+    background-position: -497px -192px;
+}
+.spade_T {
+    background-position: -568px -192px;
+}
+.spade_J {
+    background-position: -639px -192px;
+}
+.spade_Q {
+    background-position: -710px -192px;
+}
+.spade_K {
+    background-position: -781px -192px;
+}
+.spade_A {
+    background-position: -852px -192px;
+}
+.heart_r2 {
+    background-position: 0px -288px;
+}
+.heart_r3 {
+    background-position: -71px -288px;
+}
+.heart_r4 {
+    background-position: -142px -288px;
+}
+.heart_r5 {
+    background-position: -213px -288px;
+}
+.heart_r6 {
+    background-position: -284px -288px;
+}
+.heart_r7 {
+    background-position: -355px -288px;
+}
+.heart_r8 {
+    background-position: -426px -288px;
+}
+.heart_r9 {
+    background-position: -497px -288px;
+}
+.heart_T {
+    background-position: -568px -288px;
+}
+.heart_J {
+    background-position: -639px -288px;
+}
+.heart_Q {
+    background-position: -710px -288px;
+}
+.heart_K {
+    background-position: -781px -288px;
+}
+.heart_A {
+    background-position: -852px -288px;
+}
+.card_back {
+    background-position: -923px 0px;
+}
+
+.msg {
+    width: 570px;
+    height: 32px;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid grey;
+}
+
+
+/* debug watch table */
+.watch_table {
+    display: block;
+    width: 290px;
+}
+.watch_table_card {
+    float: left;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+}
+.watch_table_our_card {
+    float: left;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: green;
+}
+.watch_table_discard {
+    float: left;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: orange;
+}
+.watch_table_discards {
+    float: left;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: yellow;
+}
+.watch_table_opp_card {
+    float: left;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: blue;
+}
+.watch_table_gone_card {
+    float: left;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: white;
+}
+.watch_table_gin_size {
+    float: left;
+    width: 284px;
+    height: 15px;
+    border: 1px solid black;
+    background-color: white;
+}
+.back_button {
+    display: block;
+    float: right;
+    width: 100px;
+    height: 20px;
+    padding-left: 9px;
+    color: white;
+    background-color: #25587E;
+}
+
+#about {
+    width: 560px;
+    margin: 10px 0 0 30px;
+    background-color: #F5F5DC;
+}
+.rel-profile {
+    margin: 5px 0 0 0;
+    color: #FFFFFF;
+}
+.btn-right {
+    float: right;
+}
+.opp-list-frame {
+    padding: 0px;
+    height: 300px;
+    overflow-y: scroll;
+}
+label.opp-name {
+    margin-bottom: 0px;
+}
+.btn-lobby-list {
+    margin-top: -7px;
+}

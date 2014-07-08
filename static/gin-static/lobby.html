@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="/static/gin-static/public/ico/favicon.ico" rel="shortcut icon" />
+
+    <title>Gin</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/static/gin-static/public/css/bootstrap.css" />
+    <link rel="stylesheet" href="/static/gin-static/public/css/custom.css" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="/static/gin-static/lobby.html" class="navbar-brand">Gin</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/static/gin-static/lobby.html">Lobby</a></li>
+          </ul>
+          <div class="navbar-right">
+            <!-- /.navbar-form -->
+          </div><!-- /navbar-right -->
+        </div><!--/.navbar-collapse -->
+      </div>
+    </div>
+    
+    <div class="container">
+      
+      <div id="content"><div id="content">
+  <div class="navbar-spacer"></div>
+  <div id="local-game"><div id="content">
+  <div class="panel panel-default">
+    <div class="panel-heading">Local game</div>
+    <div class="panel-body">
+      Play against a ClojureScript AI
+      <a href="/static/gin-static/clojurescript_ai.html" class="btn btn-primary btn-right">Play against
+          CLJS AI</a>
+      </div>
+    </div>
+  </div></div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Network game</div>
+    <div id="login-panel" class="panel-body">
+      The server has been shut down. Playing over the network against
+      a human or AI opponent through the Datomic database is no longer
+      available. See
+      the <a href="/2014/06/12/gin_datomic.html">blog
+      post</a> and code
+      at <a href="https://github.com/thegeez/gin">github.com/thegeez/gin</a>
+      to run the code yourself.
+    </div>
+  </div>
+
+  </div></div>
+    </div> <!-- /container -->
+
+    <div class="container">
+      <hr />
+
+      <footer>
+        <p>gin - by: Gijs Stuurman
+        - <a href="http://twitter.com/thegeez">@thegeez</a>
+        - <a href="http://thegeez.net">thegeez.net</a> - <a href="https://github.com/thegeez">github.com/thegeez</a></p>
+      </footer>
+    </div> <!-- /container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/static/gin-static/public/js/bootstrap.min.js"></script>
+  </body>
+
+</html>
