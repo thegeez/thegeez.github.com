@@ -4,12 +4,30 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2014-06-12T12:26:09Z</updated>
+ <updated>2014-07-08T09:13:07Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Turned off gin.thegeez.net</title>
+   <link href="http://thegeez.github.com/2014/07/08/gin_datomic_local.html" />
+   <updated>2014-07-08T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2014/07/08/gin_datomic_local.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Turned off gin.thegeez.net&lt;/h1&gt;
+
+&lt;p&gt;The server for &lt;a href="/2014/06/12/gin_datomic.html"&gt;Gin Rummy
+    with Datomic&lt;/a&gt; has been shut down. Playing over the network against
+  a human or AI opponent through the Datomic database is no longer
+  available. See the &lt;a href="/2014/06/12/gin_datomic.html"&gt;blog
+    post&lt;/a&gt; and code
+  at &lt;a href="https://github.com/thegeez/gin"&gt;github.com/thegeez/gin&lt;/a&gt;
+  to run the code yourself.&lt;/p&gt;
+
+&lt;p&gt;A ClojureScript-only version to play against the CLJS AI is
+  available here: &lt;a href="/static/gin-static/lobby.html"&gt;Gin Rummy&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry><entry>
    <title>Gin Rummy with Datomic</title>
    <link href="http://thegeez.github.com/2014/06/12/gin_datomic.html" />
    <updated>2014-06-12T23:00:00Z</updated>
