@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - Web application with Pedestal</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Web application with Pedestal</h1>16 May 2015
+
+<p>As Frankie said, for web development in Clojure we
+  should <a href="http://frankiesardo.github.io/posts/2014-12-15-give-pedestal-another-chance.html">give Pedestal another chance</a>. So I set out to build a user facing web
+  application with <a href="http://pedestal.io">Pedestal</a>. To me a minimally useful user facing web application
+  should have a database, templating, forms, authentication and
+  authorization. And for development I like to get something
+  I can click through as soon as possible, as well as having a
+  dynamic development process from the REPL.
+  The <a href="https://github.com/thegeez/w3a">w3a</a> library
+  and <a href="https://github.com/thegeez/w3a-example">w3a-example</a> try to provide this, using
+  Pedestal as foundation. </p>
+
+<h2>w3a-example</h2>
+<p>The <a href="https://github.com/thegeez/w3a-example">example application</a> is running on Heroku
+  at <a href="https://w3a-example.herokuapp.com/">https://w3a-example.herokuapp.com</a>.
+  The functionality is loosely inspired
+  by <a href="http://restframework.herokuapp.com/">Django
+  Rest Framework example application</a>, but the implementation is not. This means the example
+  contains CRUD-like data pages, users accounts, forms, pagination and breadcrumb
+  navigation. The interesting code in the w3a-example is in the
+  <a href="https://github.com/thegeez/w3a-example/blob/master/src/w3a/example/service.clj">service.clj</a> file.</p>
+
+<h2>Components</h2>
+<p>w3a
+  uses <a href="https://github.com/stuartsierra/component">components</a>
+  with Pedestal to organize the app and to provide an in-memory database
+  for development and to leave out the jetty webserver during testing.
+  Migrations and fixture loading are also components</p>
+
+<h2>Data, links &amp; forms</h2>
+<p>The basic parts of a page in a CRUD web application are data, links
+  and maybe a form. The data is whatever the application is about, the
+  links make it a web application and the form makes the
+  application slightly more interesting than a static web page.</p>
+
+<h2>w3a</h2>
+<p>With w3a the aim is to be able to specify the data, links and forms
+  as an EDN api first and then later decorate this with a template to
+  serve HTML. To serve HTML the data is transformed
+  with <a href="https://github.com/cgrand/enlive">Enlive</a>. The EDN
+  api returns a 201 status for a created resource and a 400 status
+  when something failed validation. This is not the functionality
+  users expect when browsing through HTML pages, so w3a transforms those to 303 redirects and
+  re-rendered form pages with the validation errors added. To aid the
+  development of the EDN api a click-througable HTML version is
+  served in browsers. This is available by appending
+  the <a href="https://w3a-example.herokuapp.com/snippets/1?format=dev">?format=dev</a> parameter.</p>
+
+<h2>context, context everywhere</h2>
+<p>Sometimes it is claimed that web development in Clojure only
+  requires the composition of libraries. While this is true, for me
+  this is almost always a frustrating exercise. In particular when the
+  composition requires composing database access, sessions and user
+  authentication.<br /> In Pedestal everything goes through interceptors,
+  which take the context as an argument. This <a href="https://github.com/pedestal/pedestal/blob/master/guides/documentation/service-context-reference.md">context</a> consists of the
+  request, response and other user defined content. I have started to
+  simple pass the context everywhere. In <a href="https://github.com/thegeez/w3a-example/blob/6165f22ab50e50d06c396b8615730f41740efb94/src/w3a/example/service.clj#L121">link
+  generators</a>, <a href="https://github.com/thegeez/w3a-example/blob/6165f22ab50e50d06c396b8615730f41740efb94/src/w3a/example/service.clj#L160">validation
+  functions</a>, <a href="https://github.com/thegeez/w3a-example/blob/6165f22ab50e50d06c396b8615730f41740efb94/src/w3a/example/service.clj#L57">templating</a> and everywhere else.
+  You could argue that this is not much better than global objects or
+  injected bindings everywhere, but I prefer it as I always end up
+  needing just a little part of the context somewhere deep down in the
+  composition. To make using the context everywhere less verbose I use
+  the <a href="https://github.com/thegeez/w3a/blob/4d38f2dc17aa8532cc3ef0e494c64936666f689b/src/net/thegeez/w3a/interceptor.clj#L10">combine</a> function
+  from <a href="http://clojure-liberator.github.io/liberator/">Liberator</a>.</p>
+
+<h2>Links and breadcrumbs</h2>
+<p>Pedestal has great support for generating links, as the <a href="https://github.com/pedestal/pedestal/blob/master/guides/documentation/service-routing.md">routing
+  table</a> doesn't just parse links to call the appropriate handler, it
+  also
+  has <a href="https://github.com/pedestal/pedestal/blob/master/guides/documentation/service-routing.md#url-generation">url
+  generation</a> based on the routing table. This also makes it easy
+  to define links as part of the data. For instance, the link to
+  <a href="https://github.com/thegeez/w3a-example/blob/6165f22ab50e50d06c396b8615730f41740efb94/src/w3a/example/service.clj#L358">edit a snippet</a> is only included in the data
+when the user is logged in as the owner of a snippet. This would be
+  awkward to do by constructing links out of strings everywhere.<br />
+  In w3a the routing table is also used to generate <a href="https://github.com/thegeez/w3a/blob/4d38f2dc17aa8532cc3ef0e494c64936666f689b/src/net/thegeez/w3a/link.clj#L29">breadcrumbs</a>. This
+  makes it easy to quickly being able to click through the
+  application, particularly early in development.</p>
+
+<h2>Forms through bindings</h2>
+<p>Defining and rendering forms with validations in w3a is done with
+  bindings. The name is taken from the Go
+  library <a href="https://github.com/macaron-contrib/binding">binding</a>.
+  While it is <a href="https://github.com/thegeez/w3a-example/blob/6165f22ab50e50d06c396b8615730f41740efb94/src/w3a/example/service.clj#L366">extensible</a>, it is currently very minimal. Also the way
+  to define which data goes with which binding definition can be improved.</p>
+
+<h2>Testing</h2>
+<p>For testing web applications in Clojure there are the <a href="https://github.com/xeqi/kerodon">Kerodon</a> and
+  <a href="https://github.com/xeqi/peridot">Peridot</a> libraries. They are both designed for use with Ring, but
+  with some adjustments can be made to work with Pedestal to test the
+  <a href="https://github.com/thegeez/w3a-example/blob/master/test/w3a/example/html.clj">HTML</a> and <a href="https://github.com/thegeez/w3a-example/blob/master/test/w3a/example/edn.clj">EDN</a> functionality.</p>
+
+<h2>Conclusion</h2>
+<p>Pedestal is indeed worth another look. For my use case for user
+  facing web applications it is also a good foundation.</p>
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>
