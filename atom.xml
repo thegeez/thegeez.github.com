@@ -4,12 +4,32 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2014-07-08T09:13:07Z</updated>
+ <updated>2015-05-16T17:12:58Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Web application with Pedestal</title>
+   <link href="http://thegeez.github.com/2015/05/16/w3a_web_application_pedestal.html" />
+   <updated>2015-05-16T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2015/05/16/w3a_web_application_pedestal.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Web application with Pedestal&lt;/h1&gt;
+
+&lt;p&gt;As Frankie said, for web development in Clojure we
+  should &lt;a href="http://frankiesardo.github.io/posts/2014-12-15-give-pedestal-another-chance.html"&gt;give Pedestal another chance&lt;/a&gt;. So I set out to build a user facing web
+  application with &lt;a href="http://pedestal.io"&gt;Pedestal&lt;/a&gt;. To me a minimally useful user facing web application
+  should have a database, templating, forms, authentication and
+  authorization. And for development I like to get something
+  I can click through as soon as possible, as well as having a
+  dynamic development process from the REPL.
+  The &lt;a href="https://github.com/thegeez/w3a"&gt;w3a&lt;/a&gt; library
+  and &lt;a href="https://github.com/thegeez/w3a-example"&gt;w3a-example&lt;/a&gt; try to provide this, using
+  Pedestal as foundation. &lt;/p&gt;
+
+&lt;h2&gt;w3a-example&lt;/h2&gt;
+&lt;a href="2015/05/16/w3a_web_application_pedestal.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Turned off gin.thegeez.net</title>
    <link href="http://thegeez.github.com/2014/07/08/gin_datomic_local.html" />
    <updated>2014-07-08T23:00:00Z</updated>
