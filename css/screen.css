@@ -232,6 +232,11 @@ pre .keyword {
     color: #f0dfaf;
     font-weight: bold;
 }
+pre .clojure-keyword, pre .clojure-keyword .type{
+    /* clojure-keyword-face */
+    color: #8cd0d3;
+    font-weight: bold;
+}
 pre .string {
     /* font-lock-string-face */
     color: #cc9393;
@@ -256,4 +261,18 @@ pre a:hover {
     border-left: 4px solid #F0AD4E;
     padding-left: 7px;
     background-color: #FCF8F2;
+}
+
+.sidebar {
+    padding-left: 5px;
+    border: 1px solid #C5B18C;
+    background-color: #FFE3AF;
+}
+pre {
+    width: 160%;
+}
+
+a.toc-link {
+    color: #000;
+    text-decoration: underline;
 }

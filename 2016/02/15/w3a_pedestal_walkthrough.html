@@ -1,0 +1,582 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - Pedestal and w3a walkthrough: Build a CRUD app
+  with Clojure</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Pedestal and w3a walkthrough: Build a CRUD app
+  with Clojure</h1>15 Feb 2016
+
+<p>This is a walkthrough on how to build a complete user facing web
+  application with Clojure on top
+  of <a href="http://pedestal.io">Pedestal</a>, with the help of the
+  <a href="https://github.com/thegeez/w3a">w3a</a> library. I have made various attempts at building web
+  applications with Pedestal and/or Clojure before. (such as
+  <a href="http://thegeez.net/2014/04/30/datascript_clojure_web_app.html">here</a>,
+  <a href="http://thegeez.net/2015/05/16/w3a_web_application_pedestal.html">here</a>
+  and <a href="http://thegeez.net/2015/10/12/gatherlist_pedestal_oauth.html">here</a>) The current version is good and useful enough to
+  make a guide for and hopefully serve as a starting point for other
+  Clojure web applications.</p>
+
+<p>For me a complete user facing web application should have a
+  database, templating, forms, authentication and authorization. And
+  for development I like to get something I can click through as soon
+  as possible, as well as having a dynamic development process from
+  the REPL.</p>
+
+<p>The example app is running on Heroku at
+  <a href="https://snippetlist.herokuapp.com/">https://snippetlist.herokuapp.com/</a>. The
+  code is on GitHub at <a href="https://github.com/thegeez/snippetlist">https://github.com/thegeez/snippetlist</a>. Snippetlist is a small CRUD application
+  where users can create and edit little code snippets.</p>
+
+<p class="sidebar">The snippetlist functionality is loosely based on
+  the <a href="http://www.django-rest-framework.org/">Django
+  Rest Framework</a> <a href="http://restframework.herokuapp.com/">example</a></p>
+
+<p>This walkthrough contains the following parts:
+  <a name="toc"></a>
+    </p><ul>
+<li><a class="toc-link" href="#getting-started">Getting started</a></li>
+<li><a class="toc-link" href="#pedestal-basics">Pedestal basics</a></li>
+<li><a class="toc-link" href="#w3a-basics">w3a basics</a></li>
+<li><a class="toc-link" href="#using-a-database">Using a database</a></li>
+<li><a class="toc-link" href="#context-context-everywhere">Context, context everywhere</a></li>
+<li><a class="toc-link" href="#the-common-html-flow">The common HTML Flow</a></li>
+<li><a class="toc-link" href="#forms">Forms</a></li>
+<li><a class="toc-link" href="#templates-with-enlive">Templates with Enlive</a></li>
+<li><a class="toc-link" href="#testing">Testing</a></li>
+<li><a class="toc-link" href="#running-on-heroku">Running on Heroku</a></li>
+</ul>
+<br />
+
+<h2><a class="toc-link" name="getting-started" href="#toc">Getting started</a></h2>
+<p>If you want to follow along by reading and playing with the code, you should follow these instructions:
+</p><pre>
+$ git clone https://github.com/thegeez/snippetlist.git
+$ cd snippetlist
+$ lein repl
+=&gt; (go)
+</pre>
+Go to <a href="http://localhost:8080">http://localhost:8080</a> and
+you should see a simple page with 4 links on it. This development
+setup
+follows <a href="http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-reloaded">Stuart
+  Sierra's Reloaded</a> workflow pattern together with <a href="https://github.com/stuartsierra/component">Component</a>.
+<p class="sidebar">For an introduction to <a href="http://clojure.org">Clojure</a> and the <a href="http://leiningen.org/">Leiningen</a> buildtool check out: <a href="http://www.braveclojure.com/getting-started/">Clojure
+  for the Brave and True</a>. Git is a source code management tool:
+  <a href="https://git-scm.com/">git</a></p>
+
+<h2><a class="toc-link" name="pedestal-basics" href="#toc">Pedestal basics</a></h2>
+
+<p><a href="http://pedestal.io">Pedestal</a> is a Clojure web
+  framework. The main components in Pedestal are interceptors (which are similar
+  to <a href="https://github.com/ring-clojure/ring">Ring
+  middleware</a>) and the routing table. When you develop a web
+  application with Pedestal you will mostly be working on the routing
+  table and writing interceptors.</p>
+
+<p>The index page
+  on <a href="http://localhost:8080">http://localhost:8080</a> is
+  defined in <a href="https://github.com/thegeez/snippetlist/blob/master/src/clj/net/thegeez/snippetlist/service.clj#L19-L43">src/clj/net/thegeez/snippetlist/service.clj:19-43</a>
+</p><pre>
+ <span class="region">19 (</span><span class="keyword"><span class="region">def</span></span><span class="region"> </span><span class="variable-name"><span class="region">home</span></span><span class="region">
+ 20   (</span><span class="type"><span class="region">interceptor</span></span><span class="default"><span class="region">/</span></span><span class="region">interceptor
+ 21    {</span><span class="clojure-keyword"><span class="region">:enter</span></span><span class="region"> (</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [context]
+ 22              (merge context
+ 23                {</span><span class="clojure-keyword"><span class="region">:response</span></span><span class="region">
+ 24                 {</span><span class="clojure-keyword"><span class="region">:status</span></span><span class="region"> 200
+ 25                  </span><span class="clojure-keyword"><span class="region">:headers</span></span><span class="region"> {</span><span class="string"><span class="region">"Content-Type"</span></span><span class="region"> </span><span class="string"><span class="region">"text/html"</span></span><span class="region">}
+ 26                  </span><span class="clojure-keyword"><span class="region">:body</span></span><span class="region"> (str </span><span class="string"><span class="region">"Hello world, snippetlist&lt;br/&gt;"</span></span><span class="region">
+ 27                             </span><span class="string"><span class="region">"&lt;a href=\""</span></span><span class="region"> (</span><span class="type"><span class="region">link</span></span><span class="default"><span class="region">/</span></span><span class="region">link context </span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">users</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">index</span></span><span class="region">) </span><span class="string"><span class="region">"\"&gt;/users&lt;/a&gt;&lt;br/&gt;"</span></span><span class="region">
+ 28                             </span><span class="string"><span class="region">"&lt;a href=\""</span></span><span class="region"> (</span><span class="type"><span class="region">link</span></span><span class="default"><span class="region">/</span></span><span class="region">link context </span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">snippets</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">index</span></span><span class="region">) </span><span class="string"><span class="region">"\"&gt;/snippets&lt;/a&gt;&lt;br/&gt;"</span></span><span class="region">
+ 29                             </span><span class="string"><span class="region">"&lt;a href=\""</span></span><span class="region"> (</span><span class="type"><span class="region">link</span></span><span class="default"><span class="region">/</span></span><span class="region">link context </span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">auth</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">login</span></span><span class="region">) </span><span class="string"><span class="region">"\"&gt;/login&lt;/a&gt;&lt;br/&gt;"</span></span><span class="region">
+ 30                             </span><span class="string"><span class="region">"&lt;a href=\""</span></span><span class="region"> (</span><span class="type"><span class="region">link</span></span><span class="default"><span class="region">/</span></span><span class="region">link context </span><span class="clojure-keyword"><span class="region">:home</span></span><span class="region">) </span><span class="string"><span class="region">"\"&gt;/&lt;/a&gt;"</span></span><span class="region">)}}))}))
+ 31
+ 32 (</span><span class="keyword"><span class="region">defroutes</span></span><span class="region">
+ </span><span class="function-name"><span class="region">33</span></span><span class="region">   routes
+ 34   [[[</span><span class="string"><span class="region">"/"</span></span><span class="region">
+ 35      ^</span><span class="clojure-keyword"><span class="region">:interceptors</span></span><span class="region"> [</span><span class="type"><span class="region">auth</span></span><span class="default"><span class="region">/</span></span><span class="region">with-auth
+ 36                      (</span><span class="type"><span class="region">breadcrumb</span></span><span class="default"><span class="region">/</span></span><span class="region">add-breadcrumb </span><span class="string"><span class="region">"Home"</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:home</span></span><span class="region">)
+ 37                      (</span><span class="type"><span class="region">html</span></span><span class="default"><span class="region">/</span></span><span class="region">for-html 404 (constantly </span><span class="string"><span class="region">"Not found"</span></span><span class="region">))
+ 38
+ 39                      (</span><span class="type"><span class="region">edn</span></span><span class="default"><span class="region">/</span></span><span class="region">for-edn (</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [context]
+ 40                                     {</span><span class="clojure-keyword"><span class="region">:data</span></span><span class="region"> (get-in context [</span><span class="clojure-keyword"><span class="region">:response</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:data</span></span><span class="region">])
+ 41                                      </span><span class="clojure-keyword"><span class="region">:breadcrumbs</span></span><span class="region"> (</span><span class="clojure-keyword"><span class="region">:breadcrumbs</span></span><span class="region"> context)}))]
+ 42
+ 43      {</span><span class="clojure-keyword"><span class="region">:get</span></span><span class="region"> [</span><span class="clojure-keyword"><span class="region">:home</span></span><span class="region">  home]}</span>
+...</pre>
+
+
+<p>
+There are 3 things to note here. First there is the <a href="https://github.com/pedestal/pedestal/blob/master/guides/documentation/service-routing.md">routing table</a>
+called 'routes' defined by 'defroutes'. It says that a GET request to
+the url "/" should be handled by the 'home' interceptor. The home interceptor returns a very crude HTML response
+with 4 links in it. The routing table also shows 4 other interceptors
+that are in the interceptor chain before the home interceptor, but these are not
+important for now. The routing table also shows that it supports
+bi-directional routing and link generation. The "/" route is
+called :home. This same route is referred to in the home interceptor
+to create a link that points to http://localhost:8080/ at line 30.</p>
+
+<p>Bi-directional routing and link generation is nice because with it
+  you don't need to create links by concatenating strings.</p>
+
+<p>When you change something in the home interceptor,
+  for instance by replacing "Hello world" with something else, you
+  will see it in the browser when you refresh the page at <a href="http://localhost:8080">http://localhost:8080</a>.</p>
+
+<p class="sidebar">More info on the routing
+  table: <a href="https://github.com/pedestal/pedestal/blob/master/guides/documentation/service-routing.md">Routing</a>.
+  More info on interceptors: <a href="https://github.com/pedestal/pedestal/blob/master/guides/documentation/service-interceptors.md">Pedestal interceptors
+  documentation</a>. A comparison between Ring and Pedestal by <a href="http://frankiesardo.github.io/posts/2014-12-15-give-pedestal-another-chance.html">Frankie Sardo</a></p>
+
+<h2><a class="toc-link" name="w3a-basics" href="#toc">w3a basics</a></h2>
+<p>Snippetlist is a simple CRUD application. CRUD stands for
+Create-Read-Update-Delete. The simplest part of that is the read part.
+An example of a page that is only the read part is the page that shows all
+the users in the application. This page is
+  at <a href="http://localhost:8080/users">http://localhost:8080/users</a>.
+  This page shows all the users in the system, which will be only the
+  users Amy and Bob that have been inserted into the database as
+  fixtures. The page lists the users and the links to all the code
+  snippets they have in the database. The users page also has some
+  basic HTML markup in the form of a page header, a box in the top
+  right corner that show the currently logged in user or a link to
+  login, and a breadcrumb bar with links to other parts of the application.</p>
+
+<p>The users page uses interceptors and other helpers from the w3a
+  library to build a user facing web application on top of Pedestal.
+  The w3a library aims to help to get an application to a version that
+  you can click through quickly. The idea is that when you have all
+  the data and functionality available, you can then add the markup
+  and other fancier features at a later time.</p>
+
+<p>To make an application you can click through you need links. For
+  the application to be interesting you also need data. A piece of
+  data with links with it can be called a resource. On the users page
+  there are two user resources: the user Amy and Bob. The user
+  resources consist of data from the database and links, which are
+  mostly generated based on the data. Links on a
+  resource aren't just for navigation, they can also tell you
+  something about a resource. For example, maybe a resource has a link
+  to an edit page when you are logged in as that user. (In the snippetlist
+  application you can see that in action on a particular snippet
+  page, if you are also logged in as either Amy or Bob.)</p>
+
+<p>Another helper to make the application click throughable quickly is
+  the breadcrumb bar. The breadcrumb bar contains a link to the Home
+  page and the current Users page. If you click on the user page
+  for <a href="http://localhost:8080/users/1">Amy</a>, you'll see 3
+  links in the breadcrumb bar, including a link back to the users
+  page. The breadcrumb bar is build by adding the
+  breadcrumb/add-breadcrumb interceptors to the Pedestal routing table.</p>
+
+<p>Lets look at how you create this page with w3a:</p>
+<p>
+<a href="https://github.com/thegeez/snippetlist/blob/master/src/clj/net/thegeez/snippetlist/service.clj#L55-L60">src/clj/net/thegeez/snippetlist/service.clj:55-60</a>
+    </p><pre>
+<span class="region"> 55      [</span><span class="string"><span class="region">"/users"</span></span><span class="region">
+ 56       ^</span><span class="clojure-keyword"><span class="region">:interceptors</span></span><span class="region"> [(</span><span class="type"><span class="region">breadcrumb</span></span><span class="default"><span class="region">/</span></span><span class="region">add-breadcrumb </span><span class="string"><span class="region">"Users"</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">users</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">index</span></span><span class="region">)]
+ 57       {</span><span class="clojure-keyword"><span class="region">:get</span></span><span class="region">
+ 58        [</span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">users</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">index</span></span><span class="region">
+ 59         ^</span><span class="clojure-keyword"><span class="region">:interceptors</span></span><span class="region"> [(</span><span class="type"><span class="region">html</span></span><span class="default"><span class="region">/</span></span><span class="region">for-html 200 </span><span class="type"><span class="region">users.view</span></span><span class="default"><span class="region">/</span></span><span class="region">html-render-index)]
+ 60         </span><span class="type"><span class="region">users</span></span><span class="default"><span class="region">/</span></span><span class="region">index]}</span></pre>
+
+<p><a href="https://github.com/thegeez/snippetlist/blob/master/src/clj/net/thegeez/snippetlist/users.clj#L7-L28">src/clj/net/thegeez/snippetlist/users.clj:7-28</a>
+      </p><pre>
+<span class="region"> 7 (</span><span class="keyword"><span class="region">defn</span></span><span class="region"> </span><span class="function-name"><span class="region">user-resource</span></span><span class="region"> [context data]
+ 8   (</span><span class="keyword"><span class="region">let</span></span><span class="region"> [{</span><span class="clojure-keyword"><span class="region">:keys</span></span><span class="region"> [id]} data]
+ 9     (</span><span class="keyword"><span class="region">-&gt;</span></span><span class="region"> data
+10         (dissoc </span><span class="clojure-keyword"><span class="region">:id</span></span><span class="region">)
+11         (assoc-in [</span><span class="clojure-keyword"><span class="region">:links</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:self</span></span><span class="region">] (</span><span class="type"><span class="region">link</span></span><span class="default"><span class="region">/</span></span><span class="region">link context </span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">users</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">show</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:params</span></span><span class="region"> {</span><span class="clojure-keyword"><span class="region">:id</span></span><span class="region"> id}))
+12         (update-in [</span><span class="clojure-keyword"><span class="region">:snippets</span></span><span class="region">] (</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [snippets]
+13                                  (map #(</span><span class="type"><span class="region">link</span></span><span class="default"><span class="region">/</span></span><span class="region">link context </span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">snippets</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">show</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:params</span></span><span class="region"> {</span><span class="clojure-keyword"><span class="region">:id</span></span><span class="region"> (</span><span class="clojure-keyword"><span class="region">:id</span></span><span class="region"> </span><span class="variable-name"><span class="region">%</span></span><span class="region">)}) snippets))))))
+14
+15 (</span><span class="keyword"><span class="region">defn</span></span><span class="region"> </span><span class="function-name"><span class="region">get-users</span></span><span class="region"> [context]
+16   (</span><span class="keyword"><span class="region">-&gt;&gt;</span></span><span class="region"> (</span><span class="type"><span class="region">jdbc</span></span><span class="default"><span class="region">/</span></span><span class="region">query (</span><span class="clojure-keyword"><span class="region">:database</span></span><span class="region"> context) [</span><span class="string"><span class="region">"SELECT id, username, created_at, updated_at FROM users"</span></span><span class="region">])
+17        (map (</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [user]
+18               (assoc user </span><span class="clojure-keyword"><span class="region">:snippets</span></span><span class="region">
+19                      (</span><span class="type"><span class="region">jdbc</span></span><span class="default"><span class="region">/</span></span><span class="region">query (</span><span class="clojure-keyword"><span class="region">:database</span></span><span class="region"> context) [</span><span class="string"><span class="region">"SELECT id FROM snippets WHERE owner=?"</span></span><span class="region"> (</span><span class="clojure-keyword"><span class="region">:id</span></span><span class="region"> user)]))))
+20        (map (partial user-resource context))))
+21
+22 (</span><span class="keyword"><span class="region">def</span></span><span class="region"> </span><span class="variable-name"><span class="region">index</span></span><span class="region">
+23   (</span><span class="type"><span class="region">interceptor</span></span><span class="default"><span class="region">/</span></span><span class="region">interceptor
+24    {</span><span class="clojure-keyword"><span class="region">:enter</span></span><span class="region"> (</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [context]
+25              (merge context
+26                     {</span><span class="clojure-keyword"><span class="region">:response</span></span><span class="region">
+27                      {</span><span class="clojure-keyword"><span class="region">:status</span></span><span class="region"> 200
+28                       </span><span class="clojure-keyword"><span class="region">:data</span></span><span class="region"> {</span><span class="clojure-keyword"><span class="region">:users</span></span><span class="region"> (get-users context)}}}))}))</span></pre>
+  
+
+<p>The users page shows the users in the application. This is all the
+  users/index interceptor returns. This is done by getting the users
+  from the database with get-users and then adding links to the users to make them
+  resources with user-resource. The HTML layout is added by the html/for-html
+  interceptor, defined in the routing table. If you remove the
+  html/for-html interceptor then this code will render an empty page.
+  This is because the response will not have the proper headers added
+  to the response. (These headers are defined explicitly in the home
+  interceptor we saw earlier.) Of course during development you might
+  not have a template function for every page that you're building
+  yet. A handy temporary tool is to use the html/for-html interceptor
+  with a helper template function.</p>
+<pre>
+<span class="region">      [</span><span class="string"><span class="region">"/users"</span></span><span class="region">
+       ^</span><span class="clojure-keyword"><span class="region">:interceptors</span></span><span class="region"> [(</span><span class="type"><span class="region">breadcrumb</span></span><span class="default"><span class="region">/</span></span><span class="region">add-breadcrumb </span><span class="string"><span class="region">"Users"</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">users</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">index</span></span><span class="region">)]
+       {</span><span class="clojure-keyword"><span class="region">:get</span></span><span class="region">
+        [</span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">users</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">index</span></span><span class="region">
+         ^</span><span class="clojure-keyword"><span class="region">:interceptors</span></span><span class="region"> [(</span><span class="type"><span class="region">html</span></span><span class="default"><span class="region">/</span></span><span class="region">for-html 200
+                                        </span><span class="comment-delimiter"><span class="region">;; </span></span><span class="comment"><span class="region">this replaces: users.view/html-render-index
+</span></span><span class="region">                                        (</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [context]
+                                          (</span><span class="keyword"><span class="region">-&gt;</span></span><span class="region"> context
+                                              (select-keys [</span><span class="clojure-keyword"><span class="region">:breadcrumbs</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:response</span></span><span class="region">])
+                                              </span><span class="type"><span class="region">html</span></span><span class="default"><span class="region">/</span></span><span class="region">edn-&gt;html)))]
+         </span><span class="type"><span class="region">users</span></span><span class="default"><span class="region">/</span></span><span class="region">index]}</span></pre>
+<p>This will render all the resources and links in a simple pretty
+  printed text layout.</p>
+
+<p>For the /users page the users/index interceptor is very simple. But it
+  is a goal of w3a to define the functionality of an application in a
+  single place, and therefore to have the gathering of data and link
+  generation together. So
+  you are discouraged from creating links in a templating function. It is better to add a link to a resource in the
+  interceptor for the route and to use this data in the templating function.</p>
+
+<p class="sidebar">An nice introduction to using data and links to make
+  resources is <a href="http://www.infoq.com/articles/webber-rest-workflow">How to GET a cup of coffee</a></p>
+
+<h2><a class="toc-link" name="using-a-database" href="#toc">Using a database</a></h2>
+
+<p>In a web application you probably need a place to save the data,
+  w3a also provides some help for that. Of course there are many
+  different ways to store data, and even more types of databases. w3a
+  has helpers to work with SQL databases, but it does not impose a
+  requirement to use them and you can use however many databases of
+  whatever type you like. The basics in w3a are to get you started
+  and to support getting an application running on Heroku, which
+  happens to provide a free PostgreSQL database.</p>
+
+<p>When you use a database you'll quickly need a way to migrate
+  databases to whatever new version you create. It is also handy to
+  have a way to create fixtures, which is data you can use while
+  developing or testing the application. w3a provides components for
+  migrations, fixtures and database access to an SQL database.</p>
+
+<p>The w3a component supports uses an embedded database when passing a
+<a href="http://db.apache.org/derby/">Derby</a> connection string, and
+  <a href="http://www.postgresql.org/">PostgreSQL</a> when passed a
+  postgres url. Using an embedded database can be useful for testing
+  and development. The connection strings are in the <a href="http://clojure.github.io/java.jdbc/#clojure.java.jdbc/get-connection">jdbc connection string</a> format.
+  The database configuration that Heroku uses also works with the
+  database component.</p>
+
+<p>The components all work with the <a href="https://github.com/stuartsierra/component">Component</a> library. To see how the database components are setup and configured, see
+  the
+  files <a href="https://github.com/thegeez/snippetlist/blob/master/dev/user.clj#L48">dev/user.clj</a>
+  and <a href="https://github.com/thegeez/snippetlist/blob/master/src/clj/net/thegeez/snippetlist/core.clj#L24">src/clj/net/thegeez/snippetlist/core.clj</a>. This should
+  also be the starting point to see what your own components should
+  look like if you add a different database.</p>
+
+<p>As could be seen in the users page example, snippetlist uses
+  <a href="https://github.com/clojure/java.jdbc">clojure.java.jdbc</a>
+  to access the database. Clojure.java.jdbc is great for SQL query
+  access and transforms all data into Clojure datastructures. I prefer
+  this over using an ORM-ish DSL, but you can easily use whatever
+  database access library you like instead. As can be seen in the code for the users
+  page, a reference to the database to use with clojure.java.jdbc is
+  part of the context that is passed to every interceptor.</p>
+
+<h2><a class="toc-link" name="context-context-everywhere" href="#toc">Context, context everywhere</a></h2>
+
+<p>In Pedestal everything goes through interceptors,
+  which take the context as an argument.
+  This <a href="https://github.com/pedestal/pedestal/blob/master/guides/documentation/service-context-reference.md">context</a>
+  consists of the request, response and other user defined content.
+  Also the references to the database and other components are
+  available through the context.</p>
+
+<p>Apart from passing the context to
+  all the interceptors, the context is also passed to almost every
+  helper function in the w3a library. You could argue that this is not much better than global objects or injected bindings everywhere, but I prefer it as I always end up
+  needing just a little part of the context somewhere deep down in the
+  composition. The biggest example of this is the creation of <a href="https://github.com/thegeez/w3a/blob/master/src/net/thegeez/w3a/link.clj#L7">links</a> with the w3a library taking the context as an argument. In
+  Pedestal the context is not passed as an argument to the link
+  building fuction, instead the
+  routing table is available there as a binding.</p>
+
+<p class="sidebar">The idea of accumulating data and resources such as
+  databases as a request goes through
+  interceptors, handlers or middleware comes from both Ring and <a href="http://clojure-liberator.github.io/liberator/">Liberator</a></p>
+
+<h2><a class="toc-link" name="the-common-html-flow" href="#toc">The common HTML flow</a></h2>
+
+<p>The w3a library is meant to specifically support user facing web
+  applications. This means that the end user will use the application
+  through a browser. It would also be nice to support more API-like
+  access. Perhaps users won't use a command line to access the
+  application, but maybe some functionality needs to be available via
+  JavaScript/AJAX access.</p>
+
+<p>Sadly, the common behavior a user expects from a webpage in a browser and the
+  common way to create API access are not always aligned. For instance
+  when a users creates a new snippet in the snippetlist application,
+  the users expects to be automatically redirected to the newly
+  created snippet page. But for API access perhaps returning a '201
+  Created' response is more appropriate.</p>
+
+<p>In w3a all the code is written as if the data will be accessed in
+  an API style. So for instance the interceptors that creates a new
+  snippet returns:</p>
+<p><a href="https://github.com/thegeez/snippetlist/blob/master/src/clj/net/thegeez/snippetlist/snippets.clj#L160-L163">src/clj/net/thegeez/snippetlist/snippets.clj:160-163</a>
+</p><pre>
+<span class="region">160                             {</span><span class="clojure-keyword"><span class="region">:response</span></span><span class="region">
+161                              {</span><span class="clojure-keyword"><span class="region">:status</span></span><span class="region"> 201
+162                               </span><span class="clojure-keyword"><span class="region">:headers</span></span><span class="region"> {</span><span class="string"><span class="region">"Location"</span></span><span class="region"> location}
+163                               </span><span class="clojure-keyword"><span class="region">:flash</span></span><span class="region"> {</span><span class="clojure-keyword"><span class="region">:info</span></span><span class="region"> </span><span class="string"><span class="region">"Snippet inserted"</span></span><span class="region">}}}</span></pre>
+<p>When this code is accessed through a browser requesting HTML, then
+  w3a will transform the response into a '303 See other' redirect instead. This
+  transformation is done for '201 Created', '204 No content' (after a
+  successful update), '401 Not authenticated' (redirects to login) and
+  '403 Not authorized' (redirects to login) responses. Also, when an
+  update to a resource fails, for instance when a form doesn't
+  validate, the response code 422 will be a 200 for browsers instead
+  (with the page rendered again with some error messages).</p>
+
+<p>
+A redirect does not inform the user about what happened. A common way
+to tell a user what just happened is through a 'flash' message. This
+is supported in w3a by putting a :flash key on the response. When a
+user inserts a snippet, the user is redirected to the list of snippets
+and the user sees a blue box with the flash message saying: "Snippet
+inserted". Flash messages are only shown once. When the page is
+refreshed the flash message will be gone.</p>
+
+<p class="sidebar">The <a href="#testing">testing</a> section show how the snippetlist code
+  behaves when accessed through a browser requesting HTML as well as
+  through an API requesting EDN.</p>
+
+<h2><a class="toc-link" name="forms" href="#toc">Forms</a></h2><h2>
+
+</h2><p>For users to create or update something in a CRUD application in
+  the browser, you will need forms. w3a provides helpers to work with
+  forms.</p>
+
+<p>If you login as Amy on the snippetlist application you can
+  create and edit snippets through a form. Login first
+  at <a href="http://localhost:8080/login">http://localhost:8080/login</a> and then go to
+  <a href="http://localhost:8080/snippets">http://localhost:8080/snippets</a>
+  to select a snippet to edit or to create a new one.</p>
+
+<p><a href="https://github.com/thegeez/snippetlist/blob/master/src/clj/net/thegeez/snippetlist/snippets.clj#L86-L107">src/clj/net/thegeez/snippetlist/snippets.clj:86-107</a>
+  </p><pre>
+<span class="region"> 86 (</span><span class="keyword"><span class="region">def</span></span><span class="region"> </span><span class="variable-name"><span class="region">snippet-form</span></span><span class="region">
+ 87   [{</span><span class="clojure-keyword"><span class="region">:id</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:owner_username</span></span><span class="region">
+ 88     </span><span class="clojure-keyword"><span class="region">:label</span></span><span class="region"> </span><span class="string"><span class="region">"Owner"</span></span><span class="region">
+ 89     </span><span class="clojure-keyword"><span class="region">:type</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:static</span></span><span class="region">}
+ 90    {</span><span class="clojure-keyword"><span class="region">:id</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:code</span></span><span class="region">
+ 91     </span><span class="clojure-keyword"><span class="region">:label</span></span><span class="region"> </span><span class="string"><span class="region">"Code"</span></span><span class="region">
+ 92     </span><span class="clojure-keyword"><span class="region">:type</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:string</span></span><span class="region">
+ 93     </span><span class="clojure-keyword"><span class="region">:validator</span></span><span class="region"> (</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [code]
+ 94                  (</span><span class="keyword"><span class="region">when</span></span><span class="region"> (not (seq code))
+ 95                    </span><span class="string"><span class="region">"Code can't be empty"</span></span><span class="region">))}
+ 96    {</span><span class="clojure-keyword"><span class="region">:id</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:quality</span></span><span class="region">
+ 97     </span><span class="clojure-keyword"><span class="region">:label</span></span><span class="region"> </span><span class="string"><span class="region">"Quality"</span></span><span class="region">
+ 98     </span><span class="clojure-keyword"><span class="region">:type</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:checkbox</span></span><span class="region">
+ 99     </span><span class="clojure-keyword"><span class="region">:render</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">snippet</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">quality-field</span></span><span class="region">
+100     </span><span class="clojure-keyword"><span class="region">:</span></span><span class="clojure-keyword"><span class="type"><span class="region">render</span></span></span><span class="clojure-keyword"><span class="default"><span class="region">/</span></span></span><span class="clojure-keyword"><span class="region">options</span></span><span class="region"> {</span><span class="clojure-keyword"><span class="region">:fast</span></span><span class="region"> </span><span class="string"><span class="region">"Fast"</span></span><span class="region">
+101                      </span><span class="clojure-keyword"><span class="region">:good</span></span><span class="region"> </span><span class="string"><span class="region">"Good"</span></span><span class="region">
+102                      </span><span class="clojure-keyword"><span class="region">:cheap</span></span><span class="region"> </span><span class="string"><span class="region">"Cheap"</span></span><span class="region">}
+103     </span><span class="clojure-keyword"><span class="region">:coerce</span></span><span class="region"> (</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [value]
+104               (set (keys value)))
+105     </span><span class="clojure-keyword"><span class="region">:validator</span></span><span class="region"> (</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [quality]
+106                  (</span><span class="keyword"><span class="region">when</span></span><span class="region"> (= (count quality) 3)
+107                    </span><span class="string"><span class="region">"Sorry, you can only select up to 2 qualities"</span></span><span class="region">))}])</span></pre>
+  
+
+
+<p>The form definition above serves two purposes: it can be used to
+  generate an HTML form from (see <a href="https://github.com/thegeez/snippetlist/blob/master/src/clj/net/thegeez/snippetlist/snippets/view.clj#L108-L112">src/clj/net/thegeez/snippetlist/snippets/view.clj:108-112</a>) and it can be
+  used to parse and validate incoming request from pages where the
+  page was displayed
+  (see <a href="https://github.com/thegeez/snippetlist/blob/master/src/clj/net/thegeez/snippetlist/service.clj#L79">src/clj/net/thegeez/snippetlist/service.clj:79</a>). It
+  also support rendering a form with error
+  messages in case the validation failed.</p>
+
+<p>When form validation fails in w3a the data from the form parsing
+  will have an :error key in it. In w3a it is common to render a form
+  that failed validation again with the 422 status code. (see
+  <a href="https://github.com/thegeez/snippetlist/blob/master/src/clj/net/thegeez/snippetlist/snippets.clj#L126-L134">src/clj/net/thegeez/snippetlist/snippets.clj:126-134</a>). If you have more
+  elaborate validations, such as checking that something doesn't
+  already exist in the database or checking that two input fields
+  make sense together, you can do so in the route handler. This is
+  also the place you could add extra error messages to the form data
+  when you want to re-render to form again.</p>
+
+<p>Currently w3a support only a couple of types of form inputs. But
+  this system is extensible through the use of multimethods. (see <a href="https://github.com/thegeez/snippetlist/blob/master/src/clj/net/thegeez/snippetlist/snippets/view.clj#L78">clj/net/thegeez/snippetlist/snippets/view.clj:78</a>)</p>
+
+<p class="sidebar">In larger web frameworks often the form generation is coupled to the
+definition of models, which are usually coupled
+to the storage in the database as well. In w3a the definition of forms
+is separate, as it is in other micro frameworks such as <a href="http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms">Flask</a> (for
+Python) and <a href="https://go-macaron.com/docs/middlewares/binding">Macaron</a> (for Go)</p>
+
+<h2><a class="toc-link" name="templates-with-enlive" href="#toc">Templates with Enlive</a></h2>
+
+<p>HTML pages in w3a are generated with <a href="https://github.com/cgrand/enlive">Enlive</a>. Enlive combines plain
+  HTML pages with data and merges the two together, without having to
+  add new syntax into the HTML pages and by passing along all the
+  data explicitly.</p>
+
+<p>Enlive is a bit different from other templating systems. Its
+  selector based approach might take a while to get used to, but it is
+  worth it to learn because it is also useful for testing with the
+  kerodon library. You can use other
+  templating libraries with w3a as well. The w3a form helpers return
+  <a href="https://github.com/weavejester/hiccup">Hiccup</a> compatible structures.</p>
+
+<p class="sidebar">Enlive tutorials are available at: <a href="https://github.com/cgrand/enlive">Enlive</a></p>
+
+<h2><a class="toc-link" name="testing" href="#toc">Testing</a></h2>
+
+<p>As said before, w3a applications are meant to be used by a user through a browser
+  as well as through API access. To test whether the application does
+  what you want it to,
+  the <a href="https://github.com/xeqi/kerodon">kerodon</a> and <a href="https://github.com/xeqi/peridot">peridot</a> libraries can be used.</p>
+
+<p>With <a href="https://github.com/xeqi/kerodon">kerodon</a> you can test the HTML flow of the application. As you would when using a browser, you can follow links, fill in
+  forms and press buttons. For each page that gets rendered, you can check if the page
+  has all the elements you expect it to have. kerodon doesn't launch
+  an actual browser to run the tests, it works by making request to
+  the application and parsing the responses. For inspecting the
+  responses kerodon uses Enlive to find elements in the returned HTML.</p>
+<p>A piece of the kerodon test for snippetlist from <a href="https://github.com/thegeez/snippetlist/blob/master/test/net/thegeez/snippetlist/html.clj#L11-L24">test/net/thegeez/snippetlist/html.clj:11-24</a>
+      </p><pre>
+<span class="region">11 (</span><span class="keyword"><span class="region">deftest</span></span><span class="region"> </span><span class="function-name"><span class="region">snippet</span></span><span class="region">
+12   (</span><span class="keyword"><span class="region">-&gt;</span></span><span class="region"> (</span><span class="type"><span class="region">k</span></span><span class="default"><span class="region">/</span></span><span class="region">session (</span><span class="type"><span class="region">test-core</span></span><span class="default"><span class="region">/</span></span><span class="region">ring-handler))
+13       (</span><span class="type"><span class="region">p</span></span><span class="default"><span class="region">/</span></span><span class="region">header </span><span class="string"><span class="region">"Accept"</span></span><span class="region"> </span><span class="string"><span class="region">"text/html"</span></span><span class="region">)
+14       (</span><span class="type"><span class="region">k</span></span><span class="default"><span class="region">/</span></span><span class="region">visit </span><span class="string"><span class="region">"/"</span></span><span class="region">)
+15       (follow </span><span class="string"><span class="region">"/snippets"</span></span><span class="region">)
+16       (</span><span class="type"><span class="region">k</span></span><span class="default"><span class="region">/</span></span><span class="region">within [</span><span class="clojure-keyword"><span class="region">:#content</span></span><span class="region">]
+17                 (</span><span class="type"><span class="region">t</span></span><span class="default"><span class="region">/</span></span><span class="region">has (</span><span class="type"><span class="region">t</span></span><span class="default"><span class="region">/</span></span><span class="region">link? </span><span class="string"><span class="region">"http://testhost:-1/snippets/new"</span></span><span class="region">))
+18                 (</span><span class="type"><span class="region">t</span></span><span class="default"><span class="region">/</span></span><span class="region">has (</span><span class="type"><span class="region">t</span></span><span class="default"><span class="region">/</span></span><span class="region">link? </span><span class="string"><span class="region">"http://testhost:-1/snippets/1"</span></span><span class="region">))
+19                 (</span><span class="type"><span class="region">t</span></span><span class="default"><span class="region">/</span></span><span class="region">has (</span><span class="type"><span class="region">t</span></span><span class="default"><span class="region">/</span></span><span class="region">link? </span><span class="string"><span class="region">"http://testhost:-1/snippets/2"</span></span><span class="region">)))
+20       (follow </span><span class="string"><span class="region">"http://testhost:-1/snippets/new"</span></span><span class="region">)
+21       (</span><span class="type"><span class="region">k</span></span><span class="default"><span class="region">/</span></span><span class="region">follow-redirect)
+22       (at? </span><span class="string"><span class="region">"/login"</span></span><span class="region">)
+23       (</span><span class="type"><span class="region">k</span></span><span class="default"><span class="region">/</span></span><span class="region">within [</span><span class="clojure-keyword"><span class="region">:div#flash-info</span></span><span class="region">]
+24                 (</span><span class="type"><span class="region">t</span></span><span class="default"><span class="region">/</span></span><span class="region">has (</span><span class="type"><span class="region">t</span></span><span class="default"><span class="region">/</span></span><span class="region">text? </span><span class="string"><span class="region">"You need to be logged in for that action."</span></span><span class="region">)))</span></pre>
+
+
+<p>For testing the API access to a w3a application you can use
+  <a href="https://github.com/xeqi/peridot">peridot</a> (which is used internally by kerodon as well). You can
+  specify the requests to the application and test the responses
+  again, which are now EDN data instead of HTML forms and pages.</p>
+
+<p>A piece of the peridot test for snippetlist
+  from <a href="https://github.com/thegeez/snippetlist/blob/master/test/net/thegeez/snippetlist/edn.clj#L43-L58">test/net/thegeez/snippetlist/edn.clj:43-58</a>
+      </p><pre>
+<span class="region"> 43    (</span><span class="keyword"><span class="region">-&gt;</span></span><span class="region"> res
+ 44        (</span><span class="type"><span class="region">p</span></span><span class="default"><span class="region">/</span></span><span class="region">request create
+ 45                   </span><span class="clojure-keyword"><span class="region">:request-method</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:post</span></span><span class="region">
+ 46                   </span><span class="clojure-keyword"><span class="region">:params</span></span><span class="region"> ^</span><span class="clojure-keyword"><span class="region">:edn</span></span><span class="region">
+ 47                   {</span><span class="clojure-keyword"><span class="region">:snippet</span></span><span class="region">
+ 48                    {</span><span class="clojure-keyword"><span class="region">:code</span></span><span class="region"> </span><span class="constant"><span class="region">nil</span></span><span class="region">
+ 49                     </span><span class="clojure-keyword"><span class="region">:quality</span></span><span class="region">
+ 50                     {</span><span class="clojure-keyword"><span class="region">:fast</span></span><span class="region"> </span><span class="constant"><span class="region">true</span></span><span class="region">
+ 51                      </span><span class="clojure-keyword"><span class="region">:cheap</span></span><span class="region"> </span><span class="constant"><span class="region">true</span></span><span class="region">
+ 52                      </span><span class="clojure-keyword"><span class="region">:good</span></span><span class="region"> </span><span class="constant"><span class="region">true</span></span><span class="region">}}})
+ 53        ((</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [res]
+ 54           (is (= (</span><span class="keyword"><span class="region">-&gt;</span></span><span class="region"> res </span><span class="clojure-keyword"><span class="region">:response</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:status</span></span><span class="region">) 422))
+ 55           (is (= (get-in res [</span><span class="clojure-keyword"><span class="region">:response</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:edn</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:data</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:snippet</span></span><span class="region"> </span><span class="clojure-keyword"><span class="region">:errors</span></span><span class="region">])
+ 56                  {</span><span class="clojure-keyword"><span class="region">:code</span></span><span class="region"> [</span><span class="string"><span class="region">"Code can't be empty"</span></span><span class="region">]
+ 57                   </span><span class="clojure-keyword"><span class="region">:quality</span></span><span class="region"> [</span><span class="string"><span class="region">"Sorry, you can only select up to 2 qualities"</span></span><span class="region">]}))
+ 58           res))</span></pre>
+
+
+<p>Both kerodon and peridot are designed to work with the <a href="http://clojure.github.io/clojure/clojure.core-api.html#clojure.core/-%3E">-&gt; (thread
+  first macro)</a>. With this every step is either an action to go
+  from the current browsing state to the next one or a check to test
+  something. If you get stuck with either kerodon or peridot, a
+  useful trick is to insert this code somewhere:
+      </p><pre>
+<span class="region">(</span><span class="keyword"><span class="region">-&gt;</span></span><span class="region"> ..some actions &amp; checks...
+    ((</span><span class="keyword"><span class="region">fn</span></span><span class="region"> [state]
+       (println </span><span class="string"><span class="region">"The state is now: "</span></span><span class="region"> (pr-str state))
+       (println </span><span class="string"><span class="region">"With kerodon the Enlive selection
+is now:"</span></span><span class="region"> (</span><span class="clojure-keyword"><span class="region">:enlive</span></span><span class="region"> state))
+       state))
+    .. the next actions &amp; checks ...)</span></pre>
+
+
+<p>Both kerodon and peridot work
+  with <a href="https://clojure.github.io/clojure/clojure.test-api.html">clojure.test</a>
+  so they can both easily
+  be used in a test suite and they also support using testing fixtures.</p>
+
+<h2><a class="toc-link" name="running-on-heroku" href="#toc">Running on Heroku</a></h2>
+
+<p>The snippetlist repo contains everything required to run
+  on <a href="https://heroku.com">Heroku</a>. Heroku is a cloud
+  application hosting provider, with a free option for hobby
+  projects. The snippetlist requires a database, which can be added
+  to the applicaiton with:
+  </p><pre>heroku addons:create heroku-postgresql:hobby-dev</pre>
+<p>
+  You'll also need to configure the cookie key:
+  </p><pre>heroku config:set COOKIE_KEY="SOME16CHARSTRING"</pre>
+<p>After the database has been added to the Heroku application, you'll
+  need to run the migrations and fixtures to fill the database with
+  the required tables and some test data to play with.</p>
+
+<p>Migrate the database with:
+  </p><pre>heroku run lein run -m net.thegeez.snippetlist.main/database-migrate</pre>
+<p>Insert the fixtures with:
+</p><pre>heroku run lein run -m net.thegeez.snippetlist.main/database-fixtures</pre>
+
+
+<p class="sidebar">A tutorial to run Clojure applications on Heroku is
+  <a href="https://devcenter.heroku.com/articles/clojure-web-application#deploy">here</a>.</p>
+
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>
