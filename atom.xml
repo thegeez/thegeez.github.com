@@ -4,12 +4,39 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2015-10-26T15:22:36Z</updated>
+ <updated>2016-02-15T18:07:41Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Pedestal and w3a walkthrough: Build a CRUD app
+  with Clojure</title>
+   <link href="http://thegeez.github.com/2016/02/15/w3a_pedestal_walkthrough.html" />
+   <updated>2016-02-15T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2016/02/15/w3a_pedestal_walkthrough.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Pedestal and w3a walkthrough: Build a CRUD app
+  with Clojure&lt;/h1&gt;
+
+&lt;p&gt;This is a walkthrough on how to build a complete user facing web
+  application with Clojure on top
+  of &lt;a href="http://pedestal.io"&gt;Pedestal&lt;/a&gt;, with the help of the
+  &lt;a href="https://github.com/thegeez/w3a"&gt;w3a&lt;/a&gt; library. I have made various attempts at building web
+  applications with Pedestal and/or Clojure before. (such as
+  &lt;a href="http://thegeez.net/2014/04/30/datascript_clojure_web_app.html"&gt;here&lt;/a&gt;,
+  &lt;a href="http://thegeez.net/2015/05/16/w3a_web_application_pedestal.html"&gt;here&lt;/a&gt;
+  and &lt;a href="http://thegeez.net/2015/10/12/gatherlist_pedestal_oauth.html"&gt;here&lt;/a&gt;) The current version is good and useful enough to
+  make a guide for and hopefully serve as a starting point for other
+  Clojure web applications.&lt;/p&gt;
+
+&lt;p&gt;For me a complete user facing web application should have a
+  database, templating, forms, authentication and authorization. And
+  for development I like to get something I can click through as soon
+  as possible, as well as having a dynamic development process from
+  the REPL.&lt;/p&gt;
+
+&lt;a href="2016/02/15/w3a_pedestal_walkthrough.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Gatherlist: combining Pedestal &amp; OAuth</title>
    <link href="http://thegeez.github.com/2015/10/12/gatherlist_pedestal_oauth.html" />
    <updated>2015-10-12T23:00:00Z</updated>
