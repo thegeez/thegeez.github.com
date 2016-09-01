@@ -4,12 +4,26 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2016-02-15T18:07:41Z</updated>
+ <updated>2016-09-01T17:06:43Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Pedestal presentation and example app</title>
+   <link href="http://thegeez.github.com/2016/09/01/pedestal_presentation_video_app.html" />
+   <updated>2016-09-01T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2016/09/01/pedestal_presentation_video_app.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Pedestal presentation and example app&lt;/h1&gt;
+
+&lt;p&gt;At the &lt;a href="http://www.ticketbase.com/events/dutch-clojure-days-2016"&gt;Dutch Clojure Days&lt;/a&gt; 2016 in Amsterdam I gave a presentation on building
+  user facing web applications with Pedestal. The video for it is
+  below:&lt;/p&gt;
+
+ &lt;iframe allowfullscreen="allowfullscreen" frameborder="0" src="https://www.youtube.com/embed/4BMGlELVW20" height="315" width="560"&gt;&lt;/iframe&gt;
+
+ &lt;a href="2016/09/01/pedestal_presentation_video_app.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Pedestal and w3a walkthrough: Build a CRUD app
   with Clojure</title>
    <link href="http://thegeez.github.com/2016/02/15/w3a_pedestal_walkthrough.html" />
