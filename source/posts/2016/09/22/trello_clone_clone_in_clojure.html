@@ -1,0 +1,44 @@
+<h1 id="post-title">Trello clone clone in Clojure</h1>
+
+<p>The <a href="https://github.com/bigardone/phoenix-trello">Phoenix-Trello</a>
+  project is a Trello clone build with Elixir, Pheonix and
+  React. I like the dragging cards interface in Trello, so I made a
+  Trello clone clone in Clojure.</p>
+
+<p>The code for the Clojure version is on GitHub: <a href="https://github.com/thegeez/clj-board">thegeez/clj-board</a>. The example is
+  running on Heroku: <a href="https://clj-board.herokuapp.com">https://clj-board.herokuapp.com</a></p>
+
+<p>There are two pieces for this project that were interesting to see
+  how well they would work in Clojure. The first is combining Drag and
+  Drop support with React in ClojureScript. The second is to structure
+  the front-end following the Redux/Flux approach.</p>
+
+<p>The Drag and Drop support comes from
+  the <a href="https://github.com/gaearon/react-dnd">React DnD</a>
+  library. The interop support in <a href="https://reagent-project.github.io/">Reagent</a> works good enough to make it
+  work in ClojureScript.</p>
+
+<p>The Phoenix-Trello project uses a Redux/Flux approach to organizing
+  the React front-end. In <a href="https://github.com/reactjs/redux">Redux</a> there is a single source of
+  state in the application. This is similar to how most ClojureScript
+  React libraries work, such as Om and Reagent. However with Redux
+  the rendering code is expressed as always rendering the whole
+  state. Most ClojureScript React libraries have optimisations to only
+  update parts of the interface when sub-parts of the state
+  change. It turns out that using the Redux approach also works good
+  enough for this project. The optimalisations and extra complexity
+  in ClojureScript React libraries turned out to not be needed for
+  this project. The single
+  state in this project is build around <a href="https://github.com/Day8/re-frame">re-frame</a>, but using only a
+  single subscription instead of multiple more fine-grained state observers.</p>
+
+<p>GitHub: <a href="https://github.com/thegeez/clj-board">thegeez/clj-board</a>
+  Demo: <a href="https://clj-board.herokuapp.com">https://clj-board.herokuapp.com</a></p>
+<img src="https://raw.githubusercontent.com/thegeez/clj-board/master/resources/screenshot/cljboard-board.png"
+     style="border: 1px solid black">
+
+<img src="https://raw.githubusercontent.com/thegeez/clj-board/master/resources/screenshot/cljboard-card.png"
+     style="border: 1px solid black">
+
+<img src="https://raw.githubusercontent.com/thegeez/clj-board/master/resources/screenshot/cljboard-drag.png"
+     style="border: 1px solid black">
