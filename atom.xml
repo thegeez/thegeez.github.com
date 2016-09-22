@@ -4,12 +4,28 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2016-09-01T17:06:43Z</updated>
+ <updated>2016-09-22T13:13:37Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Trello clone clone in Clojure</title>
+   <link href="http://thegeez.github.com/2016/09/22/trello_clone_clone_in_clojure.html" />
+   <updated>2016-09-22T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2016/09/22/trello_clone_clone_in_clojure.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Trello clone clone in Clojure&lt;/h1&gt;
+
+&lt;p&gt;The &lt;a href="https://github.com/bigardone/phoenix-trello"&gt;Phoenix-Trello&lt;/a&gt;
+  project is a Trello clone build with Elixir, Pheonix and
+  React. I like the dragging cards interface in Trello, so I made a
+  Trello clone clone in Clojure.&lt;/p&gt;
+
+&lt;p&gt;The code for the Clojure version is on GitHub: &lt;a href="https://github.com/thegeez/clj-board"&gt;thegeez/clj-board&lt;/a&gt;. The example is
+  running on Heroku: &lt;a href="https://clj-board.herokuapp.com"&gt;https://clj-board.herokuapp.com&lt;/a&gt;&lt;/p&gt;
+
+&lt;a href="2016/09/22/trello_clone_clone_in_clojure.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Pedestal presentation and example app</title>
    <link href="http://thegeez.github.com/2016/09/01/pedestal_presentation_video_app.html" />
    <updated>2016-09-01T23:00:00Z</updated>
