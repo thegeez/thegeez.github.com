@@ -4,12 +4,27 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2016-10-10T09:38:44Z</updated>
+ <updated>2016-12-08T23:04:52Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Parsing with clojure.spec for the Advent of Code</title>
+   <link href="http://thegeez.github.com/2016/12/09/parsing_clojure_spec_advent_of_code.html" />
+   <updated>2016-12-09T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2016/12/09/parsing_clojure_spec_advent_of_code.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Parsing with clojure.spec for the Advent of Code&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href="http://adventofcode.com"&gt;Advent of Code&lt;/a&gt; is a series of
+    code challenges in the form of an advent calender, counting down
+    to Christmas. The challenges have inputs in the form of
+    strings. Clojure.spec can be used to parse those inputs and turn
+    them into useful data. The gist below works through some examples:&lt;/p&gt;
+
+&lt;script src="https://gist.github.com/thegeez/77aee6f0ebcf6a42aa7d893388502e40.js"&gt;&lt;/script&gt;
+</content>
+ </entry><entry>
    <title>Trello clone clone in Clojure</title>
    <link href="http://thegeez.github.com/2016/09/22/trello_clone_clone_in_clojure.html" />
    <updated>2016-09-22T23:00:00Z</updated>
