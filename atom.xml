@@ -4,12 +4,43 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2016-12-08T23:04:52Z</updated>
+ <updated>2017-01-04T18:24:49Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>A wiki made with Clojure, yada and Datomic
+  Client</title>
+   <link href="http://thegeez.github.com/2017/01/04/wiki_clojure_yada_datomic_client.html" />
+   <updated>2017-01-04T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/01/04/wiki_clojure_yada_datomic_client.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;A wiki made with Clojure, yada and Datomic
+  Client&lt;/h1&gt;
+
+&lt;p&gt;At EuroClojure in Bratislava an unconference session was about
+  Clojure and REST. At this
+  session &lt;a href="http://clojure-liberator.github.io/liberator/"&gt;Liberator&lt;/a&gt;
+  and &lt;a href="https://github.com/juxt/yada"&gt;yada&lt;/a&gt; were discussed by their
+  authors. I have used Liberator previously, by not yada. A big
+  difference between the two is that yada is asynchronous. This is
+  useful when making calls to other services while handling a web
+  request.&lt;br /&gt;
+&lt;a href="http://www.datomic.com/"&gt;Datomic&lt;/a&gt; now has a new Client
+API. With the Client API a Datomic database can be accessed as a
+service, in a more idiomatic Clojure style than its old REST API. To
+play around with yada and Datomic Client I made a wiki with it. As a
+bonus the example yada project also
+uses &lt;a href="http://boot-clj.com/"&gt;Boot&lt;/a&gt;, instead of Leiningen as
+its build tool,
+which I had not played around with either.&lt;/p&gt;
+
+&lt;p&gt;The code for clj-wiki is on
+  GitHub: &lt;a href="https://github.com/thegeez/clj-wiki"&gt;https://github.com/thegeez/clj-wiki&lt;/a&gt;&lt;br /&gt;
+  An example wiki is (temporarily) running at &lt;a href="http://wiki.thegeez.net"&gt;http://wiki.thegeez.net&lt;/a&gt;&lt;/p&gt; 
+
+&lt;a href="2017/01/04/wiki_clojure_yada_datomic_client.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Parsing with clojure.spec for the Advent of Code</title>
    <link href="http://thegeez.github.com/2016/12/09/parsing_clojure_spec_advent_of_code.html" />
    <updated>2016-12-09T23:00:00Z</updated>

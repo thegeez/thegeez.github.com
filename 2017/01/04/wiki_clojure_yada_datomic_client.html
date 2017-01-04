@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - A wiki made with Clojure, yada and Datomic
+  Client</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">A wiki made with Clojure, yada and Datomic
+  Client</h1>04 Jan 2017
+
+<p>At EuroClojure in Bratislava an unconference session was about
+  Clojure and REST. At this
+  session <a href="http://clojure-liberator.github.io/liberator/">Liberator</a>
+  and <a href="https://github.com/juxt/yada">yada</a> were discussed by their
+  authors. I have used Liberator previously, by not yada. A big
+  difference between the two is that yada is asynchronous. This is
+  useful when making calls to other services while handling a web
+  request.<br />
+<a href="http://www.datomic.com/">Datomic</a> now has a new Client
+API. With the Client API a Datomic database can be accessed as a
+service, in a more idiomatic Clojure style than its old REST API. To
+play around with yada and Datomic Client I made a wiki with it. As a
+bonus the example yada project also
+uses <a href="http://boot-clj.com/">Boot</a>, instead of Leiningen as
+its build tool,
+which I had not played around with either.</p>
+
+<p>The code for clj-wiki is on
+  GitHub: <a href="https://github.com/thegeez/clj-wiki">https://github.com/thegeez/clj-wiki</a><br />
+  An example wiki is (temporarily) running at <a href="http://wiki.thegeez.net">http://wiki.thegeez.net</a></p> 
+
+<h2>Libraries</h2>
+<p>
+  </p><ul>
+  <li><a href="https://github.com/juxt/yada">yada</a> an async and
+  full http Clojure web library</li>
+  <li><a href="https://github.com/juxt/yada">Edge</a> a yada example
+    web app, including configuration etc.</li>
+  <li><a href="http://www.datomic.com/">Datomic Client</a> a new API
+    to use with Datomic</li>
+  <li><a href="https://simplemde.com/">SimpleMDE</a> a Markdown editor
+    component</li>
+  <li><a href="https://bitbucket.org/cowwoc/google-diff-match-patch/wiki/Home">google-diff-match-patch</a>
+  for diffs and patches</li>
+  </ul>
+<br />
+
+<h2>Structure</h2>
+<p>In a wiki everybody can make changes to articles and add new
+  articles. In clj-wiki all the edits to an article are stored as a
+  transaction in Datomic. The comment on an edit is saved as an
+  attribute on the transaction. The actual content of an article at a
+  particular version is stored as a plain text file in a storage
+  server and a reference to it is stored in Datomic. Yada has good
+  support for handling file uploads and downloads. Having both
+  Datomic and the fileserver as a service shows the usefullness of
+  yada being asynchronous when doing multiple requests to external services
+  while handling web requests.</p>
+<p>The interesting code in the clj-wiki project is in <a href="https://github.com/thegeez/clj-wiki/blob/master/src/net/thegeez/wiki/wiki.clj">wiki.clj</a></p>
+
+<h2>Conflict handling</h2>
+<p>The difficult part in a wiki is what to do when multiple users
+  try to change the same article at the same time. In clj-wiki these
+  situations are detected and when they happen users are shown a
+  conflict page where they have to incorporate any changes made by
+  other users. No edits are ever silently overwritten or discarded.</p>
+<p><img style="border: 1px solid                                                   black;" src="/images/conflict_screenshot.png" />
+A screen to resolve editing conflicts, showing the differences.</p>
+
+<p>The code is on GitHub: <a href="https://github.com/thegeez/clj-wiki">https://github.com/thegeez/clj-wiki</a></p>
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>
