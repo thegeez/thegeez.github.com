@@ -4,12 +4,35 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-01-04T18:24:49Z</updated>
+ <updated>2017-02-03T10:27:03Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>crepl: Write and run ClojureScript code
+  together</title>
+   <link href="http://thegeez.github.com/2017/02/03/crepl_collaborative_editor.html" />
+   <updated>2017-02-03T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/02/03/crepl_collaborative_editor.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;crepl: Write and run ClojureScript code
+  together&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt; is a collaborative
+  editor written in Clojure and ClojureScript. In the editor you can
+  write and evaluate ClojureScript code. This is a fun and quick way
+  to try out some ClojureScript code. The real fun begins when you
+  get others to work on the same code with you by sending them the
+  URL. When multiple people are working on the same code at the same
+  time you will see their changes appear immediately and the output
+  of running the code will be shared with everybody. crepl is like
+  Google Docs that can also run ClojureScript!&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://crepl.thegeez.net"&gt;&lt;img style="border: 1px solid black;" src="/images/crepl_screenshot.png" /&gt;&lt;/a&gt;
+Two people working on the same ClojureScript code and seeing the same output.&lt;/p&gt;
+
+&lt;a href="2017/02/03/crepl_collaborative_editor.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>A wiki made with Clojure, yada and Datomic
   Client</title>
    <link href="http://thegeez.github.com/2017/01/04/wiki_clojure_yada_datomic_client.html" />
