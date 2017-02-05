@@ -4,12 +4,38 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-02-03T10:27:03Z</updated>
+ <updated>2017-02-05T11:48:15Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>crepl: Run continuously</title>
+   <link href="http://thegeez.github.com/2017/02/05/crepl_run_continuously.html" />
+   <updated>2017-02-05T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/02/05/crepl_run_continuously.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;crepl: Run continuously&lt;/h1&gt;
+
+&lt;p&gt;With &lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt; you can write and
+  run ClojureScript code together. Everybody always sees the same
+  code, because all the changes are updated in everyones browser
+  simultaneously. However, everybody can only run the code in their
+  own browser. This is why the output of "Evaluate expression" is
+  inserted in the code. This way everybody is guaranteed to see the
+  same output.&lt;/p&gt;
+
+&lt;textarea id="snippet-1"&gt;
+(+ 3 4
+   (do (println "Some output")
+     5))
+(comment ;; eval'd by Guest 83477 =&amp;gt;
+  12
+;; [println] Some output
+  )
+&lt;/textarea&gt;
+
+&lt;a href="2017/02/05/crepl_run_continuously.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>crepl: Write and run ClojureScript code
   together</title>
    <link href="http://thegeez.github.com/2017/02/03/crepl_collaborative_editor.html" />
