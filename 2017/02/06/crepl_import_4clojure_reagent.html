@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - crepl: Import code, solve 4Clojure problems and
+  use reagent</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">crepl: Import code, solve 4Clojure problems and
+  use reagent</h1>06 Feb 2017
+
+<p>There have been some upgrades
+  to <a href="http://crepl.thegeez.net">crepl</a>. It is now possible
+  to import code, solve 4Clojure problems and create your own UI with
+  Reagent. It was already possible to <a href="/2017/02/05/crepl_run_continuously.html">run your code continuously</a> and
+  see the result of your code update instantly.</p>
+
+<h2>Configure crepl with code</h2>
+<p>crepl executes ClojureScript code in your browser. This code can also
+be some code that configures or uses the crepl editor itself. An example of this
+is the support to display and live update the result of running some
+  ClojureScript code as seen in the <a href="/2017/02/05/crepl_run_continuously.html">run continuously</a> blog post:</p>
+<textarea id="snippet-1">
+(require 'crepl.ui)
+(crepl.ui/display {:sum (+ 3 4)
+                   :some (some odd? (range))})</textarea>
+<p>As you edit the expression in the crepl editor the UI panel will update
+and show the result:</p>
+<textarea id="snippet-2">
+{:some true, :sum 7}</textarea>
+<br />
+<h2>Import code</h2>
+<p>To import existing code into crepl you can now use import-from-url!:</p>
+<textarea id="snippet-3">
+(require 'crepl.tools)
+(crepl.tools/import-from-url! ..some url..)</textarea>
+<p>This will replace the whole buffer with the contents of the url.</p>
+
+<h2>Solving 4Clojure problems together</h2>
+<p><a href="http://www.4clojure.com/">4Clojure</a> is a resource to help
+fledgling clojurians learn the language through interactive
+problems. You can now load the problems from 4Clojure in crepl and
+solve them together:</p>
+<textarea id="snippet-4">
+(require 'crepl.tools)
+(crepl.tools/import-4clojure! 23)</textarea>
+<p><a href="http://crepl.thegeez.net"><img style="border: 1px solid black;" src="/images/crepl_4clojure_23.png" /></a>
+Running 4Clojure problem 23 in crepl after importing.</p>
+
+<p>The problems on 4Clojure are made for Clojure instead of
+  ClojureScript, so not every problem will be suitable for running in
+  crepl. Also, in crepl the restrictions from 4Clojure are not
+  enforced. And finally, for some problems the solution is not a value or a
+  function and those problems do not work with the UI in crepl.</p>
+
+<h2>Using Reagent</h2>
+<p>Both crepl.ui/display and the 4Clojure problems use the UI panel
+  in crepl. The UI panel is a div with id "app" that you can use with
+  <a href="http://reagent-project.github.io/">Reagent</a> code. The
+  following code works in crepl:</p>
+
+<textarea id="snippet-5">
+(require '[reagent.core :as r])
+(r/render-component [:div "Lets make reagent apps together"]
+                    (.getElementById js/document "app"))</textarea>
+
+<p>Import the following gist for a nice example of the Reagent
+  support:</p>
+<textarea id="snippet-6">
+(require 'crepl.tools)
+(crepl.tools/import-from-url! "https://gist.githubusercontent.com/thegeez/82b82c4890b215e30fe49fe239cc6458/raw/c431d5043055ee1ad4f5afe4370e8a0ca868e32e/crepl_reagent_example.cljs")</textarea>
+
+<p>Try crepl here: <a href="http://crepl.thegeez.net">crepl.thegeez.net</a></p>
+
+
+<link href="/static/codemirror/codemirror.css" rel="stylesheet" />
+
+<script src="/static/codemirror/codemirror.js"></script>
+<script src="/static/codemirror/codemirror_clojure.js"></script>
+<script>
+  var opts = {
+  lineNumbers: true,
+  lineWrapping: true,
+  mode: "clojure",
+  readOnly: true
+  };
+  var snippet1 = document.getElementById("snippet-1");
+  var editor1 = CodeMirror.fromTextArea(snippet1, opts);
+  var snippet2 = document.getElementById("snippet-2");
+  var editor2 = CodeMirror.fromTextArea(snippet2, opts);
+  var snippet3 = document.getElementById("snippet-3");
+  var editor3 = CodeMirror.fromTextArea(snippet3, opts);
+  var snippet4 = document.getElementById("snippet-4");
+  var editor4 = CodeMirror.fromTextArea(snippet4, opts);
+  var snippet5 = document.getElementById("snippet-5");
+  var editor5 = CodeMirror.fromTextArea(snippet5, opts);
+  var snippet6 = document.getElementById("snippet-6");
+  var editor6 = CodeMirror.fromTextArea(snippet6, opts);
+</script>
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>
