@@ -4,12 +4,29 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-02-05T11:48:15Z</updated>
+ <updated>2017-02-06T12:54:13Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>crepl: Import code, solve 4Clojure problems and
+  use reagent</title>
+   <link href="http://thegeez.github.com/2017/02/06/crepl_import_4clojure_reagent.html" />
+   <updated>2017-02-06T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/02/06/crepl_import_4clojure_reagent.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;crepl: Import code, solve 4Clojure problems and
+  use reagent&lt;/h1&gt;
+
+&lt;p&gt;There have been some upgrades
+  to &lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt;. It is now possible
+  to import code, solve 4Clojure problems and create your own UI with
+  Reagent. It was already possible to &lt;a href="/2017/02/05/crepl_run_continuously.html"&gt;run your code continuously&lt;/a&gt; and
+  see the result of your code update instantly.&lt;/p&gt;
+
+&lt;h2&gt;Configure crepl with code&lt;/h2&gt;
+&lt;a href="2017/02/06/crepl_import_4clojure_reagent.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>crepl: Run continuously</title>
    <link href="http://thegeez.github.com/2017/02/05/crepl_run_continuously.html" />
    <updated>2017-02-05T23:00:00Z</updated>
