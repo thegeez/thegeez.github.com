@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - crepl: Atom sync, share code and state</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">crepl: Atom sync, share code and state</h1>11 Feb 2017
+
+<p>With <a href="http://crepl.thegeez.net">crepl</a> you can write and
+  run ClojureScript together. Any changes to the code are synced to
+  everybody instantly. Something like Google Docs for
+  ClojureScript. You can also use nice libraries such as Reagent to
+  make your own UI. An example of making UI's in crepl is in
+  this <a href="http://localhost:4000/2017/02/06/crepl_import_4clojure_reagent.html">blog
+  post</a>. However, anything you do in the UI, such as clicking a
+  button, would not be synced to everybody else. Because of
+  this the collaborative features for crepl where limited to code. But crepl now has a solution for this:</p>
+<p>Crepl now has a "Atom sync" that keeps both your
+  code and state in sync and changes will show up instantly for everybody!</p>
+
+<h2>Atom sync</h2>
+
+<p>Atom sync keeps your code and your state for your Reagent UI in
+  sync. To use atom sync you need to replace the single
+  reagent.core/atom for the UI state with a crepl.atom-sync/atom-sync in
+  your <a href="http://reagent-project.github.io/">Reagent</a> app in crepl.</p>
+
+<h2>Atom sync in action:</h2>
+
+<iframe allowfullscreen="allowfullscreen" frameborder="0" src="https://www.youtube.com/embed/rU8XJt_-GWE" height="315" width="560"></iframe>
+<br />
+<br />
+<h2>How it works</h2>
+<p>Atom sync is a two-way connection between your code and your state
+  atom. When the state atom changes, for instance by a UI action, the
+  content of the atom is put in the code. When the content
+  of the atom is changed in code, the actual state atom is
+  updated. Because crepl already keeps the code in sync for everybody,
+ this keeps the state in sync as well.</p>
+
+<p>Atom sync can also sync plain ClojureScript atoms, when you are not
+  using Reagent.</p>
+
+<h2>Alternatives</h2>
+<p>As an alternative to atom sync you can use some other form of shared
+state that is accessible through ClojureScript. Things
+like <a href="https://www.firebase.com/">Firebase</a>, <a href="https://parseplatform.github.io/">Parse</a>,
+<a href="https://www.rethinkdb.com/">RethinkDB/Horizon</a> or maybe
+even <a href="http://www.datomic.com/">Datomic Client</a> or perhaps a
+<a href="https://gomix.com/#!/project/data-dashboard">Google Spreadsheet</a>.</p>
+
+
+<h2>Try the demo yourself:</h2>
+<p>The code from the Tic-Tac-Toe game from the demo video above is
+<a href="https://gist.github.com/thegeez/15913d9fce7698738697fe58ee4e8a94">here</a>. You can load it in your own crepl by running this code:</p>
+<textarea id="snippet-1">
+(require 'crepl.tools)
+(crepl.tools/import-from-url! "https://gist.githubusercontent.com/thegeez/15913d9fce7698738697fe58ee4e8a94/raw/98e91842b45f8f2620599e473a9e0f5d95943f7b/crepl_tic-tac-toe.clj")</textarea>
+
+<p>Try crepl here: <a href="http://crepl.thegeez.net">crepl.thegeez.net</a></p>
+
+<link href="/static/codemirror/codemirror.css" rel="stylesheet" />
+
+<script src="/static/codemirror/codemirror.js"></script>
+<script src="/static/codemirror/codemirror_clojure.js"></script>
+<script>
+  var opts = {
+  lineNumbers: true,
+  lineWrapping: true,
+  mode: "clojure",
+  readOnly: true
+  };
+  var snippet1 = document.getElementById("snippet-1");
+  var editor1 = CodeMirror.fromTextArea(snippet1, opts);
+</script>
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>

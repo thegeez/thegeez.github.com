@@ -4,12 +4,32 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-02-06T12:54:13Z</updated>
+ <updated>2017-02-11T16:48:07Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>crepl: Atom sync, share code and state</title>
+   <link href="http://thegeez.github.com/2017/02/11/crepl_atom_sync.html" />
+   <updated>2017-02-11T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/02/11/crepl_atom_sync.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;crepl: Atom sync, share code and state&lt;/h1&gt;
+
+&lt;p&gt;With &lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt; you can write and
+  run ClojureScript together. Any changes to the code are synced to
+  everybody instantly. Something like Google Docs for
+  ClojureScript. You can also use nice libraries such as Reagent to
+  make your own UI. An example of making UI's in crepl is in
+  this &lt;a href="http://localhost:4000/2017/02/06/crepl_import_4clojure_reagent.html"&gt;blog
+  post&lt;/a&gt;. However, anything you do in the UI, such as clicking a
+  button, would not be synced to everybody else. Because of
+  this the collaborative features for crepl where limited to code. But crepl now has a solution for this:&lt;/p&gt;
+&lt;p&gt;Crepl now has a "Atom sync" that keeps both your
+  code and state in sync and changes will show up instantly for everybody!&lt;/p&gt;
+
+&lt;a href="2017/02/11/crepl_atom_sync.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>crepl: Import code, solve 4Clojure problems and
   use reagent</title>
    <link href="http://thegeez.github.com/2017/02/06/crepl_import_4clojure_reagent.html" />
