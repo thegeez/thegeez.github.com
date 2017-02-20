@@ -4,12 +4,42 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-02-11T16:53:10Z</updated>
+ <updated>2017-02-20T13:19:48Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>crepl: Link to examples</title>
+   <link href="http://thegeez.github.com/2017/02/20/crepl_links_to_examples.html" />
+   <updated>2017-02-20T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/02/20/crepl_links_to_examples.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;crepl: Link to examples&lt;/h1&gt;
+
+&lt;p&gt;
+
+&lt;/p&gt;&lt;p&gt;&lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt; is a collaborative
+  editor where you can write and
+  run ClojureScript together. You can now create links to new crepl
+  pads that will be loaded with the code from an external source. Once you are in a crepl you can invite others to join you by
+  sending them the url in the browser navigation bar. For
+  instance try out these examples:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Solve 4Clojure problems together:&lt;br /&gt;
+    &lt;a href="http://crepl.thegeez.net/init-pad?4clojure=23"&gt;http://crepl.thegeez.net/init-pad?4clojure=23&lt;/a&gt;&lt;br /&gt;
+  More information about 4Clojure in crepl
+  in &lt;a href="/2017/02/06/crepl_import_4clojure_reagent.html"&gt;this
+      blogpost&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;A reagent app in crepl with SVG:&lt;br /&gt;
+    &lt;a href="http://crepl.thegeez.net/init-pad?source=https://gist.githubusercontent.com/thegeez/d930a7d15fc166a904edeb7e816f96f5/raw/e393ca1585fc15e2ee157615475c0d54d18a19d6/crepl_svg_smiley.cljs"&gt;http://crepl.thegeez.net/init-pad?source=https://gist.githubusercontent.com/thegeez/d930a7d15fc166a904edeb7e816f96f5/raw/e393ca1585fc15e2ee157615475c0d54d18a19d6/crepl_svg_smiley.cljs&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Using atom-sync to sync state and code in different crepls, with
+  an example Tic Tac Toe game:&lt;br /&gt;
+    &lt;a href="http://crepl.thegeez.net/init-pad?source=https://gist.githubusercontent.com/thegeez/15913d9fce7698738697fe58ee4e8a94/raw/98e91842b45f8f2620599e473a9e0f5d95943f7b/crepl_tic-tac-toe.clj"&gt;http://crepl.thegeez.net/init-pad?source=https://gist.githubusercontent.com/thegeez/15913d9fce7698738697fe58ee4e8a94/raw/98e91842b45f8f2620599e473a9e0f5d95943f7b/crepl_tic-tac-toe.clj&lt;/a&gt;&lt;br /&gt;
+    More about atom-sync in &lt;a href="/2017/02/11/crepl_atom_sync.html"&gt;this blogpost&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;a href="2017/02/20/crepl_links_to_examples.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>crepl: Atom sync, share code and state</title>
    <link href="http://thegeez.github.com/2017/02/11/crepl_atom_sync.html" />
    <updated>2017-02-11T23:00:00Z</updated>
