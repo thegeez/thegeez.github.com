@@ -4,12 +4,31 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-02-20T13:19:48Z</updated>
+ <updated>2017-02-20T15:59:33Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Defn Podcast: Episode 18</title>
+   <link href="http://thegeez.github.com/2017/02/21/defn_podcast.html" />
+   <updated>2017-02-21T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/02/21/defn_podcast.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Defn Podcast: Episode 18&lt;/h1&gt;
+
+&lt;p&gt;Last week I joined Ray and Vijay on the Defn Podcast. We talked
+  about Clojure as well as my latest
+  project; &lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt;. I had a great
+  time talking with them. You can listen to the episode below. Enjoy!&lt;/p&gt;
+
+  https://defn.audio/2017/02/20/episode-18-gijs-stuurman/
+
+  https://twitter.com/DefnPodcast
+
+&lt;iframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/308550288&amp;amp;color=ff5500&amp;amp;auto_play=false&amp;amp;hide_related=false&amp;amp;show_comments=true&amp;amp;show_user=true&amp;amp;show_reposts=false" frameborder="no" scrolling="no" height="166" width="100%"&gt;&lt;/iframe&gt;
+
+&lt;a href="2017/02/21/defn_podcast.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>crepl: Link to examples</title>
    <link href="http://thegeez.github.com/2017/02/20/crepl_links_to_examples.html" />
    <updated>2017-02-20T23:00:00Z</updated>
