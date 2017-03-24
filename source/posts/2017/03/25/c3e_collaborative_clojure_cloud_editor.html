@@ -1,0 +1,46 @@
+<h1 id="post-title">crepl and c3e at Dutch Clojure Days 2017</h1>
+
+<p>Today was the 2017 edition
+  of <a href="http://clojuredays.org/">Dutch Clojure Days (DCD17)</a>, the
+  annual international gathering of Clojure enthusiasts and
+  practitioners in the Netherlands. At DCD17 I presented a lightning
+  talk about crepl.</p>
+
+<p><a href="http://crepl.thegeez.net">crepl</a> is a collaborative
+  editor written in Clojure and ClojureScript. It's like Google Docs
+  where you can also run the ClojureScript you write in the
+  browser. And by using <a href="/2017/02/11/crepl_atom_sync.html">atom sync</a> you can also keep state in
+  sync with each browser running the code, which is useful when
+  working on code with UIs. These previous blogposts have more information about crepl
+  and its features:</p>
+
+<ul>
+  <li>03 Feb 2017 - <a href="/2017/02/03/crepl_collaborative_editor.html">crepl: Write and run ClojureScript code together</a></li>
+  <li>05 Feb 2017 - <a href="/2017/02/05/crepl_run_continuously.html">crepl: Run continuously</a></li>
+  <li>06 Feb 2017 - <a href="/2017/02/06/crepl_import_4clojure_reagent.html">crepl: Import code, solve 4Clojure problems and use reagent</a></li>
+  <li>11 Feb 2017 - <a href="/2017/02/11/crepl_atom_sync.html">crepl: Atom sync, share code and state</a></li>
+  <li>20 Feb 2017
+  - <a href="/2017/02/20/crepl_links_to_examples.html">crepl: Link to
+      examples</a></li>
+</ul>
+
+<p>As with Google Docs, in crepl you edit a single file with multiple
+  people at once. A natural progression is an editor in the browser
+  when you can work on a project with multiple files. As part of my
+  lightning talk at DCD17 I also showed c3e:</p>
+
+<h2>c3e: Collaborative Clojure(Script) Cloud Editor</h2>
+<p><a href="http://c3e.thegeez.net"><img src="/images/c3e_screenshot.png"
+                                         style="border: 1px solid black;"/></a>
+Editing a Clojure & ClojureScript project together in a browser with c3e.</p>
+
+<p>With <a href="http://c3e.thegeez.net">c3e</a> you can work together
+  on multiple files in a browsers. You can also fork, import and export
+  your projects. </p>
+
+<p>To run the code in your project in c3e you can use
+  c3e-file-sink. c3e-file-sink is a jar file that syncs up a folder on
+  your local machine or server and keeps in sync with everybody's
+  edits in the project editor in the browser. Instructions on how to set this up are in this repo: <a href="https://github.com/thegeez/c3e-support/">c3e-support</a></p>
+
+<p>Try c3e here: <a href="http://c3e.thegeez.net">c3e.thegeez.net</a></p>
