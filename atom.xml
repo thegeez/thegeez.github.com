@@ -4,12 +4,34 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-02-20T15:59:33Z</updated>
+ <updated>2017-03-24T15:42:36Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>crepl and c3e at Dutch Clojure Days 2017</title>
+   <link href="http://thegeez.github.com/2017/03/25/c3e_collaborative_clojure_cloud_editor.html" />
+   <updated>2017-03-25T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/03/25/c3e_collaborative_clojure_cloud_editor.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;crepl and c3e at Dutch Clojure Days 2017&lt;/h1&gt;
+
+&lt;p&gt;Today was the 2017 edition
+  of &lt;a href="http://clojuredays.org/"&gt;Dutch Clojure Days (DCD17)&lt;/a&gt;, the
+  annual international gathering of Clojure enthusiasts and
+  practitioners in the Netherlands. At DCD17 I presented a lightning
+  talk about crepl.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt; is a collaborative
+  editor written in Clojure and ClojureScript. It's like Google Docs
+  where you can also run the ClojureScript you write in the
+  browser. And by using &lt;a href="/2017/02/11/crepl_atom_sync.html"&gt;atom sync&lt;/a&gt; you can also keep state in
+  sync with each browser running the code, which is useful when
+  working on code with UIs. These previous blogposts have more information about crepl
+  and its features:&lt;/p&gt;
+
+&lt;a href="2017/03/25/c3e_collaborative_clojure_cloud_editor.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Defn Podcast: Episode 18</title>
    <link href="http://thegeez.github.com/2017/02/21/defn_podcast.html" />
    <updated>2017-02-21T23:00:00Z</updated>
@@ -18,12 +40,8 @@
 
 &lt;p&gt;Last week I joined Ray and Vijay on the Defn Podcast. We talked
   about Clojure as well as my latest
-  project; &lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt;. I had a great
+  project: &lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt;. I had a great
   time talking with them. You can listen to the episode below. Enjoy!&lt;/p&gt;
-
-  https://defn.audio/2017/02/20/episode-18-gijs-stuurman/
-
-  https://twitter.com/DefnPodcast
 
 &lt;iframe src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/308550288&amp;amp;color=ff5500&amp;amp;auto_play=false&amp;amp;hide_related=false&amp;amp;show_comments=true&amp;amp;show_user=true&amp;amp;show_reposts=false" frameborder="no" scrolling="no" height="166" width="100%"&gt;&lt;/iframe&gt;
 
