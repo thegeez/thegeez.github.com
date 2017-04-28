@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-us" xml:lang="en">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>thegeez blog - Data wrangling with transducers for a machine learning problem</title>
+	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+
+   <!-- Homepage CSS -->
+   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a class="extra" href="/">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Data wrangling with transducers for a machine learning problem</h1>28 Apr 2017
+
+<p>The transducers from the <a href="https://github.com/cgrand/xforms">net.cgrand.xforms</a> library are great to
+  transform and analyze data with in Clojure. This blogpost shows how
+  the xforms transducers can be used to do
+  data analysis for a machine learning problem from Kaggle, which is a data
+  science competition platform.</p>
+
+<p>One of the competitions on Kaggle is
+  the <a href="https://www.kaggle.com/c/titanic">Titanic
+    competition</a>. For this competition you are given a dataset
+  about passengers aboard the Titanic, with data such as their age and how much
+  they paid for their ticket. In the training data you are also told
+  if the passenger survived. The goal of the competition is to predict
+  if a passenger survived or not for a test set of data.</p>
+
+<p>This <a href="https://www.kaggle.com/startupsci/titanic/titanic-data-science-solutions">tutorial</a>
+  on the Kaggle site explains how to solve such a problem. The
+  tutorial explains which steps to take and how to analyze, change
+  or create data and how to make predictions. The
+  tutorial uses Python to go through all these steps. In this blog
+  we'll use Clojure instead.</p>
+
+<h2>Analyzing the data</h2>
+
+<pre style="width: 160%">
+| :PassengerId | :SibSp |   :Fare | :Embarked |   :Sex | :Survived | :Parch | :Pclass | :Age |
+|--------------+--------+---------+-----------+--------+-----------+--------+---------+------|
+|            1 |      1 |    7.25 |         S |   male |         0 |      0 |       3 |   22 |
+|            2 |      1 | 71.2833 |         C | female |         1 |      0 |       1 |   38 |
+|            3 |      0 |   7.925 |         S | female |         1 |      0 |       3 |   26 |
+|            4 |      1 |    53.1 |         S | female |         1 |      0 |       1 |   35 |
+;; etc
+</pre>
+<span>Example data from the Titanic dataset</span>
+
+<p>Lets say you would like to find out how many people from the training
+data set survived. With the functions from clojure.core that looks
+like this:</p>
+<textarea id="snippet-1">
+(-&gt; (map :Survived data)
+    frequencies)
+;;=&gt; {0 549, 1 342}</textarea>
+
+<p>And here's how to slice the data to see how many people survived based
+on their gender:</p>
+<textarea id="snippet-2">
+(-&gt; (map (juxt :Sex :Survived) data)
+    frequencies)
+;;=&gt; {["male" 0] 468,
+;;    ["female" 1] 233,
+;;    ["female" 0] 81,
+;;    ["male" 1] 109}
+
+(let [by-sex (group-by :Sex data)
+      survived (zipmap (keys by-sex)
+                       (-&gt;&gt; by-sex
+                            vals
+                            (map #(-&gt; (map :Survived %)
+                                      frequencies))))]
+  survived)
+;;=&gt; {"male" {0 468, 1 109},
+;;    "female" {1 233, 0 81}}
+
+(reduce
+ (fn [acc {:keys [Sex Survived] :as row}]
+   (update-in acc [Sex Survived] (fnil inc 0)))
+ {}
+ data)
+;;=&gt; {"male" {0 468, 1 109},
+;;    "female" {1 233, 0 81}}</textarea>
+<p>With the 'by-key' transducer that looks like:</p>
+<textarea id="snippet-3">
+(require '[net.cgrand.xforms :as x])
+(into {}
+      (x/by-key :Sex
+                (comp (x/by-key :Survived
+                                x/count)
+                      (x/into {})))
+      data)
+;; =&gt; {"male" {0 468, 1 109},
+;;     "female" {1 233, 0 81}}</textarea>
+
+<p>For this counting use case there is little difference between using a transducer or the basic clojure.core functions. And the benefits of
+  transducers being useable for different types of data, such as on
+  streams is not relevant for our use case.</p>
+<p>But when you want to get multiple results per grouping or
+  statistics other than counting, the transducer approach with xforms
+  starts to come out ahead:</p>
+
+<textarea id="snippet-4">
+(def xFrequencies (comp (x/by-key identity
+                                  x/count)
+                        (x/into {})))
+(into {}
+      (x/by-key :Sex
+                :Survived
+                (x/transjuxt {:chance (comp x/avg
+                                            (map double))
+                              :counts xFrequencies}))
+      data)
+;; {"male" {:chance 0.1889081455805893, :counts {0 468, 1 109}},
+;;  "female" {:chance 0.7420382165605096, :counts {1 233, 0 81}}}</textarea>
+<p>Or for the distribution of the Age feature in the dataset:</p>
+<textarea id="snippet-5">
+(def ageStats
+  (comp (map :Age)
+        (filter identity) ;; some Age values are missing
+        (x/transjuxt {:mean (comp x/avg
+                                  (map double))
+                      :std-dev x/sd})))
+(into {}
+      ageStats
+      data)
+;;=&gt; {:mean 29.69911764705882, :std-dev 14.526497332334035}
+
+(into {}
+      (x/by-key :Sex
+                ageStats)
+      data)
+;;=&gt; {"male" {:mean 30.72664459161148, :std-dev 14.678200823816606},
+;;    "female" {:mean 27.915708812260537, :std-dev 14.110146457544133}}</textarea>
+
+<p>With the xforms transducers all the data analysis from the Titanic
+  tutorial in Python is as easy to do in Clojure. So the next time you
+  need to do some group-by type operation, you should check out the
+  transducers from net.cgrand.xforms.</p>
+
+<p>To replicate (most of) the charts from the tutorial you can use the <a href="http://incanter.org/">Incanter</a> library.</p>
+
+<h2>Predicting the test data</h2>
+<p>The fun part of doing machine learning is having a model to make
+  predictions with. For this we'll use <a href="https://github.com/joshuaeckroth/clj-ml">clj-ml</a>, which is a wrapper
+  around the <a href="http://www.cs.waikato.ac.nz/ml/weka/">Weka</a> library.</p>
+
+<textarea id="snippet-6">
+;; dataset is our data in the Weka format
+(let [random-forest (doto (cm-classifiers/make-classifier :decision-tree :random-forest)
+                      (.setNumTrees 100))
+      trained (cm-classifiers/classifier-train random-forest dataset)]
+  (let [evaluate (cm-classifiers/classifier-evaluate random-forest :cross-validation dataset 10)]
+    (pprint/pprint evaluate))
+
+  (predict test-data random-forest "data/randomforest.csv")
+
+;; Random Forest
+;; trained:  78.563%
+;; Score on Kaggle leaderboard: 0.77990
+
+;; other algorithms:
+;; Logistic regression:
+;; trained:  79.349%
+;; Score on Kaggle leaderboard: 0.75120
+
+;; Naive Bayes
+;; trained:  78.339%
+;; Score on Kaggle leaderboard: 0.70813
+
+;; KNN 3
+;; trained:  78.451%
+;; Score on Kaggle leaderboard: 0.73206
+
+;; SVM
+;; trained:  78.676%
+;; Score on Kaggle leaderboard: 0.76555
+
+;; Decision Tree
+;; trained:  81.145%
+;; Score on Kaggle leaderboard: 0.77990</textarea>
+
+<p>The code is on <a href="https://github.com/thegeez/transducers-ml-titanic/blob/master/src/transducers_ml_titanic/core.clj">GitHub</a>.</p>
+
+<link href="/static/codemirror/codemirror.css" rel="stylesheet" />
+
+<script src="/static/codemirror/codemirror.js"></script>
+<script src="/static/codemirror/codemirror_clojure.js"></script>
+<script>
+  var opts = {
+  lineNumbers: true,
+  lineWrapping: true,
+  mode: "clojure",
+  readOnly: true
+  };
+  var snippet1 = document.getElementById("snippet-1");
+  var editor1 = CodeMirror.fromTextArea(snippet1, opts);
+  var snippet2 = document.getElementById("snippet-2");
+  var editor2 = CodeMirror.fromTextArea(snippet2, opts);
+  var snippet3 = document.getElementById("snippet-3");
+  var editor3 = CodeMirror.fromTextArea(snippet3, opts);
+  var snippet4 = document.getElementById("snippet-4");
+  var editor4 = CodeMirror.fromTextArea(snippet4, opts);
+  var snippet5 = document.getElementById("snippet-5");
+  var editor5 = CodeMirror.fromTextArea(snippet5, opts);
+  var snippet6 = document.getElementById("snippet-6");
+  var editor6 = CodeMirror.fromTextArea(snippet6, opts);
+</script>
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31804668-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+
+</html>

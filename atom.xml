@@ -4,12 +4,34 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-04-13T14:07:29Z</updated>
+ <updated>2017-04-28T07:21:03Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Data wrangling with transducers for a machine learning problem</title>
+   <link href="http://thegeez.github.com/2017/04/28/data_transducers_machine_learning_clojure.html" />
+   <updated>2017-04-28T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/04/28/data_transducers_machine_learning_clojure.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Data wrangling with transducers for a machine learning problem&lt;/h1&gt;
+
+&lt;p&gt;The transducers from the &lt;a href="https://github.com/cgrand/xforms"&gt;net.cgrand.xforms&lt;/a&gt; library are great to
+  transform and analyze data with in Clojure. This blogpost shows how
+  the xforms transducers can be used to do
+  data analysis for a machine learning problem from Kaggle, which is a data
+  science competition platform.&lt;/p&gt;
+
+&lt;p&gt;One of the competitions on Kaggle is
+  the &lt;a href="https://www.kaggle.com/c/titanic"&gt;Titanic
+    competition&lt;/a&gt;. For this competition you are given a dataset
+  about passengers aboard the Titanic, with data such as their age and how much
+  they paid for their ticket. In the training data you are also told
+  if the passenger survived. The goal of the competition is to predict
+  if a passenger survived or not for a test set of data.&lt;/p&gt;
+
+&lt;a href="2017/04/28/data_transducers_machine_learning_clojure.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Dutch Clojure Days 2017: crepl demo</title>
    <link href="http://thegeez.github.com/2017/04/13/crepl_dutch_clojure_days_2017.html" />
    <updated>2017-04-13T23:00:00Z</updated>
