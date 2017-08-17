@@ -4,12 +4,30 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-04-28T07:21:03Z</updated>
+ <updated>2017-08-17T13:53:08Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>EuroClojure 2017 Berlin: crepl talk video</title>
+   <link href="http://thegeez.github.com/2017/08/17/crepl_euroclojure_2017_berlin.html" />
+   <updated>2017-08-17T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/08/17/crepl_euroclojure_2017_berlin.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;EuroClojure 2017 Berlin: crepl talk video&lt;/h1&gt;
+
+&lt;p&gt;At &lt;a href="http://2017.euroclojure.org/building-a-collaborative-web-app/"&gt;EuroClojure 2017&lt;/a&gt; I gave a talk titled: "Building a collaborative
+  web app with ClojureScript". The recording of the talk is now on youtube:
+&lt;a href="https://www.youtube.com/watch?v=NunlGbJgp4A"&gt;crepl at
+  EuroClojure 2017 on ClojureTV&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;For more background about crepl and c3e check out these blogposts:
+  &lt;/p&gt;&lt;ul&gt;
+    &lt;li&gt;&lt;a href="http://thegeez.net/2017/02/03/crepl_collaborative_editor.html"&gt;crepl blogpost&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="http://thegeez.net/2017/03/25/c3e_collaborative_clojure_cloud_editor.html"&gt;c3e
+        blogpost&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;&lt;a href="2017/08/17/crepl_euroclojure_2017_berlin.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Data wrangling with transducers for a machine learning problem</title>
    <link href="http://thegeez.github.com/2017/04/28/data_transducers_machine_learning_clojure.html" />
    <updated>2017-04-28T23:00:00Z</updated>
