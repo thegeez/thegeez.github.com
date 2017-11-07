@@ -4,12 +4,29 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-08-17T13:53:08Z</updated>
+ <updated>2017-11-07T18:06:44Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>ClojureConj 2017 Baltimore: Learning Clojure and ClojureScript by Playing a
+  Card Game video</title>
+   <link href="http://thegeez.github.com/2017/11/07/clojure_conj_talk_playing_card_game.html" />
+   <updated>2017-11-07T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/11/07/clojure_conj_talk_playing_card_game.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;ClojureConj 2017 Baltimore: Learning Clojure and ClojureScript by Playing a
+  Card Game video&lt;/h1&gt;
+
+&lt;p&gt;At ClojureConj 2017 I gave a talk titled: "Learning Clojure and
+  ClojureScript by Playing a Card Game". The recording of the talk is
+  now on
+  youtube:&lt;br /&gt;&lt;br /&gt;ClojureTV/ClojureConj 2017: &lt;a href="https://www.youtube.com/watch?v=MzcgW9GIlQ0"&gt;Learning
+    Clojure and ClojureScript by Playing a Card Game&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;More information for each of those Gin Rummy projects as mentioned in the talk are in the links below:&lt;/p&gt;
+&lt;a href="2017/11/07/clojure_conj_talk_playing_card_game.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>EuroClojure 2017 Berlin: crepl talk video</title>
    <link href="http://thegeez.github.com/2017/08/17/crepl_euroclojure_2017_berlin.html" />
    <updated>2017-08-17T23:00:00Z</updated>
