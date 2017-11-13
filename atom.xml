@@ -4,12 +4,34 @@
  <title>thegeez blog</title>
  <link rel="self" href="http://thegeez.github.com/atom.xml" />
  <link href="http://thegeez.github.com/" />
- <updated>2017-11-07T18:06:44Z</updated>
+ <updated>2017-11-13T18:01:09Z</updated>
  <id>http://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Probabilistic programming example with
+  Anglican</title>
+   <link href="http://thegeez.github.com/2017/11/13/prob_prog_anglican_example.html" />
+   <updated>2017-11-13T23:00:00Z</updated>
+   <id>http://thegeez.github.com/2017/11/13/prob_prog_anglican_example.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Probabilistic programming example with
+  Anglican&lt;/h1&gt;
+
+&lt;p&gt;At the
+  last &lt;a href="https://www.meetup.com/The-Amsterdam-Clojure-Meetup-Group/events/244651818/"&gt;Amsterdam
+    Clojure Meetup&lt;/a&gt; there was a great demostration by Zhenhao Li
+  about &lt;a href="http://www.robots.ox.ac.uk/~fwood/anglican"&gt;Anglican&lt;/a&gt;. Anglican
+  is a probabilistic programming language integrated with
+  Clojure. I am a fan of the
+  book &lt;a href="https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers"&gt;Probabilistic
+  Programming and Bayesian Methods for Hackers&lt;/a&gt; from which I solved
+  a problem in Clojure, about which I wrote here:
+
+  &lt;/p&gt;&lt;p&gt;&lt;a href="http://thegeez.net/2014/03/12/bayes_mcmc_clojure.html"&gt;Bayesian Inference with Markov Chain Monte Carlo in Clojure&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;Below is the solution to that problem using Anglican:&lt;/p&gt;&lt;a href="2017/11/13/prob_prog_anglican_example.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>ClojureConj 2017 Baltimore: Learning Clojure and ClojureScript by Playing a
   Card Game video</title>
    <link href="http://thegeez.github.com/2017/11/07/clojure_conj_talk_playing_card_game.html" />
