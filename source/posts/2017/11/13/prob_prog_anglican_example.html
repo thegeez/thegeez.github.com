@@ -1,0 +1,135 @@
+<h1 id="post-title">Probabilistic programming example with
+  Anglican</h1>
+
+<p>At the
+  last <a href="https://www.meetup.com/The-Amsterdam-Clojure-Meetup-Group/events/244651818/">Amsterdam
+    Clojure Meetup</a> there was a great demostration by Zhenhao Li
+  about <a href="http://www.robots.ox.ac.uk/~fwood/anglican">Anglican</a>. Anglican
+  is a probabilistic programming language integrated with
+  Clojure. I am a fan of the
+  book <a href="https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers">Probabilistic
+  Programming and Bayesian Methods for Hackers</a> from which I solved
+  a problem in Clojure, about which I wrote here:
+
+  <p><a href="http://thegeez.net/2014/03/12/bayes_mcmc_clojure.html">Bayesian Inference with Markov Chain Monte Carlo in Clojure</a></p>
+
+  <p>Below is the solution to that problem using Anglican:</p>
+
+<textarea id="snippet-1">
+(ns mcmc-anglican-messages.core
+  (:require [net.cgrand.xforms :as x]
+            [net.cgrand.xforms.rfs :as rfs]
+            [net.cgrand.xforms.io :as xio]
+            [clojure.java.io :as io]
+            [clojure.edn :as edn]
+            [incanter.charts :as charts]
+            [incanter.core :as i])
+    (:use
+        [anglican [core :exclude [-main]]
+         runtime emit
+         [state :only [get-predicts]]]))
+
+;; data and example from: https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers
+
+(defonce sms-data (->> (xio/lines-in (io/resource "sms.csv"))
+                       (into []
+                             (map-indexed (fn [idx row]
+                                            {:idx idx
+                                             :row (edn/read-string row)})))))
+
+(comment
+  (->
+   (charts/bar-chart (mapv :idx sms-data)
+                     (mapv :row sms-data))
+   i/view)
+
+  )
+
+(defn avg [data]
+  (transduce
+   (comp (map :row)
+         x/avg)
+   +
+   data))
+
+(with-primitive-procedures
+  [avg]
+  (defquery sms [data]
+    (let [alpha (/ 1.0 (avg data))
+
+          lambda1 (sample (exponential alpha))
+          lambda2 (sample (exponential alpha))
+
+          tau (sample (uniform-discrete 0 (count data)))]
+
+      (map (fn [s]
+             (let [dist (poisson
+                         (if (< (:idx s) tau)
+                           lambda1
+                           lambda2))]
+               (observe dist (:row s))))
+           data)
+      (predict :lambda1 lambda1)
+      (predict :lambda2 lambda2)
+      (predict :tau tau)
+      )))
+
+(comment
+  (def sampler (doquery :lmh sms [sms-data]))
+
+  (def traces (->> sampler
+                   (drop 50000) ;; burn in
+                   (take 100000)))
+  (def best-configuration (get-predicts (last traces)))
+
+  best-configuration
+  ;;{:lambda1 16.605654342092908, :lambda2 21.29397676830376, :tau 45}
+
+  (-> (charts/histogram (mapv (comp :lambda1 get-predicts) traces)
+                        :title "lambda1"
+                        :nbins 30
+                        :density true)
+      (charts/set-x-range 15 30)
+      (charts/set-y-range 0.0 1.0)
+      i/view)
+
+  (-> (charts/histogram (mapv (comp :lambda2 get-predicts) traces)
+                        :title "lambda2"
+                        :nbins 30
+                        :density true)
+      (charts/set-x-range 15 30)
+      (charts/set-y-range 0.0 1.0)
+      i/view)
+
+  (-> (charts/histogram (mapv (comp :tau get-predicts) traces)
+                        :title "tau"
+                        :nbins (count sms-data)
+                        :density true
+                        )
+      i/view)
+)
+
+;; project.clj
+(defproject mcmc-anglican-messages "0.0.1"
+  :dependencies [[org.clojure/clojure "1.9.0-RC1"]
+                 [anglican "0.7.0-SNAPSHOT"]
+                 [incanter/incanter-charts "1.5.5"]
+                 [incanter/incanter-core "1.5.5"]
+
+                 [net.cgrand/xforms "0.13.0"]])
+</textarea>
+
+<link rel="stylesheet" href="/static/codemirror/codemirror.css">
+
+<script src="/static/codemirror/codemirror.js"></script>
+<script src="/static/codemirror/codemirror_clojure.js"></script>
+<script>
+  var opts = {
+  lineNumbers: true,
+  lineWrapping: true,
+  mode: "clojure",
+  readOnly: true
+  };
+  var snippet1 = document.getElementById("snippet-1");
+  var editor1 = CodeMirror.fromTextArea(snippet1, opts);
+</script>
