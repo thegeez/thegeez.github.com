@@ -1,0 +1,43 @@
+<h1 id="post-title">Fly over Amsterdam with ClojureScript</h1>
+
+<br/>
+<br/>
+<div id="app"></div>
+
+<p><b>Controls:</b> Arrow keys <b>Speed:</b> Page Up & Page
+  down<br/>
+  <b>Center stick:</b> Enter <b>Restart</b> Enter + Shift<br/>
+  <b>Switch flight/camera mode:</b> C</p>
+
+<p>Some time ago I came across a very tiny but potent program. It
+  is a <a href="http://blog.aerojockey.com/post/iocccsim">flight simulator</a> in under 2kb of code. This program from 1998
+  was written for the Obfuscated C contest by Carl Banks. In this program you fly a
+  tiny airplane through a wireframe 3d world.</p>
+
+<p>As I have little experience with 3d programming, I was curious to
+  figure out how this program worked. Therefore I made a version in
+  ClojureScript. In this edition you fly over my home town of
+  Amsterdam, instead of Pittsburgh from the original. Here you can
+  enjoy the layout of the canals rather than a sky full of
+  skyscrapers as Amsterdam isn't really known for its skyline. There
+  is also a row of windmills.</p>
+
+<p>Obviously, it is not easy to figure out how a program works from
+  obfuscated code. This <a href="https://forums.linuxgamecast.com/lgcbbs/discussion/7796/deobfuscate-the-carl-banks-flight-simulator-from-ioccc-1998-readable-clear-up-indented">partial de-obfuscated version</a> was very helpful
+  in learning how to render the world with the airplane as the
+  camera or viewpoint. I still haven't figured out how
+  the flight mechanics of the plane work, so the ClojureScript version
+  has a more arcade style of flying.</p>
+
+<p>Evidently, all the rendering and controls can be handled by shoving
+  all the math through a single matrix. I also did not manage to get
+  that to work, so instead the program does a bit more math in
+  separate steps. This means that the program does more calculations
+  than necesarry. This makes your laptop fan spin, which sounds like
+  the propellor of a tiny airplane, which is a feature.</p>
+
+<p>Finally, the original program was skillfully fit into obfuscated C. With
+  ClojureScript's advanced compilation with the Google Closure
+  Compiler the <a href="/static/flight/cljs_flight.js">obfusciation</a> is provided for free.</p>
+
+<script src="/static/flight/cljs_flight.js"></script>
