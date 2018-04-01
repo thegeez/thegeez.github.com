@@ -1,20 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="en-us" xml:lang="en">
+<html xml:lang="en" lang="en-us">
 <head>
-   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
    <title>thegeez blog - Bayesian Inference with Markov Chain Monte Carlo
   in Clojure</title>
-	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
 
    <!-- Homepage CSS -->
-   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
 </head>
 <body>
 <div class="site">
   <div class="title">
     <a href="/">[<span class="lambda">λ</span>] thegeez
-    blog</a> <a class="extra" href="/">index</a>
+    blog</a> <a href="/" class="extra">index</a>
   </div>
   
   <div id="content"><h1 id="post-title">Bayesian Inference with Markov Chain Monte Carlo
@@ -58,7 +58,7 @@ MCMC only considers part of the solution space.</p>
 
 <p>The main example in the ProbHack book is an "sms/texts received per
 day" received example:
-<img width="570" src="/images/probhack_text_orig.png" />
+<img src="/images/probhack_text_orig.png" width="570" />
 Image from: <a href="https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers">ProbHack</a>
 </p>
 
@@ -70,7 +70,7 @@ Image from: <a href="https://github.com/CamDavidsonPilon/Probabilistic-Programmi
   the parameters of those distributions are probability distributions themselves.</p>
 
 <p>The model for the texts example looks like this:
-<img width="570" src="/images/sms_model.png" />
+<img src="/images/sms_model.png" width="570" />
 For all days before tau the expected number of text messages is a
 Poisson distribution with parameter lambda1. For all days after tau
 the expected number of text messages is a Poisson distribution with

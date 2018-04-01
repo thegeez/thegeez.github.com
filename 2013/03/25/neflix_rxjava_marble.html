@@ -1,20 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="en-us" xml:lang="en">
+<html xml:lang="en" lang="en-us">
 <head>
-   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
    <title>thegeez blog - Testing RxJava with executable marble
   diagrams</title>
-	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
 
    <!-- Homepage CSS -->
-   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
 </head>
 <body>
 <div class="site">
   <div class="title">
     <a href="/">[<span class="lambda">λ</span>] thegeez
-    blog</a> <a class="extra" href="/">index</a>
+    blog</a> <a href="/" class="extra">index</a>
   </div>
   
   <div id="content"><h1 id="post-title">Testing RxJava with executable marble
@@ -51,7 +51,7 @@ Netflix recently open sourced their Java variation of Rx called RxJava.</p>
   of marble diagrams. A marble diagram shows how different operators
   work and how sequences can be combined. The following diagram is the example from RxJava:
 <a href="https://raw.github.com/wiki/Netflix/RxJava/images/rx-operators/legend.png">
-<img style="width:40em;" src="https://raw.github.com/wiki/Netflix/RxJava/images/rx-operators/legend.png" /></a>
+<img src="https://raw.github.com/wiki/Netflix/RxJava/images/rx-operators/legend.png" style="width:40em;" /></a>
 Source: <a href="https://github.com/Netflix/RxJava">Neflix/RxJava</a>
 
 </p><p>The following is the same diagram in Clojure code:</p>

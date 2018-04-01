@@ -1,20 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="en-us" xml:lang="en">
+<html xml:lang="en" lang="en-us">
 <head>
-   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
    <title>thegeez blog - Pedestal and w3a walkthrough: Build a CRUD app
   with Clojure</title>
-	 <link type="application/atom+xml" title="thegeez blog" rel="alternate" href="/atom.xml" />
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
 
    <!-- Homepage CSS -->
-   <link media="screen, projection" type="text/css" href="/css/screen.css" rel="stylesheet" />
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
 </head>
 <body>
 <div class="site">
   <div class="title">
     <a href="/">[<span class="lambda">λ</span>] thegeez
-    blog</a> <a class="extra" href="/">index</a>
+    blog</a> <a href="/" class="extra">index</a>
   </div>
   
   <div id="content"><h1 id="post-title">Pedestal and w3a walkthrough: Build a CRUD app
@@ -49,20 +49,20 @@
 <p>This walkthrough contains the following parts:
   <a name="toc"></a>
     </p><ul>
-<li><a class="toc-link" href="#getting-started">Getting started</a></li>
-<li><a class="toc-link" href="#pedestal-basics">Pedestal basics</a></li>
-<li><a class="toc-link" href="#w3a-basics">w3a basics</a></li>
-<li><a class="toc-link" href="#using-a-database">Using a database</a></li>
-<li><a class="toc-link" href="#context-context-everywhere">Context, context everywhere</a></li>
-<li><a class="toc-link" href="#the-common-html-flow">The common HTML Flow</a></li>
-<li><a class="toc-link" href="#forms">Forms</a></li>
-<li><a class="toc-link" href="#templates-with-enlive">Templates with Enlive</a></li>
-<li><a class="toc-link" href="#testing">Testing</a></li>
-<li><a class="toc-link" href="#running-on-heroku">Running on Heroku</a></li>
+<li><a href="#getting-started" class="toc-link">Getting started</a></li>
+<li><a href="#pedestal-basics" class="toc-link">Pedestal basics</a></li>
+<li><a href="#w3a-basics" class="toc-link">w3a basics</a></li>
+<li><a href="#using-a-database" class="toc-link">Using a database</a></li>
+<li><a href="#context-context-everywhere" class="toc-link">Context, context everywhere</a></li>
+<li><a href="#the-common-html-flow" class="toc-link">The common HTML Flow</a></li>
+<li><a href="#forms" class="toc-link">Forms</a></li>
+<li><a href="#templates-with-enlive" class="toc-link">Templates with Enlive</a></li>
+<li><a href="#testing" class="toc-link">Testing</a></li>
+<li><a href="#running-on-heroku" class="toc-link">Running on Heroku</a></li>
 </ul>
 <br />
 
-<h2><a class="toc-link" name="getting-started" href="#toc">Getting started</a></h2>
+<h2><a href="#toc" name="getting-started" class="toc-link">Getting started</a></h2>
 <p>If you want to follow along by reading and playing with the code, you should follow these instructions:
 </p><pre>
 $ git clone https://github.com/thegeez/snippetlist.git
@@ -79,7 +79,7 @@ follows <a href="http://thinkrelevance.com/blog/2013/06/04/clojure-workflow-relo
   for the Brave and True</a>. Git is a source code management tool:
   <a href="https://git-scm.com/">git</a></p>
 
-<h2><a class="toc-link" name="pedestal-basics" href="#toc">Pedestal basics</a></h2>
+<h2><a href="#toc" name="pedestal-basics" class="toc-link">Pedestal basics</a></h2>
 
 <p><a href="http://pedestal.io">Pedestal</a> is a Clojure web
   framework. The main components in Pedestal are interceptors (which are similar
@@ -143,7 +143,7 @@ to create a link that points to http://localhost:8080/ at line 30.</p>
   More info on interceptors: <a href="https://github.com/pedestal/pedestal/blob/master/guides/documentation/service-interceptors.md">Pedestal interceptors
   documentation</a>. A comparison between Ring and Pedestal by <a href="http://frankiesardo.github.io/posts/2014-12-15-give-pedestal-another-chance.html">Frankie Sardo</a></p>
 
-<h2><a class="toc-link" name="w3a-basics" href="#toc">w3a basics</a></h2>
+<h2><a href="#toc" name="w3a-basics" class="toc-link">w3a basics</a></h2>
 <p>Snippetlist is a simple CRUD application. CRUD stands for
 Create-Read-Update-Delete. The simplest part of that is the read part.
 An example of a page that is only the read part is the page that shows all
@@ -258,7 +258,7 @@ the users in the application. This page is
 <p class="sidebar">An nice introduction to using data and links to make
   resources is <a href="http://www.infoq.com/articles/webber-rest-workflow">How to GET a cup of coffee</a></p>
 
-<h2><a class="toc-link" name="using-a-database" href="#toc">Using a database</a></h2>
+<h2><a href="#toc" name="using-a-database" class="toc-link">Using a database</a></h2>
 
 <p>In a web application you probably need a place to save the data,
   w3a also provides some help for that. Of course there are many
@@ -299,7 +299,7 @@ the users in the application. This page is
   page, a reference to the database to use with clojure.java.jdbc is
   part of the context that is passed to every interceptor.</p>
 
-<h2><a class="toc-link" name="context-context-everywhere" href="#toc">Context, context everywhere</a></h2>
+<h2><a href="#toc" name="context-context-everywhere" class="toc-link">Context, context everywhere</a></h2>
 
 <p>In Pedestal everything goes through interceptors,
   which take the context as an argument.
@@ -321,7 +321,7 @@ the users in the application. This page is
   databases as a request goes through
   interceptors, handlers or middleware comes from both Ring and <a href="http://clojure-liberator.github.io/liberator/">Liberator</a></p>
 
-<h2><a class="toc-link" name="the-common-html-flow" href="#toc">The common HTML flow</a></h2>
+<h2><a href="#toc" name="the-common-html-flow" class="toc-link">The common HTML flow</a></h2>
 
 <p>The w3a library is meant to specifically support user facing web
   applications. This means that the end user will use the application
@@ -368,7 +368,7 @@ refreshed the flash message will be gone.</p>
   behaves when accessed through a browser requesting HTML as well as
   through an API requesting EDN.</p>
 
-<h2><a class="toc-link" name="forms" href="#toc">Forms</a></h2><h2>
+<h2><a href="#toc" name="forms" class="toc-link">Forms</a></h2><h2>
 
 </h2><p>For users to create or update something in a CRUD application in
   the browser, you will need forms. w3a provides helpers to work with
@@ -434,7 +434,7 @@ to the storage in the database as well. In w3a the definition of forms
 is separate, as it is in other micro frameworks such as <a href="http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms">Flask</a> (for
 Python) and <a href="https://go-macaron.com/docs/middlewares/binding">Macaron</a> (for Go)</p>
 
-<h2><a class="toc-link" name="templates-with-enlive" href="#toc">Templates with Enlive</a></h2>
+<h2><a href="#toc" name="templates-with-enlive" class="toc-link">Templates with Enlive</a></h2>
 
 <p>HTML pages in w3a are generated with <a href="https://github.com/cgrand/enlive">Enlive</a>. Enlive combines plain
   HTML pages with data and merges the two together, without having to
@@ -450,7 +450,7 @@ Python) and <a href="https://go-macaron.com/docs/middlewares/binding">Macaron</a
 
 <p class="sidebar">Enlive tutorials are available at: <a href="https://github.com/cgrand/enlive">Enlive</a></p>
 
-<h2><a class="toc-link" name="testing" href="#toc">Testing</a></h2>
+<h2><a href="#toc" name="testing" class="toc-link">Testing</a></h2>
 
 <p>As said before, w3a applications are meant to be used by a user through a browser
   as well as through API access. To test whether the application does
@@ -527,7 +527,7 @@ is now:"</span></span><span class="region"> (</span><span class="clojure-keyword
   so they can both easily
   be used in a test suite and they also support using testing fixtures.</p>
 
-<h2><a class="toc-link" name="running-on-heroku" href="#toc">Running on Heroku</a></h2>
+<h2><a href="#toc" name="running-on-heroku" class="toc-link">Running on Heroku</a></h2>
 
 <p>The snippetlist repo contains everything required to run
   on <a href="https://heroku.com">Heroku</a>. Heroku is a cloud
