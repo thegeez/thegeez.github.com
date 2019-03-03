@@ -1,0 +1,41 @@
+<h1 id="post-title">Serverless collaboration</h1>
+
+<p>Previously I've worked on a collaborative tool, which worked like Google Docs. This project was
+  called <a href="/2017/02/11/crepl_atom_sync.html">crepl</a>. Because
+  I stopped paying for hosting of its server, that project is now
+  offline. That made me consider: what if a collaborative editor wouldn't need a
+  server?</p>
+
+<p>The server in crepl was needed to handle the connections between all
+  the clients and the algorithm for collaborative editing
+  needed a central server. For both there are alternatives that do not
+  need a server.</p>
+
+<p>Browsers can connect to eachother over a network without a central
+  server using WebRTC, of which there is a nice
+  example <a href="https://github.com/owebio/serverless-webrtc-chat">here</a>. This
+  works well on local networks with modern browsers. Through firewalls
+  and older browser this is less likely to work.</p>
+
+<p>Crepl uses <a href="https://en.wikipedia.org/wiki/Operational_transformation">Operational Transformation</a> and needs a central server
+  for correctness. Algorithms for collaborative editing that do not
+  need a central servers can be found in
+  the <a href="https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type">conflict-free
+  replicated data type (CRDT)</a> research. Through the excellent
+  <a href="https://github.com/automerge/automerge">Automerge</a> project I found the RGA algorithm.</p>
+
+
+<p><a href="/static/cljs-collab/index.html">Cljs-collab</a> is the beginnings of a serverless collaboration system,
+  which works between two browsers. It is a single page with all the
+  logic in the client javascript, which is downloaded as a single
+  file.</p>
+
+<p>This project is serverless by not requiring any server after
+  downloading the page. That's even fewer servers than most serverless
+  systems.</p>
+
+<p>Try the serverless collaborative editor: <a href="/static/cljs-collab/index.html">cljs-collab</a></p>
+
+<img src="/images/cljs_collab_screenshot.png"/>
+
+
