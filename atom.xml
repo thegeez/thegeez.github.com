@@ -4,12 +4,30 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.github.com/atom.xml" rel="self" />
  <link href="https://thegeez.github.com/" />
- <updated>2019-03-03T20:50:24Z</updated>
+ <updated>2020-04-07T14:53:46Z</updated>
  <id>https://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Serverless Clojure web app on AWS Lambda</title>
+   <link href="https://thegeez.github.com/2020/04/07/serverless_clojure_web_app_aws_lambda.html" />
+   <updated>2020-04-07T23:00:00Z</updated>
+   <id>https://thegeez.github.com/2020/04/07/serverless_clojure_web_app_aws_lambda.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Serverless Clojure web app on AWS Lambda&lt;/h1&gt;
+
+&lt;p&gt;The &lt;a href="https://postings.thegeez.net"&gt;Postings&lt;/a&gt; app is a simple
+ web application for posting text and comments. It is very old
+ fashioned because it serves html pages from a server, instead of being a big
+ ClojureScript or JavaScript application with Reagent or React. The
+ web app does use a tiny bit of JavaScript to load certain html pages
+ inline, following the ideas of &lt;a href="https://github.com/turbolinks/turbolinks"&gt;turbolinks&lt;/a&gt;. Everything works without JavaScript too. To post a comment
+ the server sends a page with a comment form in it and renders the
+ form inline for a nice user experience. Therefore there is no client side
+ state to manage for a nice developer experience, both of which are me.
+&lt;/p&gt;
+&lt;br /&gt;&lt;a href="https://postings.thegeez.net"&gt;&lt;img src="/images/postings_screenshot.png" /&gt;&lt;/a&gt;&lt;a href="2020/04/07/serverless_clojure_web_app_aws_lambda.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Serverless collaboration</title>
    <link href="https://thegeez.github.com/2019/03/03/serverless_collab.html" />
    <updated>2019-03-03T23:00:00Z</updated>

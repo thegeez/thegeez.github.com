@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>thegeez blog - Serverless Clojure web app on AWS Lambda</title>
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
+
+   <!-- Homepage CSS -->
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a href="/" class="extra">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Serverless Clojure web app on AWS Lambda</h1>07 Apr 2020
+
+<p>The <a href="https://postings.thegeez.net">Postings</a> app is a simple
+ web application for posting text and comments. It is very old
+ fashioned because it serves html pages from a server, instead of being a big
+ ClojureScript or JavaScript application with Reagent or React. The
+ web app does use a tiny bit of JavaScript to load certain html pages
+ inline, following the ideas of <a href="https://github.com/turbolinks/turbolinks">turbolinks</a>. Everything works without JavaScript too. To post a comment
+ the server sends a page with a comment form in it and renders the
+ form inline for a nice user experience. Therefore there is no client side
+ state to manage for a nice developer experience, both of which are me.
+</p>
+<br /><a href="https://postings.thegeez.net"><img src="/images/postings_screenshot.png" /></a>
+<p>
+Each post has a history page with all the edits made to it. There's
+also a search box to search all the posts and comments. To try it out
+you can use a simple guest account: <a href="https://postings.thegeez.net/login">login to Postings</a>
+</p>
+
+<h2>Serverless with Lambda and DynamoDB</h2>
+<p>
+The goal of this project for me was to build something serverless on
+Amazon Web Services (<a href="https://aws.amazon.com">AWS</a>) and to try to use <a href="https://aws.amazon.com/dynamodb/">DynamoDB</a>. When you change anything in DynamoDB, the change is published to a log. And this log can be used to trigger <a href="https://aws.amazon.com/lambda/">AWS Lambda</a> functions. In this app there are two Lambda functions reading this stream of changes from DynamoDB.</p>
+
+<img src="/images/postings_arch.png" />
+
+<p>One lambda function records all the changes to create a history for each post and comment. The second function writes to <a href="https://aws.amazon.com/elasticsearch-service/">ElasticSearch</a> and indexes each post and comment for the search functionality. ElasticSearch also has all the data for the <a href="https://postings.thegeez.net/">index</a>, <a href="https://postings.thegeez.net/recent">recent activity</a> and <a href="https://postings.thegeez.net/profile/guestone">profile</a> pages. This means that the index page, which lists all the post by their date, is eventually consistent with users creating or editing their posts. Editing a post itself is consistent on the post page which reads all its data from DynamoDB.
+A user will always see the result of its own activity immediately on the post page, but
+seeing your post arrive on the index page takes a small amount of time.</p>
+
+
+<h2>Running Clojure on AWS Lambda</h2>
+<p>The first version of Postings was packed up as an uberjar and deployed on AWS Lambda. This worked fine and was fast, except for the first request to the app. This was because the app had a cold start time of 12 seconds (!). If the Postings app was not a rarely used hobby app, but something that could run continuously, then I would have just put it all on an EC2 instance and be done with it. But I ran out of my year of free tier credits a while ago and the goal was to make a serverless app.</p>
+
+<h2>GraalVM and native-image</h2>
+<p>To improve the start-up time of the Postings app, it is compiled with <a href="https://www.graalvm.org/docs/reference-manual/native-image/">GraalVM's native-image</a>. Native-image does ahead of time compilation of Java code (and thus Clojure code) to run as a stand-alone executable, without needing the JVM at runtime. When the app is run with the native-image each request is done in a reasonable time (the cold start time might be a noticeable second or two but nothing too dramatic, and everything is snappy afterwards). The final native-image executable is 71mb and 23mb zipped. However changing a JVM app into a native-image app is not without its trade-offs. For instance, on my machine the compilation of a native-image from the uberjar takes 12 minutes (!). There's is room to investigate and improve this, but for now my solution is to have my keyboard blink once a build is finally finished.</p>
+
+<h2>Development time versus run time</h2>
+
+<p>For an app on AWS Lambda it is useful to consider the size and loading behaviour of your dependencies. For instance, during development I use the excellent Cognitect <a href="https://github.com/cognitect-labs/aws-api">aws-api</a>. It provides validation and documentation for calling AWS services. But the library also uses core.async, Jetty http-client with a connection pool and does dynamic loading of some of its dependencies. Anecdotally it seems that requiring core.async adds a lot of build time for native-image compilation. And setting up a Jetty client is a bit of overkill for possible a single request to an AWS Lambda instance. Therefore I use aws-api during development, but replace it with a stripped down version for the compilation, which doesn't use core.async and uses HTTPUrlConnections via <a href="https://github.com/martinklepsch/clj-http-lite">clj-http-lite</a>. This seems to improve both the compile and loading time of the app.</p>
+
+<p>The web request routing uses <a href="https://github.com/metosin/reitit">reitit</a>. Using the reitit syntax for the routing table is a nice improvement over the syntax from <a href="http://pedestal.io/">Pedestal</a>, which sometimes confused me. The templating for the html pages is done with <a href="https://github.com/yogthos/Selmer">Selmer</a>. For Selmer it is useful to cache the templates at compile time to improve the performance of the app.</p>
+
+<p>Together this makes for a nice experience where everything is still dynamic when developing locally with a local instance of DynamoDB and ElasticSearch. And the final running version is fast enough. Plus it is nice to have AWS Lambda and DynamoDB running with logging and nice management consoles set up without any hassle. Overall building and running a Clojure project for AWS Lambda boils down to reading, writing and transforming data, which I like doing with Clojure.</p>
+
+<p>The Postings app is <a href="https://postings.thegeez.net">here</a></p>
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
