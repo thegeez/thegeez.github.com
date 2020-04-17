@@ -4,12 +4,26 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.github.com/atom.xml" rel="self" />
  <link href="https://thegeez.github.com/" />
- <updated>2020-04-07T14:53:46Z</updated>
+ <updated>2020-04-17T16:02:22Z</updated>
  <id>https://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Collaborate serverless-ly on ClojureScript: crepl is back</title>
+   <link href="https://thegeez.github.com/2020/04/17/crepl_is_back.html" />
+   <updated>2020-04-17T23:00:00Z</updated>
+   <id>https://thegeez.github.com/2020/04/17/crepl_is_back.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Collaborate serverless-ly on ClojureScript: crepl is back&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href="https://crepl.thegeez.net"&gt;crepl&lt;/a&gt; is a collaborative
+  editor written in Clojure and ClojureScript. In the editor you can
+  write and evaluate ClojureScript code. And you can work on the same code together, similar to Google Docs. crepl has been offline for quite some time as I did not have a place to deploy it to. Recently, I have been playing around with compiling Clojure with GraalVM's native-image and deploying on AWS Lambda. Because AWS Lambda works together with websockets via API Gateway the whole crepl infrastructure can be deployed in a serverless manner too!&lt;/p&gt;
+
+&lt;p&gt;Try out the serverless crepl here: &lt;a href="https://crepl.thegeez.net"&gt;crepl.thegeez.net&lt;/a&gt;&lt;/p&gt;
+
+&lt;a href="2020/04/17/crepl_is_back.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Serverless Clojure web app on AWS Lambda</title>
    <link href="https://thegeez.github.com/2020/04/07/serverless_clojure_web_app_aws_lambda.html" />
    <updated>2020-04-07T23:00:00Z</updated>
@@ -291,7 +305,7 @@
    <content type="html">&lt;h1 id="post-title"&gt;crepl: Write and run ClojureScript code
   together&lt;/h1&gt;
 
-&lt;p&gt;&lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt; is a collaborative
+&lt;p&gt;&lt;a href="https://crepl.thegeez.net"&gt;crepl&lt;/a&gt; is a collaborative
   editor written in Clojure and ClojureScript. In the editor you can
   write and evaluate ClojureScript code. This is a fun and quick way
   to try out some ClojureScript code. The real fun begins when you
@@ -301,7 +315,7 @@
   of running the code will be shared with everybody. crepl is like
   Google Docs that can also run ClojureScript!&lt;/p&gt;
 
-&lt;p&gt;&lt;a href="http://crepl.thegeez.net"&gt;&lt;img src="/images/crepl_screenshot.png" style="border: 1px solid black;" /&gt;&lt;/a&gt;
+&lt;p&gt;&lt;a href="https://crepl.thegeez.net"&gt;&lt;img src="/images/crepl_screenshot.png" style="border: 1px solid black;" /&gt;&lt;/a&gt;
 Two people working on the same ClojureScript code and seeing the same output.&lt;/p&gt;
 
 &lt;a href="2017/02/03/crepl_collaborative_editor.html"&gt;Read more&lt;/a&gt;</content>
