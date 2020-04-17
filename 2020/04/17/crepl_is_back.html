@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>thegeez blog - Collaborate serverless-ly on ClojureScript: crepl is back</title>
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
+
+   <!-- Homepage CSS -->
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a href="/" class="extra">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Collaborate serverless-ly on ClojureScript: crepl is back</h1>17 Apr 2020
+
+<p><a href="https://crepl.thegeez.net">crepl</a> is a collaborative
+  editor written in Clojure and ClojureScript. In the editor you can
+  write and evaluate ClojureScript code. And you can work on the same code together, similar to Google Docs. crepl has been offline for quite some time as I did not have a place to deploy it to. Recently, I have been playing around with compiling Clojure with GraalVM's native-image and deploying on AWS Lambda. Because AWS Lambda works together with websockets via API Gateway the whole crepl infrastructure can be deployed in a serverless manner too!</p>
+
+<p>Try out the serverless crepl here: <a href="https://crepl.thegeez.net">crepl.thegeez.net</a></p>
+
+<p><a href="https://crepl.thegeez.net"><img src="/images/crepl_screenshot.png" style="border: 1px solid black;" /></a>
+  Two people working on the same ClojureScript code and seeing the same output.</p>
+
+<p>As a reminder, here's a list of some of the features in crepl:
+  </p><ul>
+    <li><a href="/2017/02/06/crepl_import_4clojure_reagent.html">Import code, solve 4Clojure problems and use reagent</a></li>
+    <li><a href="/2017/02/11/crepl_atom_sync.html">Atom sync, share code and state</a></li>
+    <li><a href="/2017/02/05/crepl_run_continuously.html">Run code continuously</a></li>
+    <li><a href="/2017/08/17/crepl_euroclojure_2017_berlin.html">Talk about crepl at EuroClojure 2017</a></li>
+  </ul>
+
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
