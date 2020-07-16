@@ -4,12 +4,34 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.github.com/atom.xml" rel="self" />
  <link href="https://thegeez.github.com/" />
- <updated>2020-04-17T16:02:22Z</updated>
+ <updated>2020-07-16T18:22:09Z</updated>
  <id>https://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Databrowser for Crux</title>
+   <link href="https://thegeez.github.com/2020/07/16/databrowser_crux.html" />
+   <updated>2020-07-16T23:00:00Z</updated>
+   <id>https://thegeez.github.com/2020/07/16/databrowser_crux.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Databrowser for Crux&lt;/h1&gt;
+
+&lt;p&gt;Databrowser is a web app to explore the data in a &lt;a href="https://www.opencrux.com"&gt;Crux&lt;/a&gt; database. It takes a lot of inspiration from the &lt;a href="https://github.com/cognitect-labs/REBL-distro"&gt;REBL&lt;/a&gt; tool, with added features for Crux documents, such as an easy way to enter time and dates and to view diffs. Here's a longer list of features:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Write custom queries&lt;/li&gt;
+&lt;li&gt;Add Clojure code to your queries to shape the data&lt;/li&gt;
+&lt;li&gt;Support for collections of heterogeneous data&lt;/li&gt;
+&lt;li&gt;Group and sort the data in grids&lt;/li&gt;
+&lt;li&gt;Browse and view pane (similar to REBL)&lt;/li&gt;
+&lt;li&gt;Drill down into data through navigation&lt;/li&gt;
+&lt;li&gt;Full keyboard navigation support&lt;/li&gt;
+&lt;li&gt;Support for easy creation of time and date instances for bi-temporal queries&lt;/li&gt;
+&lt;li&gt;Support to view diffs of data&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;a href="2020/07/16/databrowser_crux.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Collaborate serverless-ly on ClojureScript: crepl is back</title>
    <link href="https://thegeez.github.com/2020/04/17/crepl_is_back.html" />
    <updated>2020-04-17T23:00:00Z</updated>
