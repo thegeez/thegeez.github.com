@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>thegeez blog - Walkthrough of a spreadsheet/database-hybrid with Clojure(Script)</title>
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
+
+   <!-- Homepage CSS -->
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a href="/" class="extra">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Walkthrough of a spreadsheet/database-hybrid with Clojure(Script)</h1>15 Mar 2021
+
+<p>My latest project is a spreadsheet/database hybrid called <a href="https://mixgrid.thegeez.net">mixgrid</a>. Mixgrid is a record based database that is editable like a spreadsheet, similar to <a href="https://airtable.com/">Airtable</a>, <a href="https://stackby.com/">Stackby</a>, <a href="https://tables.area120.google.com/about#/">Google Tables</a> and <a href="https://www.microsoft.com/en-us/microsoft-365/microsoft-lists">Microsoft Lists</a>. While mixgrid is in its early stages it already supports some nice features:</p>
+
+<ul>
+  <li>Real time collaboration</li>
+  <li>Link records between tables</li>
+  <li>Lookup values from linked records</li>
+  <li>Apply formulas per row</li>
+  <li>Undo &amp; redo support</li>
+  <li>Sorting and nested grouping of rows</li>
+</ul>
+
+<p>You can try mixgrid here: <a href="https://mixgrid.thegeez.net">https://mixgrid.thegeez.net</a>. The bottom part of this post is a walkthrough of the features.</p>
+
+<h2>Used libraries and technologies</h2>
+<p>The project is <a href="https://clojurescript.org/">ClojureScript</a> on the front-end and <a href="https://clojure.org/">Clojure</a> on the back-end. It is deployed on Amazon Web Services (AWS).</p>
+
+<p>The front-end uses ClojureScript, <a href="http://reagent-project.github.io/">Reagent</a> and <a href="https://github.com/day8/re-frame">Re-Frame</a>. Together with using <a href="https://figwheel.org/">Figwheel</a> for live updating during development this remains my favorite technology to make applications in a browser.</p>
+
+<p>The back-end uses Clojure and <a href="https://github.com/seancorfield/next-jdbc">jdbc.next</a> to talk to a Postgres database. The 'plan' function in jdbc.next, which returns the result of a query as reducible collection, is great to only query the data you need from the database without doing superfluous conversions to Clojure data. jdbc.next is similarly convenient as efficient for inserts and updates with its PreparedStatement support. A great help during development has been the <a href="https://docs.datomic.com/cloud/other-tools/REBL.html">REBL</a> tool. It serves as scaffold UI for larger and more complex data during REPL-driven development. This removed the need for a lot of ad-hoc code during development.</p>
+
+<p>The project is deployed on AWS using Lambda, Postgres RDS and API Gateway with an http and websocket api. These are all managed and serverless services. This means the code in the mixgrid project only handles events. This removes the need for a lot of webserver and connection management code and configuration. To keep the start-up time of the code on Lambda low, the project is compiled using <a href="https://github.com/BrunoBonacci/graalvm-clojure/blob/master/doc/clojure-graalvm-native-binary.md">GraalVM native-image</a>.</p>
+
+<h2>Demo and walkthrough</h2>
+
+<p>You can try mixgrid here: <a href="https://mixgrid.thegeez.net">https://mixgrid.thegeez.net</a>. Below is a walkthrough of the currently supported features:</p>
+
+<p>Opening mixgrid will log you in as a guest and you'll have a demo table available. You can add rows and columns in the table. To follow along the walkthrough you can import a dataset using the orange button. This dataset contains about 9k rows of information of power stations in Europe. You can inspect the data and group and sort it. Clicking on "[#]" at the start of a row opens the view for a single record.</p>
+
+
+<img src="/static/mixgrid/demo_table_grouped.png" />
+<span>The data grouped by "Country Code" and "Primary fuel" and showing a single record view.</span>
+
+<p>For the imported data, all the columns have values as strings. By using the "[=]" icon in the header of each column, this type can be changed. For instance the "Capacity (MW)" column should be of type "Number" &amp; "Decimal".</p>
+
+<p>The most advance column type is that of a link between records. To try this feature we first need a second table. Create a new table using the "New Table" button, and call it "Fuel". This table will have a record for each type of fuel in the dataset. Open the "Fuel" table in a second window. Now we can change the column type of the "Primary fuel" column to a link. Open the column config menu with "[=]" and select "Link to other record(s)" and the "Fuel" table. This will create a new record for each fuel type in the column and a two-way link between both tables.</p>
+
+<img src="/static/mixgrid/demo_fuel_links.png" />
+<span>Links between the records in the Demo and Fuel table</span>
+
+<p>Now that you have two screens open, you can also see the real-time collaboration in action. Any change will be synchronized to all users in the table. You can also undo or redo any change to a field or type of a column using the "Undo" and "Redo" buttons.</p>
+
+<p>For linked records you can show values from all the linked records from the other table in a column. For example we can show all the capacities per fuel type in the "Fuel" table. Click the "+" icon next to the column "Link to Demo". As the column type select "Lookup", link as "Link to Demo" and "Capacity (MW)" column.</p><p>
+
+</p><p>Finally there's the Formula column type. We'll calculate the total capacity per type of fuel. Create a new column with the "Formula" type and as input the lookup column with the capacities we just created. For the function choose SUM. Note that the "Capacity (MW)" column in the "Demo" table will need to have the type of a "Number", otherwise the formula will show "#ERROR" for every entry, because it can't SUM string values. [TODO insert javascript joke here]</p>
+
+<img src="/static/mixgrid/demo_fuel_lookup_formula.png" />
+<span>Values lookup from linked records and a formula applied to each row</span>
+
+<p>If you change a capacity value in the Demo table or add or remove a link, then the lookup and formula will automatically be updated.</p>
+
+<p>Again, here's the link: <a href="https://mixgrid.thegeez.net">https://mixgrid.thegeez.net</a></p>
+
+
+
+
+
+
+
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

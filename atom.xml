@@ -4,12 +4,31 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.github.com/atom.xml" rel="self" />
  <link href="https://thegeez.github.com/" />
- <updated>2020-07-16T18:22:09Z</updated>
+ <updated>2021-03-15T16:11:44Z</updated>
  <id>https://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Walkthrough of a spreadsheet/database-hybrid with Clojure(Script)</title>
+   <link href="https://thegeez.github.com/2021/03/15/spreadsheet_database_clojure_aws.html" />
+   <updated>2021-03-15T23:00:00Z</updated>
+   <id>https://thegeez.github.com/2021/03/15/spreadsheet_database_clojure_aws.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Walkthrough of a spreadsheet/database-hybrid with Clojure(Script)&lt;/h1&gt;
+
+&lt;p&gt;My latest project is a spreadsheet/database hybrid called &lt;a href="https://mixgrid.thegeez.net"&gt;mixgrid&lt;/a&gt;. Mixgrid is a record based database that is editable like a spreadsheet, similar to &lt;a href="https://airtable.com/"&gt;Airtable&lt;/a&gt;, &lt;a href="https://stackby.com/"&gt;Stackby&lt;/a&gt;, &lt;a href="https://tables.area120.google.com/about#/"&gt;Google Tables&lt;/a&gt; and &lt;a href="https://www.microsoft.com/en-us/microsoft-365/microsoft-lists"&gt;Microsoft Lists&lt;/a&gt;. While mixgrid is in its early stages it already supports some nice features:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Real time collaboration&lt;/li&gt;
+  &lt;li&gt;Link records between tables&lt;/li&gt;
+  &lt;li&gt;Lookup values from linked records&lt;/li&gt;
+  &lt;li&gt;Apply formulas per row&lt;/li&gt;
+  &lt;li&gt;Undo &amp;amp; redo support&lt;/li&gt;
+  &lt;li&gt;Sorting and nested grouping of rows&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;a href="2021/03/15/spreadsheet_database_clojure_aws.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Databrowser for Crux</title>
    <link href="https://thegeez.github.com/2020/07/16/databrowser_crux.html" />
    <updated>2020-07-16T23:00:00Z</updated>
