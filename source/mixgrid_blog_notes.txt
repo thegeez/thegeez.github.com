@@ -1,0 +1,72 @@
+<h1 id="post-title">Spreadsheet/database-hybrid with Clojure & AWS</h1>
+
+<p>Mixgrid is a demo app like Airtable.</p>
+
+Features:
+<ul>
+  <li>Real time collaboration</li>
+  <li>Link records</li>
+  <li>Lookup values from linked records</li>
+  <li>Apply formulas per rows</li>
+  <li>Undo & redo support</li>
+  <li>Sorting and nested grouping of rows</li>
+</ul>
+
+
+Front-end
+- ClojureScript, Reagent, Re-frame
+
+Back-end
+AWS Serverless:
+- Postgres RDS
+- AWS Lambda
+- API Gateway (http & websockets)
+
+
+- Usefull tools
+
+-REBL query result browser and intermediate results
+
+- AWS managed everything
+
+- GraalVM quick start up time for lambda
+To Clojure code is compiled with GraalVM native-image for quick start-up times on AWS Lambda.
+
+
+Try the demo & see the video. The orange button imports about 9k rows of data to play with
+
+The app will become more powerfull once it can integrate with apps by both talking to other APIs as well as provide API access to the records.
+
+Demo
+
+- PUT SCREEN on lower resolution!
+
+- Press import button
+- Browse through columns (with keyboard)
+- Click to open a record
+- Open second screen, show coll. edit
+- Group by Country/Primary fuel
+- Create Fuel table
+- Browse second screen to Fuel
+- Convert Primary fuel to Link
+- Create "Capacities" lookup in Fuel
+- Create "Total capacity" Formula in Fuel
+- Change Capacity from string to number
+- Move Capacity to the right (over Owner)
+- Create Total caps lookup
+- Create Percentage formula
+- Change capacity to super large
+- Undo change
+
+
+=
+
+Walkthrough of a spreadsheet/database hybrid built with Clojure(Script)
+
+Mixgrid is
+
+Built with clojure, clojurescript, AWS mangaged
+
+Try it at: mixgrid.thegeez.net
+
+Below is a walkthrough of the supported features so far;
