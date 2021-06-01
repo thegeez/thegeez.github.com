@@ -2,18 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
  
  <title>thegeez blog</title>
- <link href="https://thegeez.github.com/atom.xml" rel="self" />
- <link href="https://thegeez.github.com/" />
- <updated>2021-06-01T12:32:33Z</updated>
- <id>https://thegeez.github.com/</id>
+ <link href="https://thegeez.net/atom.xml" rel="self" />
+ <link href="https://thegeez.net/" />
+ <updated>2021-06-01T20:47:21Z</updated>
+ <id>https://thegeez.net/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
    <title>Rofolia: a self-hosted collaborative database/spreadsheet hybrid</title>
-   <link href="https://thegeez.github.com/2021/06/01/rofolia_self_host_spreadsheet_database.html" />
-   <updated>2021-06-01T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2021/06/01/rofolia_self_host_spreadsheet_database.html</id>
+   <link href="https://thegeez.net/2021/06/01/rofolia_self_host_spreadsheet_database.html" />
+   <updated>2021-06-01T23:30:00Z</updated>
+   <id>https://thegeez.net/2021/06/01/rofolia_self_host_spreadsheet_database.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Rofolia: a self-hosted collaborative database/spreadsheet hybrid&lt;/h1&gt;
 
 &lt;p&gt;My latest Clojure project is now available! &lt;a href="https://rofolia.com"&gt;Rofolia&lt;/a&gt; is a self-hosted collaborative database/spreadsheet hybrid. It is similar to Airtable and Google Sheets and supports links between tables, lookups, formula's and API access.&lt;/p&gt;
@@ -22,9 +22,9 @@
 &lt;a href="2021/06/01/rofolia_self_host_spreadsheet_database.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Walkthrough of a spreadsheet/database-hybrid with Clojure(Script)</title>
-   <link href="https://thegeez.github.com/2021/03/15/spreadsheet_database_clojure_aws.html" />
+   <link href="https://thegeez.net/2021/03/15/spreadsheet_database_clojure_aws.html" />
    <updated>2021-03-15T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2021/03/15/spreadsheet_database_clojure_aws.html</id>
+   <id>https://thegeez.net/2021/03/15/spreadsheet_database_clojure_aws.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Walkthrough of a spreadsheet/database-hybrid with Clojure(Script)&lt;/h1&gt;
 
 &lt;p&gt;My latest project is a spreadsheet/database hybrid called &lt;a href="https://mixgrid.thegeez.net"&gt;mixgrid&lt;/a&gt;. Mixgrid is a record based database that is editable like a spreadsheet, similar to &lt;a href="https://airtable.com/"&gt;Airtable&lt;/a&gt;, &lt;a href="https://stackby.com/"&gt;Stackby&lt;/a&gt;, &lt;a href="https://tables.area120.google.com/about#/"&gt;Google Tables&lt;/a&gt; and &lt;a href="https://www.microsoft.com/en-us/microsoft-365/microsoft-lists"&gt;Microsoft Lists&lt;/a&gt;. While mixgrid is in its early stages it already supports some nice features:&lt;/p&gt;
@@ -41,9 +41,9 @@
 &lt;a href="2021/03/15/spreadsheet_database_clojure_aws.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Databrowser for Crux</title>
-   <link href="https://thegeez.github.com/2020/07/16/databrowser_crux.html" />
+   <link href="https://thegeez.net/2020/07/16/databrowser_crux.html" />
    <updated>2020-07-16T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2020/07/16/databrowser_crux.html</id>
+   <id>https://thegeez.net/2020/07/16/databrowser_crux.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Databrowser for Crux&lt;/h1&gt;
 
 &lt;p&gt;Databrowser is a web app to explore the data in a &lt;a href="https://www.opencrux.com"&gt;Crux&lt;/a&gt; database. It takes a lot of inspiration from the &lt;a href="https://github.com/cognitect-labs/REBL-distro"&gt;REBL&lt;/a&gt; tool, with added features for Crux documents, such as an easy way to enter time and dates and to view diffs. Here's a longer list of features:&lt;/p&gt;
@@ -63,9 +63,9 @@
 &lt;a href="2020/07/16/databrowser_crux.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Collaborate serverless-ly on ClojureScript: crepl is back</title>
-   <link href="https://thegeez.github.com/2020/04/17/crepl_is_back.html" />
+   <link href="https://thegeez.net/2020/04/17/crepl_is_back.html" />
    <updated>2020-04-17T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2020/04/17/crepl_is_back.html</id>
+   <id>https://thegeez.net/2020/04/17/crepl_is_back.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Collaborate serverless-ly on ClojureScript: crepl is back&lt;/h1&gt;
 
 &lt;p&gt;&lt;a href="https://crepl.thegeez.net"&gt;crepl&lt;/a&gt; is a collaborative
@@ -77,9 +77,9 @@
 &lt;a href="2020/04/17/crepl_is_back.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Serverless Clojure web app on AWS Lambda</title>
-   <link href="https://thegeez.github.com/2020/04/07/serverless_clojure_web_app_aws_lambda.html" />
+   <link href="https://thegeez.net/2020/04/07/serverless_clojure_web_app_aws_lambda.html" />
    <updated>2020-04-07T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2020/04/07/serverless_clojure_web_app_aws_lambda.html</id>
+   <id>https://thegeez.net/2020/04/07/serverless_clojure_web_app_aws_lambda.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Serverless Clojure web app on AWS Lambda&lt;/h1&gt;
 
 &lt;p&gt;The &lt;a href="https://postings.thegeez.net"&gt;Postings&lt;/a&gt; app is a simple
@@ -95,9 +95,9 @@
 &lt;br /&gt;&lt;a href="https://postings.thegeez.net"&gt;&lt;img src="/images/postings_screenshot.png" /&gt;&lt;/a&gt;&lt;a href="2020/04/07/serverless_clojure_web_app_aws_lambda.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Serverless collaboration</title>
-   <link href="https://thegeez.github.com/2019/03/03/serverless_collab.html" />
+   <link href="https://thegeez.net/2019/03/03/serverless_collab.html" />
    <updated>2019-03-03T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2019/03/03/serverless_collab.html</id>
+   <id>https://thegeez.net/2019/03/03/serverless_collab.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Serverless collaboration&lt;/h1&gt;
 
 &lt;p&gt;Previously I've worked on a collaborative tool, which worked like Google Docs. This project was
@@ -114,9 +114,9 @@
 &lt;a href="2019/03/03/serverless_collab.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Fly over Amsterdam with ClojureScript</title>
-   <link href="https://thegeez.github.com/2018/04/01/flight.html" />
+   <link href="https://thegeez.net/2018/04/01/flight.html" />
    <updated>2018-04-01T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2018/04/01/flight.html</id>
+   <id>https://thegeez.net/2018/04/01/flight.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Fly over Amsterdam with ClojureScript&lt;/h1&gt;
 
 &lt;br /&gt;
@@ -125,9 +125,9 @@
  </entry><entry>
    <title>Probabilistic programming example with
   Anglican</title>
-   <link href="https://thegeez.github.com/2017/11/13/prob_prog_anglican_example.html" />
+   <link href="https://thegeez.net/2017/11/13/prob_prog_anglican_example.html" />
    <updated>2017-11-13T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/11/13/prob_prog_anglican_example.html</id>
+   <id>https://thegeez.net/2017/11/13/prob_prog_anglican_example.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Probabilistic programming example with
   Anglican&lt;/h1&gt;
 
@@ -147,9 +147,9 @@
  </entry><entry>
    <title>ClojureConj 2017 Baltimore: Learning Clojure and ClojureScript by Playing a
   Card Game video</title>
-   <link href="https://thegeez.github.com/2017/11/07/clojure_conj_talk_playing_card_game.html" />
+   <link href="https://thegeez.net/2017/11/07/clojure_conj_talk_playing_card_game.html" />
    <updated>2017-11-07T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/11/07/clojure_conj_talk_playing_card_game.html</id>
+   <id>https://thegeez.net/2017/11/07/clojure_conj_talk_playing_card_game.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;ClojureConj 2017 Baltimore: Learning Clojure and ClojureScript by Playing a
   Card Game video&lt;/h1&gt;
 
@@ -163,9 +163,9 @@
 &lt;a href="2017/11/07/clojure_conj_talk_playing_card_game.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>EuroClojure 2017 Berlin: crepl talk video</title>
-   <link href="https://thegeez.github.com/2017/08/17/crepl_euroclojure_2017_berlin.html" />
+   <link href="https://thegeez.net/2017/08/17/crepl_euroclojure_2017_berlin.html" />
    <updated>2017-08-17T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/08/17/crepl_euroclojure_2017_berlin.html</id>
+   <id>https://thegeez.net/2017/08/17/crepl_euroclojure_2017_berlin.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;EuroClojure 2017 Berlin: crepl talk video&lt;/h1&gt;
 
 &lt;p&gt;At &lt;a href="http://2017.euroclojure.org/building-a-collaborative-web-app/"&gt;EuroClojure 2017&lt;/a&gt; I gave a talk titled: "Building a collaborative
@@ -181,9 +181,9 @@
   &lt;/ul&gt;&lt;a href="2017/08/17/crepl_euroclojure_2017_berlin.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Data wrangling with transducers for a machine learning problem</title>
-   <link href="https://thegeez.github.com/2017/04/28/data_transducers_machine_learning_clojure.html" />
+   <link href="https://thegeez.net/2017/04/28/data_transducers_machine_learning_clojure.html" />
    <updated>2017-04-28T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/04/28/data_transducers_machine_learning_clojure.html</id>
+   <id>https://thegeez.net/2017/04/28/data_transducers_machine_learning_clojure.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Data wrangling with transducers for a machine learning problem&lt;/h1&gt;
 
 &lt;p&gt;The transducers from the &lt;a href="https://github.com/cgrand/xforms"&gt;net.cgrand.xforms&lt;/a&gt; library are great to
@@ -203,9 +203,9 @@
 &lt;a href="2017/04/28/data_transducers_machine_learning_clojure.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Dutch Clojure Days 2017: crepl demo</title>
-   <link href="https://thegeez.github.com/2017/04/13/crepl_dutch_clojure_days_2017.html" />
+   <link href="https://thegeez.net/2017/04/13/crepl_dutch_clojure_days_2017.html" />
    <updated>2017-04-13T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/04/13/crepl_dutch_clojure_days_2017.html</id>
+   <id>https://thegeez.net/2017/04/13/crepl_dutch_clojure_days_2017.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Dutch Clojure Days 2017: crepl demo&lt;/h1&gt;
 
 &lt;p&gt;At the &lt;a href="http://clojuredays.org/"&gt;Dutch Clojure Days&lt;/a&gt;
@@ -220,9 +220,9 @@
 &lt;a href="2017/04/13/crepl_dutch_clojure_days_2017.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>crepl and c3e at Dutch Clojure Days 2017</title>
-   <link href="https://thegeez.github.com/2017/03/25/c3e_collaborative_clojure_cloud_editor.html" />
+   <link href="https://thegeez.net/2017/03/25/c3e_collaborative_clojure_cloud_editor.html" />
    <updated>2017-03-25T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/03/25/c3e_collaborative_clojure_cloud_editor.html</id>
+   <id>https://thegeez.net/2017/03/25/c3e_collaborative_clojure_cloud_editor.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;crepl and c3e at Dutch Clojure Days 2017&lt;/h1&gt;
 
 &lt;p&gt;Today was the 2017 edition
@@ -242,9 +242,9 @@
 &lt;a href="2017/03/25/c3e_collaborative_clojure_cloud_editor.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Defn Podcast: Episode 18</title>
-   <link href="https://thegeez.github.com/2017/02/21/defn_podcast.html" />
+   <link href="https://thegeez.net/2017/02/21/defn_podcast.html" />
    <updated>2017-02-21T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/02/21/defn_podcast.html</id>
+   <id>https://thegeez.net/2017/02/21/defn_podcast.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Defn Podcast: Episode 18&lt;/h1&gt;
 
 &lt;p&gt;Last week I joined Ray and Vijay on the Defn Podcast. We talked
@@ -257,9 +257,9 @@
 &lt;a href="2017/02/21/defn_podcast.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>crepl: Link to examples</title>
-   <link href="https://thegeez.github.com/2017/02/20/crepl_links_to_examples.html" />
+   <link href="https://thegeez.net/2017/02/20/crepl_links_to_examples.html" />
    <updated>2017-02-20T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/02/20/crepl_links_to_examples.html</id>
+   <id>https://thegeez.net/2017/02/20/crepl_links_to_examples.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;crepl: Link to examples&lt;/h1&gt;
 
 &lt;p&gt;
@@ -287,9 +287,9 @@
 &lt;/ul&gt;&lt;a href="2017/02/20/crepl_links_to_examples.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>crepl: Atom sync, share code and state</title>
-   <link href="https://thegeez.github.com/2017/02/11/crepl_atom_sync.html" />
+   <link href="https://thegeez.net/2017/02/11/crepl_atom_sync.html" />
    <updated>2017-02-11T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/02/11/crepl_atom_sync.html</id>
+   <id>https://thegeez.net/2017/02/11/crepl_atom_sync.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;crepl: Atom sync, share code and state&lt;/h1&gt;
 
 &lt;p&gt;With &lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt; you can write and
@@ -308,9 +308,9 @@
  </entry><entry>
    <title>crepl: Import code, solve 4Clojure problems and
   use reagent</title>
-   <link href="https://thegeez.github.com/2017/02/06/crepl_import_4clojure_reagent.html" />
+   <link href="https://thegeez.net/2017/02/06/crepl_import_4clojure_reagent.html" />
    <updated>2017-02-06T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/02/06/crepl_import_4clojure_reagent.html</id>
+   <id>https://thegeez.net/2017/02/06/crepl_import_4clojure_reagent.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;crepl: Import code, solve 4Clojure problems and
   use reagent&lt;/h1&gt;
 
@@ -324,9 +324,9 @@
 &lt;a href="2017/02/06/crepl_import_4clojure_reagent.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>crepl: Run continuously</title>
-   <link href="https://thegeez.github.com/2017/02/05/crepl_run_continuously.html" />
+   <link href="https://thegeez.net/2017/02/05/crepl_run_continuously.html" />
    <updated>2017-02-05T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/02/05/crepl_run_continuously.html</id>
+   <id>https://thegeez.net/2017/02/05/crepl_run_continuously.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;crepl: Run continuously&lt;/h1&gt;
 
 &lt;p&gt;With &lt;a href="http://crepl.thegeez.net"&gt;crepl&lt;/a&gt; you can write and
@@ -351,9 +351,9 @@
  </entry><entry>
    <title>crepl: Write and run ClojureScript code
   together</title>
-   <link href="https://thegeez.github.com/2017/02/03/crepl_collaborative_editor.html" />
+   <link href="https://thegeez.net/2017/02/03/crepl_collaborative_editor.html" />
    <updated>2017-02-03T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/02/03/crepl_collaborative_editor.html</id>
+   <id>https://thegeez.net/2017/02/03/crepl_collaborative_editor.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;crepl: Write and run ClojureScript code
   together&lt;/h1&gt;
 
@@ -374,9 +374,9 @@ Two people working on the same ClojureScript code and seeing the same output.&lt
  </entry><entry>
    <title>A wiki made with Clojure, yada and Datomic
   Client</title>
-   <link href="https://thegeez.github.com/2017/01/04/wiki_clojure_yada_datomic_client.html" />
+   <link href="https://thegeez.net/2017/01/04/wiki_clojure_yada_datomic_client.html" />
    <updated>2017-01-04T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2017/01/04/wiki_clojure_yada_datomic_client.html</id>
+   <id>https://thegeez.net/2017/01/04/wiki_clojure_yada_datomic_client.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;A wiki made with Clojure, yada and Datomic
   Client&lt;/h1&gt;
 
@@ -404,9 +404,9 @@ which I had not played around with either.&lt;/p&gt;
 &lt;a href="2017/01/04/wiki_clojure_yada_datomic_client.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Parsing with clojure.spec for the Advent of Code</title>
-   <link href="https://thegeez.github.com/2016/12/09/parsing_clojure_spec_advent_of_code.html" />
+   <link href="https://thegeez.net/2016/12/09/parsing_clojure_spec_advent_of_code.html" />
    <updated>2016-12-09T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2016/12/09/parsing_clojure_spec_advent_of_code.html</id>
+   <id>https://thegeez.net/2016/12/09/parsing_clojure_spec_advent_of_code.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Parsing with clojure.spec for the Advent of Code&lt;/h1&gt;
 
 &lt;p&gt;&lt;a href="http://adventofcode.com"&gt;Advent of Code&lt;/a&gt; is a series of
@@ -419,9 +419,9 @@ which I had not played around with either.&lt;/p&gt;
 </content>
  </entry><entry>
    <title>Trello clone clone in Clojure</title>
-   <link href="https://thegeez.github.com/2016/09/22/trello_clone_clone_in_clojure.html" />
+   <link href="https://thegeez.net/2016/09/22/trello_clone_clone_in_clojure.html" />
    <updated>2016-09-22T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2016/09/22/trello_clone_clone_in_clojure.html</id>
+   <id>https://thegeez.net/2016/09/22/trello_clone_clone_in_clojure.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Trello clone clone in Clojure&lt;/h1&gt;
 
 &lt;p&gt;The &lt;a href="https://github.com/bigardone/phoenix-trello"&gt;Phoenix-Trello&lt;/a&gt;
@@ -435,9 +435,9 @@ which I had not played around with either.&lt;/p&gt;
 &lt;a href="2016/09/22/trello_clone_clone_in_clojure.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Pedestal presentation and example app</title>
-   <link href="https://thegeez.github.com/2016/09/01/pedestal_presentation_video_app.html" />
+   <link href="https://thegeez.net/2016/09/01/pedestal_presentation_video_app.html" />
    <updated>2016-09-01T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2016/09/01/pedestal_presentation_video_app.html</id>
+   <id>https://thegeez.net/2016/09/01/pedestal_presentation_video_app.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Pedestal presentation and example app&lt;/h1&gt;
 
 &lt;p&gt;At the &lt;a href="http://www.ticketbase.com/events/dutch-clojure-days-2016"&gt;Dutch Clojure Days&lt;/a&gt; 2016 in Amsterdam I gave a presentation on building
@@ -450,9 +450,9 @@ which I had not played around with either.&lt;/p&gt;
  </entry><entry>
    <title>Pedestal and w3a walkthrough: Build a CRUD app
   with Clojure</title>
-   <link href="https://thegeez.github.com/2016/02/15/w3a_pedestal_walkthrough.html" />
+   <link href="https://thegeez.net/2016/02/15/w3a_pedestal_walkthrough.html" />
    <updated>2016-02-15T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2016/02/15/w3a_pedestal_walkthrough.html</id>
+   <id>https://thegeez.net/2016/02/15/w3a_pedestal_walkthrough.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Pedestal and w3a walkthrough: Build a CRUD app
   with Clojure&lt;/h1&gt;
 
@@ -476,9 +476,9 @@ which I had not played around with either.&lt;/p&gt;
 &lt;a href="2016/02/15/w3a_pedestal_walkthrough.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Gatherlist: combining Pedestal &amp; OAuth</title>
-   <link href="https://thegeez.github.com/2015/10/12/gatherlist_pedestal_oauth.html" />
+   <link href="https://thegeez.net/2015/10/12/gatherlist_pedestal_oauth.html" />
    <updated>2015-10-12T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2015/10/12/gatherlist_pedestal_oauth.html</id>
+   <id>https://thegeez.net/2015/10/12/gatherlist_pedestal_oauth.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Gatherlist: combining Pedestal &amp;amp; OAuth&lt;/h1&gt;
 
 &lt;p&gt;Visiting conferences is nice. You'll find lots of new and old
@@ -501,9 +501,9 @@ which I had not played around with either.&lt;/p&gt;
 &lt;a href="2015/10/12/gatherlist_pedestal_oauth.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Web application with Pedestal</title>
-   <link href="https://thegeez.github.com/2015/05/16/w3a_web_application_pedestal.html" />
+   <link href="https://thegeez.net/2015/05/16/w3a_web_application_pedestal.html" />
    <updated>2015-05-16T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2015/05/16/w3a_web_application_pedestal.html</id>
+   <id>https://thegeez.net/2015/05/16/w3a_web_application_pedestal.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Web application with Pedestal&lt;/h1&gt;
 
 &lt;p&gt;As Frankie said, for web development in Clojure we
@@ -521,9 +521,9 @@ which I had not played around with either.&lt;/p&gt;
 &lt;a href="2015/05/16/w3a_web_application_pedestal.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Turned off gin.thegeez.net</title>
-   <link href="https://thegeez.github.com/2014/07/08/gin_datomic_local.html" />
+   <link href="https://thegeez.net/2014/07/08/gin_datomic_local.html" />
    <updated>2014-07-08T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2014/07/08/gin_datomic_local.html</id>
+   <id>https://thegeez.net/2014/07/08/gin_datomic_local.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Turned off gin.thegeez.net&lt;/h1&gt;
 
 &lt;p&gt;The server for &lt;a href="/2014/06/12/gin_datomic.html"&gt;Gin Rummy
@@ -539,9 +539,9 @@ which I had not played around with either.&lt;/p&gt;
 </content>
  </entry><entry>
    <title>Gin Rummy with Datomic</title>
-   <link href="https://thegeez.github.com/2014/06/12/gin_datomic.html" />
+   <link href="https://thegeez.net/2014/06/12/gin_datomic.html" />
    <updated>2014-06-12T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2014/06/12/gin_datomic.html</id>
+   <id>https://thegeez.net/2014/06/12/gin_datomic.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Gin Rummy with Datomic&lt;/h1&gt;
 
 &lt;p&gt;When I began to learn Clojure I found the &lt;a href="http://docs.racket-lang.org/games/ginrummy.html"&gt;Gin Rummy&lt;/a&gt; game in the &lt;a href="http://racket-lang.org/"&gt;PLT
@@ -561,9 +561,9 @@ which I had not played around with either.&lt;/p&gt;
 &lt;a href="2014/06/12/gin_datomic.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Datascript and Quiescent TodoMVC stand-alone</title>
-   <link href="https://thegeez.github.com/2014/05/01/datascript_quiescent_standalone.html" />
+   <link href="https://thegeez.net/2014/05/01/datascript_quiescent_standalone.html" />
    <updated>2014-05-01T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2014/05/01/datascript_quiescent_standalone.html</id>
+   <id>https://thegeez.net/2014/05/01/datascript_quiescent_standalone.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Datascript and Quiescent TodoMVC stand-alone&lt;/h1&gt;
 &lt;style type="text/css"&gt;
 @charset "UTF-8";body,html{margin:0;padding:0}button{margin:0;padding:0;border:0;background:0 0;font-size:100%;vertical-align:baseline;font-family:inherit;color:inherit;-webkit-appearance:none;-ms-appearance:none;-o-appearance:none;appearance:none}body{color:#4d4d4d}button,input[type=checkbox]{outline:0}#todoapp{background:#fff;background:rgba(255,255,255,.9);margin:170px 0 40px;border:1px solid #ccc;position:relative;border-top-left-radius:2px;border-top-right-radius:2px;box-shadow:0 2px 6px 0 rgba(0,0,0,.2),0 25px 50px 0 rgba(0,0,0,.15)}#todoapp:before{content:'';border-left:1px solid #f5d6d6;border-right:1px solid #f5d6d6;width:2px;position:absolute;top:0;left:40px;height:100%}#todoapp input::-webkit-input-placeholder{font-style:italic}#todoapp input::-moz-placeholder{font-style:italic;color:#a9a9a9}#todoapp h1{position:absolute;top:-120px;width:100%;font-size:70px;font-weight:700;text-align:center;color:#b3b3b3;color:rgba(255,255,255,.3);text-shadow:-1px -1px rgba(0,0,0,.2);-webkit-text-rendering:optimizeLegibility;-moz-text-rendering:optimizeLegibility;-ms-text-rendering:optimizeLegibility;-o-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility}#header{padding-top:15px;border-radius:inherit}#header:before{content:'';position:absolute;top:0;right:0;left:0;height:15px;z-index:2;border-bottom:1px solid #6c615c;background:#8d7d77;background:-webkit-gradient(linear,left top,left bottom,from(rgba(132,110,100,.8)),to(rgba(101,84,76,.8)));background:-webkit-linear-gradient(top,rgba(132,110,100,.8),rgba(101,84,76,.8));background:linear-gradient(top,rgba(132,110,100,.8),rgba(101,84,76,.8));filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr='#9d8b83', EndColorStr='#847670');border-top-left-radius:1px;border-top-right-radius:1px}#new-todo,.edit{position:relative;margin:0;width:100%;font-size:24px;font-family:inherit;line-height:1.4em;outline:0;color:inherit;padding:6px;border:1px solid #999;box-shadow:inset 0 -1px 5px 0 rgba(0,0,0,.2);-moz-box-sizing:border-box;-ms-box-sizing:border-box;-o-box-sizing:border-box;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-font-smoothing:antialiased;-ms-font-smoothing:antialiased;-o-font-smoothing:antialiased;font-smoothing:antialiased}#new-todo{padding:16px 16px 16px 60px;border:none;background:rgba(0,0,0,.02);z-index:2;box-shadow:none}#main{position:relative;z-index:2;border-top:1px dotted #adadad}label[for=toggle-all]{display:none}#toggle-all{position:absolute;top:-42px;left:-4px;width:40px;text-align:center;border:none}#toggle-all:before{content:'»';font-size:28px;color:#d9d9d9;padding:0 25px 7px}#toggle-all:checked:before{color:#737373}#todo-list{margin:0;padding:0;list-style:none}#todo-list li{position:relative;font-size:24px;border-bottom:1px dotted #ccc}#todo-list li:last-child{border-bottom:none}#todo-list li.editing{border-bottom:none;padding:0}#todo-list li.editing .edit{display:block;width:506px;padding:13px 17px 12px;margin:0 0 0 43px}#todo-list li.editing .view{display:none}#todo-list li .toggle{text-align:center;width:40px;height:auto;position:absolute;top:0;bottom:0;margin:auto 0;border:none;-webkit-appearance:none;-ms-appearance:none;-o-appearance:none;appearance:none}#todo-list li .toggle:after{content:'✔';line-height:43px;font-size:20px;color:#d9d9d9;text-shadow:0 -1px 0 #bfbfbf}#todo-list li .toggle:checked:after{color:#85ada7;text-shadow:0 1px 0 #669991;bottom:1px;position:relative}#todo-list li label{white-space:pre;word-break:break-word;padding:15px 60px 15px 15px;margin-left:45px;display:block;line-height:1.2;-webkit-transition:color .4s;transition:color .4s}#todo-list li.completed label{color:#a9a9a9;text-decoration:line-through}#todo-list li .sync{position:absolute;top:20px;right:10px;bottom:0;width:40px;height:40px;margin:auto 0}#todo-list li .destroy{display:none;position:absolute;top:0;right:10px;bottom:0;width:40px;height:40px;margin:auto 0;font-size:22px;color:#a88a8a;-webkit-transition:all .2s;transition:all .2s}#todo-list li .destroy:hover{text-shadow:0 0 1px #000,0 0 10px rgba(199,107,107,.8);-webkit-transform:scale(1.3);-ms-transform:scale(1.3);transform:scale(1.3)}#todo-list li .destroy:after{content:'✖'}#todo-list li:hover .destroy{display:block}#todo-list li .edit{display:none}#todo-list li.editing:last-child{margin-bottom:-1px}#footer{color:#777;padding:0 15px;position:absolute;right:0;bottom:-31px;left:0;height:20px;z-index:1;text-align:center}#footer:before{content:'';position:absolute;right:0;bottom:31px;left:0;height:50px;z-index:-1;box-shadow:0 1px 1px rgba(0,0,0,.3),0 6px 0 -3px rgba(255,255,255,.8),0 7px 1px -3px rgba(0,0,0,.3),0 43px 0 -6px rgba(255,255,255,.8),0 44px 2px -6px rgba(0,0,0,.2)}#todo-count{float:left;text-align:left}#filters{margin:0;padding:0;list-style:none;position:absolute;right:0;left:0}#filters li{display:inline}#filters li a{color:#83756f;margin:2px;text-decoration:none}#filters li a.selected{font-weight:700}#clear-completed{float:right;position:relative;line-height:20px;text-decoration:none;background:rgba(0,0,0,.1);font-size:11px;padding:0 10px;border-radius:3px;box-shadow:0 -1px 0 0 rgba(0,0,0,.2)}#clear-completed:hover{background:rgba(0,0,0,.15);box-shadow:0 -1px 0 0 rgba(0,0,0,.3)}#info{margin:65px auto 0;color:#a6a6a6;font-size:12px;text-shadow:0 1px 0 rgba(255,255,255,.7);text-align:center}#info a{color:inherit}@media screen and (-webkit-min-device-pixel-ratio:0){#todo-list li .toggle,#toggle-all{background:0 0}#todo-list li .toggle{height:40px}#toggle-all{top:-56px;left:-15px;width:65px;height:41px;-webkit-transform:rotate(90deg);-ms-transform:rotate(90deg);transform:rotate(90deg);-webkit-appearance:none;appearance:none}}.hidden{display:none}hr{margin:20px 0;border:0;border-top:1px dashed #C5C5C5;border-bottom:1px dashed #F7F7F7}.learn a{font-weight:400;text-decoration:none;color:#b83f45}.learn a:hover{text-decoration:underline;color:#787e7e}.learn h3,.learn h4,.learn h5{margin:10px 0;font-weight:500;line-height:1.2;color:#000}.learn h3{font-size:24px}.learn h4{font-size:18px}.learn h5{margin-bottom:0;font-size:14px}.learn ul{padding:0;margin:0 0 30px 25px}.learn li{line-height:20px}.learn p{font-size:15px;font-weight:300;line-height:1.3;margin-top:0;margin-bottom:0}.quote{border:none;margin:20px 0 60px}.quote p{font-style:italic}.quote p:before{content:'“';font-size:50px;opacity:.15;position:absolute;top:-20px;left:3px}.quote p:after{content:'”';font-size:50px;opacity:.15;position:absolute;bottom:-42px;right:3px}.quote footer{position:absolute;bottom:-40px;right:0}.quote footer img{border-radius:3px}.quote footer a{margin-left:5px;vertical-align:middle}.speech-bubble{position:relative;padding:10px;background:rgba(0,0,0,.04);border-radius:5px}.speech-bubble:after{content:'';position:absolute;top:100%;right:30px;border:13px solid transparent;border-top-color:rgba(0,0,0,.04)}.learn-bar&gt;.learn{position:absolute;width:272px;top:8px;left:-300px;padding:10px;border-radius:5px;background-color:rgba(255,255,255,.6);-webkit-transition-property:left;transition-property:left;-webkit-transition-duration:500ms;transition-duration:500ms}@media (min-width:899px){.learn-bar{width:auto;margin:0 0 0 300px}.learn-bar&gt;.learn{left:8px}.learn-bar #todoapp{width:550px;margin:130px auto 40px}}#todo-error{margin-top:100px}
@@ -580,9 +580,9 @@ which I had not played around with either.&lt;/p&gt;
 &lt;a href="2014/05/01/datascript_quiescent_standalone.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Datascript and React.js for a Clojure web app</title>
-   <link href="https://thegeez.github.com/2014/04/30/datascript_clojure_web_app.html" />
+   <link href="https://thegeez.net/2014/04/30/datascript_clojure_web_app.html" />
    <updated>2014-04-30T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2014/04/30/datascript_clojure_web_app.html</id>
+   <id>https://thegeez.net/2014/04/30/datascript_clojure_web_app.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Datascript and React.js for a Clojure web app&lt;/h1&gt;
 &lt;p&gt;When building a web application with Clojure there are a lot of
   building blocks to choose from. For ClojureScript there has been a
@@ -598,9 +598,9 @@ which I had not played around with either.&lt;/p&gt;
 &lt;a href="2014/04/30/datascript_clojure_web_app.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Using SendGrid with Clojure in The Next Web HackBattle</title>
-   <link href="https://thegeez.github.com/2014/04/24/tnw_hackbattle_sendgrid.html" />
+   <link href="https://thegeez.net/2014/04/24/tnw_hackbattle_sendgrid.html" />
    <updated>2014-04-24T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2014/04/24/tnw_hackbattle_sendgrid.html</id>
+   <id>https://thegeez.net/2014/04/24/tnw_hackbattle_sendgrid.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Using SendGrid with Clojure in The Next Web HackBattle&lt;/h1&gt;
 
 &lt;p&gt;This week is &lt;a href="http://thenextweb.com/conference/europe/"&gt;The Next Web&lt;/a&gt; conference in Amsterdam, where I participated
@@ -622,9 +622,9 @@ which I had not played around with either.&lt;/p&gt;
  </entry><entry>
    <title>Bayesian Inference with Markov Chain Monte Carlo
   in Clojure</title>
-   <link href="https://thegeez.github.com/2014/03/12/bayes_mcmc_clojure.html" />
+   <link href="https://thegeez.net/2014/03/12/bayes_mcmc_clojure.html" />
    <updated>2014-03-12T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2014/03/12/bayes_mcmc_clojure.html</id>
+   <id>https://thegeez.net/2014/03/12/bayes_mcmc_clojure.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Bayesian Inference with Markov Chain Monte Carlo
   in Clojure&lt;/h1&gt;
 
@@ -644,9 +644,9 @@ which I had not played around with either.&lt;/p&gt;
 &lt;a href="2014/03/12/bayes_mcmc_clojure.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Solving 4clojure problems in an editor</title>
-   <link href="https://thegeez.github.com/2014/01/10/4clojure_in_editor.html" />
+   <link href="https://thegeez.net/2014/01/10/4clojure_in_editor.html" />
    <updated>2014-01-10T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2014/01/10/4clojure_in_editor.html</id>
+   <id>https://thegeez.net/2014/01/10/4clojure_in_editor.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Solving 4clojure problems in an editor&lt;/h1&gt;
 
 &lt;p&gt;On
@@ -665,9 +665,9 @@ which I had not played around with either.&lt;/p&gt;
 </content>
  </entry><entry>
    <title>Vintage JavaScript game restoration</title>
-   <link href="https://thegeez.github.com/2013/12/30/vintage_javascript_game_restoration.html" />
+   <link href="https://thegeez.net/2013/12/30/vintage_javascript_game_restoration.html" />
    <updated>2013-12-30T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2013/12/30/vintage_javascript_game_restoration.html</id>
+   <id>https://thegeez.net/2013/12/30/vintage_javascript_game_restoration.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Vintage JavaScript game restoration&lt;/h1&gt;
 
 &lt;p&gt;At a recent &lt;a href="http://amsclj.nl/"&gt;Amsterdam Clojurians meetup&lt;/a&gt; the topic was game
@@ -695,9 +695,9 @@ which I had not played around with either.&lt;/p&gt;
  </entry><entry>
    <title>Testing RxJava with executable marble
   diagrams</title>
-   <link href="https://thegeez.github.com/2013/03/25/neflix_rxjava_marble.html" />
+   <link href="https://thegeez.net/2013/03/25/neflix_rxjava_marble.html" />
    <updated>2013-03-25T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2013/03/25/neflix_rxjava_marble.html</id>
+   <id>https://thegeez.net/2013/03/25/neflix_rxjava_marble.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Testing RxJava with executable marble
   diagrams&lt;/h1&gt;
 &lt;p&gt;Reactive Extensions (Rx) from the .Net world are observable
@@ -719,9 +719,9 @@ example will have you wishing to be able to use Rx in Clojure. Luckily
 Netflix recently open sourced their Java variation of Rx called RxJava.&lt;/p&gt;&lt;a href="2013/03/25/neflix_rxjava_marble.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Haskell Picnic</title>
-   <link href="https://thegeez.github.com/2013/01/20/haskell_picnic.html" />
+   <link href="https://thegeez.net/2013/01/20/haskell_picnic.html" />
    <updated>2013-01-20T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2013/01/20/haskell_picnic.html</id>
+   <id>https://thegeez.net/2013/01/20/haskell_picnic.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Haskell Picnic&lt;/h1&gt;
 
 &lt;p&gt;&lt;a href="http://lisperati.com/haskell/"&gt;PicnicMob&lt;/a&gt; is a Haskell
@@ -743,9 +743,9 @@ author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&g
 &lt;a href="2013/01/20/haskell_picnic.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>October Amsterdam Clojure Presentation</title>
-   <link href="https://thegeez.github.com/2012/10/28/october_amsterdam_clojure.html" />
+   <link href="https://thegeez.net/2012/10/28/october_amsterdam_clojure.html" />
    <updated>2012-10-28T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2012/10/28/october_amsterdam_clojure.html</id>
+   <id>https://thegeez.net/2012/10/28/october_amsterdam_clojure.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;October Amsterdam Clojure Presentation&lt;/h1&gt;
 
 &lt;p&gt;The slides from my presentation
@@ -755,9 +755,9 @@ author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&g
 </content>
  </entry><entry>
    <title>Count aggregator in Cascalog</title>
-   <link href="https://thegeez.github.com/2012/08/26/cascalog_clojure_count.html" />
+   <link href="https://thegeez.net/2012/08/26/cascalog_clojure_count.html" />
    <updated>2012-08-26T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2012/08/26/cascalog_clojure_count.html</id>
+   <id>https://thegeez.net/2012/08/26/cascalog_clojure_count.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Count aggregator in Cascalog&lt;/h1&gt;
 
 &lt;p&gt;At my current job we use the excellent &lt;a href="https://github.com/nathanmarz/cascalog"&gt;Cascalog&lt;/a&gt; library. Cascalog
@@ -779,9 +779,9 @@ author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&g
 &lt;a href="2012/08/26/cascalog_clojure_count.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Testing clj-browserchannel</title>
-   <link href="https://thegeez.github.com/2012/07/10/test_selenium_browserchannel.html" />
+   <link href="https://thegeez.net/2012/07/10/test_selenium_browserchannel.html" />
    <updated>2012-07-10T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2012/07/10/test_selenium_browserchannel.html</id>
+   <id>https://thegeez.net/2012/07/10/test_selenium_browserchannel.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Testing clj-browserchannel&lt;/h1&gt;
 
 &lt;p&gt;The &lt;a href="https://github.com/thegeez/clj-browserchannel"&gt;clj-browserchannel&lt;/a&gt; project now also contains a test
@@ -806,9 +806,9 @@ author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&g
  </entry><entry>
    <title>My understanding of reducers after
   EuroClojure</title>
-   <link href="https://thegeez.github.com/2012/06/12/euroclojure_reducers.html" />
+   <link href="https://thegeez.net/2012/06/12/euroclojure_reducers.html" />
    <updated>2012-06-12T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2012/06/12/euroclojure_reducers.html</id>
+   <id>https://thegeez.net/2012/06/12/euroclojure_reducers.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;My understanding of reducers after
   EuroClojure&lt;/h1&gt;
 
@@ -823,9 +823,9 @@ author of &lt;a href="http://landoflisp.com/"&gt;Land of Lisp&lt;/a&gt;.&lt;/p&g
  </entry><entry>
    <title>Playing "Racket Gin Rummy in ClojureScript" with
   Clojure</title>
-   <link href="https://thegeez.github.com/2012/06/01/ginbot_euroclojure.html" />
+   <link href="https://thegeez.net/2012/06/01/ginbot_euroclojure.html" />
    <updated>2012-06-01T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2012/06/01/ginbot_euroclojure.html</id>
+   <id>https://thegeez.net/2012/06/01/ginbot_euroclojure.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Playing "Racket Gin Rummy in ClojureScript" with
   Clojure&lt;/h1&gt;
 
@@ -847,9 +847,9 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
  </entry><entry>
    <title>BrowserChannel and the Rijksmuseum API at
   The Next Web HackBattle</title>
-   <link href="https://thegeez.github.com/2012/05/16/the_next_web_rijksmuseum.html" />
+   <link href="https://thegeez.net/2012/05/16/the_next_web_rijksmuseum.html" />
    <updated>2012-05-16T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2012/05/16/the_next_web_rijksmuseum.html</id>
+   <id>https://thegeez.net/2012/05/16/the_next_web_rijksmuseum.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;BrowserChannel and the Rijksmuseum API at
   The Next Web HackBattle&lt;/h1&gt;
 
@@ -878,9 +878,9 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
 &lt;a href="2012/05/16/the_next_web_rijksmuseum.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Why BrowserChannel?</title>
-   <link href="https://thegeez.github.com/2012/04/03/why_browserchannel.html" />
+   <link href="https://thegeez.net/2012/04/03/why_browserchannel.html" />
    <updated>2012-04-03T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2012/04/03/why_browserchannel.html</id>
+   <id>https://thegeez.net/2012/04/03/why_browserchannel.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Why BrowserChannel?&lt;/h1&gt;
 &lt;p&gt;After the release
   of &lt;a href="https://github.com/thegeez/clj-browserchannel-demo"&gt;clj-browserchannel-demo&lt;/a&gt;,
@@ -894,9 +894,9 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
 &lt;a href="2012/04/03/why_browserchannel.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Racket Gin Rummy in ClojureScript</title>
-   <link href="https://thegeez.github.com/2012/03/20/racket_gin_clojurescript.html" />
+   <link href="https://thegeez.net/2012/03/20/racket_gin_clojurescript.html" />
    <updated>2012-03-20T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2012/03/20/racket_gin_clojurescript.html</id>
+   <id>https://thegeez.net/2012/03/20/racket_gin_clojurescript.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Racket Gin Rummy in ClojureScript&lt;/h1&gt;
 &lt;p&gt;A ClojureScript implementation of a simple card game. The game can
   be played &lt;a href="http://thegeez-gin.s3-website-eu-west-1.amazonaws.com/"&gt;here&lt;/a&gt;.&lt;/p&gt;
@@ -918,9 +918,9 @@ of example games. My favorite is the Gin Rummy card game. The object of this gam
 &lt;a href="2012/03/20/racket_gin_clojurescript.html"&gt;Read more&lt;/a&gt;</content>
  </entry><entry>
    <title>Simple static blog with Clojure</title>
-   <link href="https://thegeez.github.com/2012/03/15/static_blog_on_github_with_enlive.html" />
+   <link href="https://thegeez.net/2012/03/15/static_blog_on_github_with_enlive.html" />
    <updated>2012-03-15T23:00:00Z</updated>
-   <id>https://thegeez.github.com/2012/03/15/static_blog_on_github_with_enlive.html</id>
+   <id>https://thegeez.net/2012/03/15/static_blog_on_github_with_enlive.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Simple static blog with Clojure&lt;/h1&gt;
 &lt;p&gt;This inaugural post for this Clojure blog describes how it is
 created. This blog is hosted by GitHub Pages and the static pages are
