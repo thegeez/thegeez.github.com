@@ -4,12 +4,23 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.github.com/atom.xml" rel="self" />
  <link href="https://thegeez.github.com/" />
- <updated>2021-03-15T16:11:44Z</updated>
+ <updated>2021-06-01T12:32:33Z</updated>
  <id>https://thegeez.github.com/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Rofolia: a self-hosted collaborative database/spreadsheet hybrid</title>
+   <link href="https://thegeez.github.com/2021/06/01/rofolia_self_host_spreadsheet_database.html" />
+   <updated>2021-06-01T23:00:00Z</updated>
+   <id>https://thegeez.github.com/2021/06/01/rofolia_self_host_spreadsheet_database.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Rofolia: a self-hosted collaborative database/spreadsheet hybrid&lt;/h1&gt;
+
+&lt;p&gt;My latest Clojure project is now available! &lt;a href="https://rofolia.com"&gt;Rofolia&lt;/a&gt; is a self-hosted collaborative database/spreadsheet hybrid. It is similar to Airtable and Google Sheets and supports links between tables, lookups, formula's and API access.&lt;/p&gt;
+
+&lt;p&gt;Try the demo at &lt;a href="https://demo.rofolia.com"&gt;demo.rofolia.com&lt;/a&gt; and check out the documentation at &lt;a href="https://rofolia.com"&gt;Rofolia.com&lt;/a&gt;.&lt;/p&gt;
+&lt;a href="2021/06/01/rofolia_self_host_spreadsheet_database.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Walkthrough of a spreadsheet/database-hybrid with Clojure(Script)</title>
    <link href="https://thegeez.github.com/2021/03/15/spreadsheet_database_clojure_aws.html" />
    <updated>2021-03-15T23:00:00Z</updated>
