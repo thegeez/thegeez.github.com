@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>thegeez blog - Web app on AWS Lambda with Janet</title>
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
+
+   <!-- Homepage CSS -->
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a href="/" class="extra">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Web app on AWS Lambda with Janet</h1>28 Oct 2021
+
+<p><a href="https://janet-lang.org">Janet</a> is a small functional and imperative programming language. The language has some similarities to Clojure with its Lispy syntax, its data notation, and with its proper REPL for dynamic developing within a running system. Janet also compiles its runtime and VM to C and can therefore run almost anywhere.</p>
+
+<p>All of Janet's features make it a good candidate to make AWS Lambda serverless functions with. This is because Janet programs start up and compile quickly, certainly when compared to a combination of Clojure and native-image compilation. <a href="https://iakerss4c6.execute-api.eu-central-1.amazonaws.com">Postings</a> is a simple forum web app on AWS Lambda behind an API Gateway and using DynamoDB as the database.</p>
+
+
+<a href="https://iakerss4c6.execute-api.eu-central-1.amazonaws.com">
+<img src="/images/janet_postings_screenshot.png" />
+</a>
+
+Postings web app at <a href="https://iakerss4c6.execute-api.eu-central-1.amazonaws.com">https://iakerss4c6.execute-api.eu-central-1.amazonaws.com</a>, source at <a href="https://github.com/thegeez/janet-postings">https://github.com/thegeez/janet-postings</a>
+
+<br /><br />
+<h2>Differences between Janet &amp; Clojure</h2>
+<p>Janet and Clojure look alike and share many concepts and programming approaches. This is usefull to get started quickly, but can also trip you up when things that look the same in both languages behave slightly different. Here are some of the things I ran into: </p>
+<p>
+</p><ul>
+<li>Immutable and mutable data - Janet has immutable data for values, but for data that will change over time you'll need to use the mutable variants. <pre>{:struct "immutable data"} # an immutable struct
+# Can't create another immutable datastructure through 'assoc' or 'conj' from a struct, need to use a table:
+(def table @{:mutable "data"})
+(put table :extra-key "value")
+table #=&gt; @{:mutable "data :extra-key "value"}
+</pre>
+<br />
+</li>
+<li>Data and value equality - Immutable data has value equality semantics, the mutable data structures do not.
+<pre>(= {:a 1} {:a 1}) #=&gt; true, immutable structs are equal
+(= @{:a 1} @{:a 1}) #=&gt; false (!!), mutable tables are not equal
+(deep= @{:a 1} @{:a 1}) #=&gt; true, can check mutable data structures for equality with deep=
+</pre>
+<br />
+</li>
+<li>nil punning - If a construct in Janet expects a data structure you can't pass nil to it instead of an empty collection. (This is the thing from Clojure that trips me up most often in Janet.)
+<pre>(loop [number :in [1 2 3]] ...do something with number...)
+(loop [number :in nil] ...collection is empty...) #=&gt; error: expected iterable type, got nil
+</pre>
+<br />
+</li>
+<li>Dynamic development with the REPL - Janet uses early binding. So if you recompile a function in the REPL, any function that uses the recompiled function will not use the newest definition. This is usually not what you want. To get the late binding that Clojure uses, redefine "defn" to "varfn" during development. For other dynamic behaviors the environment in Janet is first-class and inspectable and changeable through "(curenv)".
+</li>
+</ul>
+
+<p>The source for the Posting app is here: <a href="https://github.com/thegeez/janet-postings">https://github.com/thegeez/janet-postings</a></p>
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

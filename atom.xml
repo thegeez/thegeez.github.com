@@ -4,15 +4,28 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.net/atom.xml" rel="self" />
  <link href="https://thegeez.net/" />
- <updated>2021-06-01T20:47:21Z</updated>
+ <updated>2021-10-28T12:30:34Z</updated>
  <id>https://thegeez.net/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Web app on AWS Lambda with Janet</title>
+   <link href="https://thegeez.net/2021/10/28/janet_web_app_aws_lambda.html" />
+   <updated>2021-10-28T23:00:00Z</updated>
+   <id>https://thegeez.net/2021/10/28/janet_web_app_aws_lambda.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Web app on AWS Lambda with Janet&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href="https://janet-lang.org"&gt;Janet&lt;/a&gt; is a small functional and imperative programming language. The language has some similarities to Clojure with its Lispy syntax, its data notation, and with its proper REPL for dynamic developing within a running system. Janet also compiles its runtime and VM to C and can therefore run almost anywhere.&lt;/p&gt;
+
+&lt;p&gt;All of Janet's features make it a good candidate to make AWS Lambda serverless functions with. This is because Janet programs start up and compile quickly, certainly when compared to a combination of Clojure and native-image compilation. &lt;a href="https://iakerss4c6.execute-api.eu-central-1.amazonaws.com"&gt;Postings&lt;/a&gt; is a simple forum web app on AWS Lambda behind an API Gateway and using DynamoDB as the database.&lt;/p&gt;
+
+
+&lt;a href="2021/10/28/janet_web_app_aws_lambda.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Rofolia: a self-hosted collaborative database/spreadsheet hybrid</title>
    <link href="https://thegeez.net/2021/06/01/rofolia_self_host_spreadsheet_database.html" />
-   <updated>2021-06-01T23:30:00Z</updated>
+   <updated>2021-06-01T23:00:00Z</updated>
    <id>https://thegeez.net/2021/06/01/rofolia_self_host_spreadsheet_database.html</id>
    <content type="html">&lt;h1 id="post-title"&gt;Rofolia: a self-hosted collaborative database/spreadsheet hybrid&lt;/h1&gt;
 
