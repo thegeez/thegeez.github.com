@@ -4,17 +4,17 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.net/atom.xml" rel="self" />
  <link href="https://thegeez.net/" />
- <updated>2022-01-11T21:20:57Z</updated>
+ <updated>2022-01-11T21:27:10Z</updated>
  <id>https://thegeez.net/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
-   <title>Serverless search on AWS Lambda with Janet</title>
+   <title>Serverless search on AWS Lambda with Janet and SQLite</title>
    <link href="https://thegeez.net/2022/01/11/serverless_search_aws_lambda.html" />
    <updated>2022-01-11T23:00:00Z</updated>
    <id>https://thegeez.net/2022/01/11/serverless_search_aws_lambda.html</id>
-   <content type="html">&lt;h1 id="post-title"&gt;Serverless search on AWS Lambda with Janet&lt;/h1&gt;
+   <content type="html">&lt;h1 id="post-title"&gt;Serverless search on AWS Lambda with Janet and SQLite&lt;/h1&gt;
 
 &lt;p&gt;Recently I have been porting a simple app on AWS Lambda for posts and comments to use the &lt;a href="https://janet-lang.org"&gt;Janet&lt;/a&gt; programming language. A &lt;a href="/2021/10/28/janet_web_app_aws_lambda.html"&gt;previous post&lt;/a&gt; describes how Janet is a great fit to use with AWS Lambda. The web app now also supports search through the search bar in the header. An earlier version of the postings app was written in Clojure and had a search functionality backed by ElasticSearch/OpenSearch on AWS, which is described &lt;a href="/2020/04/07/serverless_clojure_web_app_aws_lambda.html"&gt;in this post&lt;/a&gt;.&lt;/p&gt;
 
