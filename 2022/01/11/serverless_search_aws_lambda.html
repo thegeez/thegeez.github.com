@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>thegeez blog - Serverless search on AWS Lambda with Janet</title>
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
+
+   <!-- Homepage CSS -->
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a href="/" class="extra">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Serverless search on AWS Lambda with Janet</h1>11 Jan 2022
+
+<p>Recently I have been porting a simple app on AWS Lambda for posts and comments to use the <a href="https://janet-lang.org">Janet</a> programming language. A <a href="/2021/10/28/janet_web_app_aws_lambda.html">previous post</a> describes how Janet is a great fit to use with AWS Lambda. The web app now also supports search through the search bar in the header. An earlier version of the postings app was written in Clojure and had a search functionality backed by ElasticSearch/OpenSearch on AWS, which is described <a href="/2020/04/07/serverless_clojure_web_app_aws_lambda.html">in this post</a>.</p>
+
+<p>Since postings is a demo app that is rarely used, it benefits from the serverless quality of being able to scale the compute resource usage down to zero. The storage resources are also minimal. Sadly OpenSearch does not follow this serverless model by requiring a provisioned cluster.</p>
+
+<p>The search is now backed by an <a href="https://www.sqlite.org/fts5.html">SQLite database with full text search (fts5)</a> database on an <a href="https://aws.amazon.com/efs/">Elastic File System (EFS)</a>. A good source to get started with EFS and AWS Lambda is here: <a href="https://lumigo.io/blog/unlocking-more-serverless-use-cases-with-efs-and-lambda/">Unlocking more serverless use cases with EFS and Lambda on the Lumigo blog</a>.</p><p>
+
+</p><p>The postings app now consists of two AWS Lambda functions. One to handle all the web requests and one Lambda function in a VPC with the SQLite database, which imports all the data from the main DynamoDB database and handles all search requests.</p>
+
+<p>By using SQLite on EFS for the search, the posting app became even more serverless-y by being able to scale down to zero compute and almost zero storage resource usage.</p>
+
+<a href="https://postings.thegeez.net">
+<img src="/images/janet_postings_search.png" />
+</a>
+
+Postings web app at <a href="https://postings.thegeez.net">https://postings.thegeez.net</a>, source at <a href="https://github.com/thegeez/janet-postings">https://github.com/thegeez/janet-postings</a>
+
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
