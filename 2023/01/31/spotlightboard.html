@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>thegeez blog - SpotlightBoard.com: Calendar for standup and improv</title>
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
+
+   <!-- Homepage CSS -->
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a href="/" class="extra">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">SpotlightBoard.com: Calendar for standup and improv</h1>31 Jan 2023
+
+<p>My latest programming project is <a href="https://spotlightboard.com">spotlightboard.com</a>. This is a website to aggregate all the standup and improv events happening in Amsterdam. Users can add their own events and find events based on the calendar and filtering by tags. There's also a comment section for every event and a forum for discussions.</p>
+
+<p>For this project I tried something different than my usual Clojure programming tools. Spotlightboard is made with <a href="https://elixir-lang.org">Elixir</a> and the <a href="https://phoenixframework.org">Phoenix web framework</a>. Because Elixir uses immutable datastructures and functional programming it is very easy to get started with for Clojure programmers. It is only a pity that its syntax is not sexp based.</p>
+
+<p>The Phoenix web framework is a great fit for this project. Spotlightboard is a basic CRUD web app with user accounts, for which the framework provides a lot of defaults to get started with. Having worked with Ruby on Rails previously, it is nice the Phoenix is a tad more verbose and explicit.</p>
+
+<p>On the frontend all the dynamic features are made with <a href="https://htmx.org">htmx.org</a>. This makes certain parts of the website behave as a single-page application, while the backend server still just serves html pages.</p>
+
+<p>
+<a href="https://spotlightboard.com">
+<img src="/images/spotlightboard_screenshot.png" />
+<br />
+spotlightboard.com
+</a>
+</p>
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
