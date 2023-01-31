@@ -4,12 +4,24 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.net/atom.xml" rel="self" />
  <link href="https://thegeez.net/" />
- <updated>2022-01-11T21:27:10Z</updated>
+ <updated>2023-01-31T18:56:38Z</updated>
  <id>https://thegeez.net/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>SpotlightBoard.com: Calendar for standup and improv</title>
+   <link href="https://thegeez.net/2023/01/31/spotlightboard.html" />
+   <updated>2023-01-31T23:00:00Z</updated>
+   <id>https://thegeez.net/2023/01/31/spotlightboard.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;SpotlightBoard.com: Calendar for standup and improv&lt;/h1&gt;
+
+&lt;p&gt;My latest programming project is &lt;a href="https://spotlightboard.com"&gt;spotlightboard.com&lt;/a&gt;. This is a website to aggregate all the standup and improv events happening in Amsterdam. Users can add their own events and find events based on the calendar and filtering by tags. There's also a comment section for every event and a forum for discussions.&lt;/p&gt;
+
+&lt;p&gt;For this project I tried something different than my usual Clojure programming tools. Spotlightboard is made with &lt;a href="https://elixir-lang.org"&gt;Elixir&lt;/a&gt; and the &lt;a href="https://phoenixframework.org"&gt;Phoenix web framework&lt;/a&gt;. Because Elixir uses immutable datastructures and functional programming it is very easy to get started with for Clojure programmers. It is only a pity that its syntax is not sexp based.&lt;/p&gt;
+
+&lt;a href="2023/01/31/spotlightboard.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Serverless search on AWS Lambda with Janet and SQLite</title>
    <link href="https://thegeez.net/2022/01/11/serverless_search_aws_lambda.html" />
    <updated>2022-01-11T23:00:00Z</updated>
