@@ -4,12 +4,24 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.net/atom.xml" rel="self" />
  <link href="https://thegeez.net/" />
- <updated>2023-01-31T18:56:38Z</updated>
+ <updated>2023-03-01T15:00:12Z</updated>
  <id>https://thegeez.net/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>Pinball with Scittle/ClojureScript</title>
+   <link href="https://thegeez.net/2023/03/01/pinball_scittle.html" />
+   <updated>2023-03-01T23:00:00Z</updated>
+   <id>https://thegeez.net/2023/03/01/pinball_scittle.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;Pinball with Scittle/ClojureScript&lt;/h1&gt;
+
+&lt;p&gt;The past few months I have been on some longer train rides. These rides had plenty of time to look outside the window to the nice scenery between Dresden and Prague. Other routes were more suitable for programming.&lt;/p&gt;
+
+&lt;p&gt;To program on my Android phone I installed the &lt;a href="https://userland.tech/"&gt;UserLAnd&lt;/a&gt; app, which can run a full Ubuntu environment (or other Linux variants), without special permissions or special hacks to the phone or Android system. In this Ubuntu installation I run Emacs for coding with Paredit on Clojure code. The UserLAnd app adds the "Ctrl" and "Alt"/"Meta" key to the Android touchscreen keyboard. Together with some custom configuration in Emacs this makes nice Paredit editing available on my phone.&lt;/p&gt;
+
+&lt;a href="2023/03/01/pinball_scittle.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>SpotlightBoard.com: Calendar for standup and improv</title>
    <link href="https://thegeez.net/2023/01/31/spotlightboard.html" />
    <updated>2023-01-31T23:00:00Z</updated>

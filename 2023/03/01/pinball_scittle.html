@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>thegeez blog - Pinball with Scittle/ClojureScript</title>
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
+
+   <!-- Homepage CSS -->
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a href="/" class="extra">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">Pinball with Scittle/ClojureScript</h1>01 Mar 2023
+
+<p>The past few months I have been on some longer train rides. These rides had plenty of time to look outside the window to the nice scenery between Dresden and Prague. Other routes were more suitable for programming.</p>
+
+<p>To program on my Android phone I installed the <a href="https://userland.tech/">UserLAnd</a> app, which can run a full Ubuntu environment (or other Linux variants), without special permissions or special hacks to the phone or Android system. In this Ubuntu installation I run Emacs for coding with Paredit on Clojure code. The UserLAnd app adds the "Ctrl" and "Alt"/"Meta" key to the Android touchscreen keyboard. Together with some custom configuration in Emacs this makes nice Paredit editing available on my phone.</p>
+
+<p>By far the easiest way of programming and running Clojure code on a phone I have found is with <a href="https://babashka.org/scittle/">babashka/Scittle</a>. This is Borkdude's Small Clojure Interpreter as a single Javascript file, which runs ClojureScript code within script tags on a webpage. This means you can edit a single file and run Clojure code in a browser, without needing to run a separate webserver or compiler.</p>
+
+<p>The program I have been writing on my phone is a pinball simulator. This is based on the code and YouTube video explanations from <a href="https://matthias-research.github.io/pages/tenMinutePhysics/index.html">Ten Minute Physics</a>. This site has many nice tutorials about programming physics, such as what happens when two balls with a velocity collide. This accumulates into a pinball game.</p>
+
+<p>My version of the pinball game is available here: <a href="/static/pinball/pinball.html">Pinball game with Scittle</a>. It is playable on touchscreen phones and in desktop browsers. The Clojure code is available in the html file via 'view source'!</p>
+
+<p><a href="/static/pinball/pinball.html"><img src="/images/pinball_screenshot_clicktoplay.png" /></a></p>
+
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
