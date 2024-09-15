@@ -1,0 +1,971 @@
+<html>
+  <head><title>fecs Escher canvas</title>
+    <style>
+      .fecs_code {
+          white-space: pre;
+          font-family: monospace, monospace;
+      }
+      
+    </style>
+
+  </head>
+  <body>
+
+    <script type="lang/fecs">
+
+(set 'NICE-FISH
+
+     '((-16233631 15267945 -108251967 97505071 -185971069 166792885 -247133988 252853570 -247133988 256629064 -241713861 270485981 -235089272 283646863 -197473159 358377369 -163894844 406831243 -79907409 507575637 -79907409 507575637 -35017574 561421762 -35017574 561421762 -35017574 561421762 -37252532 584320509 -37252532 584320509 -49486171 729852648 -42308583 837737524 -6248346 975844901 -1724096 1017509865 8295814 996039947 61730113 956118625 122320233 907273491 178610698 879252486 235494100 787253014 235494100 787253014 306568497 784159778 306568497 784159778 387409503 780641498 420207625 775391755 466327549 760618416 466327549 760618416 500942934 749530206 500942934 749530206 501306387 704172957 501670074 658815678 502033644 613458399 502346743 574382959 502660076 535307547 502973292 496232136 462583453 455783023 419946465 407468826 379556626 367019713 433635799 279004670 579976008 229909633 707354971 217011907 707354971 217011907 759920853 212287140 759920853 212287140 759920853 212287140 796723527 169066210 796723527 169066210 838198148 120358512 863656381 98409683 935558319 49369871 935558319 49369871 985558260 15267945 985558260 15267945 990706106 12428636 1017518967 -3523371 979789088 337102 979789088 337102 905750626 14519677 905750626 14519677 804519242 33911192 757724527 40120404 712481396 40164596 676389136 40199222 604921487 35419758 570067009 30639238 555168093 28595793 553109330 29740378 516220855 60576043 401387317 156567325 362870641 184260677 291199610 222365101 291199610 222365101 250687056 243903880 250687056 243903880 170644114 163830743 90601224 83757606 10558326 3684411 2046153 -8349022 -16233631 15267945 -16233631 15267945 -16233631 15267945 -16233631 15267945 -16233631 15267945) (237707475 250155992 194350315 273117066 155389462 295164079 105021264 325585938 105021264 325585938 79041444 300669333 79041444 300669333 65437867 287622482 38518905 268731455 23333969 253676254 -950488 229599176 -7202173 220196886 -28584174 175593215 -50773418 129305561 -62547632 114038028 -62500579 131614099 -62469805 143173629 -18316619 229675939 -1941027 250259283 6638234 261043021 32201987 283084987 54220210 300094312 54220210 300094312 95531845 332008010 95531845 332008010 79349393 346712436 64746636 359994097 51919559 374241873 47112211 376368420 -13603911 327059585 -34986459 303663636 -45978006 291637128 -68234003 260337771 -84444222 234109556 -111527685 190288251 -124057050 177095443 -124057050 192399128 -124057050 200214563 -77921456 274103312 -54277658 304154734 -44107605 317080924 -21649320 338715539 -4370350 352231657 12908619 365747716 39642179 384405518 44032412 387866974 5529755 451801477 -6563148 492478591 -30195408 545030301 -30195408 545030301 -84063962 479376984 -84063962 479376984 -154861963 393090527 -175613285 363745998 -208275105 303729483 -208275105 303729483 -235485795 253729483 -235485795 253729483 -212412570 234763982 -76360416 68547587 2866399 17191022 86774627 98153335 149079044 161491805 237707475 250155992 237707475 250155992 237707475 250155992 237707475 250155992) (-27903212 67232573 12515867 130287171 100731519 252837666 155436897 286421791 120072885 227255015 39792456 159110319 -3197792 83371324 -10056731 71159657 -17066570 63351147 -21172442 63348741 -24874366 63346629 -27903212 65094288 -27903212 67232573 -27903212 67232573 -27903212 67232573 -27903212 67232573) (-174057050 240576877 -174057050 248378930 -130960259 329007252 -116511821 348236319 -92216381 378496435 11679218 483580722 15146983 452252785 -48904297 411949921 -124343563 328284631 -150566702 260460253 -157234074 247173486 -165184974 236421791 -168343191 236421791 -171485812 236421791 -174057050 238291580 -174057050 240576877 -174057050 240576877 -174057050 240576877 -174057050 240576877) (907571411 50870984 843985161 95298357 805716177 131178460 761788294 187553758 753616156 198041476 751711801 198479403 682947598 205682021 524113288 219832201 376302337 303426127 335411893 424883329 260725784 611156758 304510116 750449724 131712179 889817297 116904478 901989761 82910633 926960953 56170250 945308836 56170250 945308836 7551434 978668569 7551434 978668569 -37083031 821848254 -43256513 659832441 -14876402 551189834 4156460 478329703 38631453 406753775 91436833 360493411 168822581 292699257 379379947 219215628 558635242 43954820 558635242 43954820 579789088 45931244 579789088 45931244 714575136 58524558 755451143 56971624 872096780 34825898 909116011 27797641 941849400 21819951 944837599 21542183 947825857 21264473 931056037 34462386 907571411 50870984 907571411 50870984 907571411 50870984 907571411 50870984) (685558319 118519651 441695198 216917479 375021773 248273292 307946366 315673770 219242183 420062785 168596971 535123239 117836438 661465455 92209529 757103964 136198498 650330823 149688060 616174023 181340393 537122345 217043407 482083483 244412070 431585518 321464978 289414979 425674115 235239822 726904472 117269898 776911984 97685653 806712165 83502315 806712165 80186698 806712165 77269804 803683295 74924469 799981396 74974765 796279437 75025178 744789064 94620280 685558319 118519651 685558319 118519651 685558319 118519651 685558319 118519651) (17178819 670099259 14763233 688977638 8092120 824194733 34093387 829842509 39922270 830816372 46218490 821889863 52150150 809190692 63597349 784683257 73686797 746125295 76439285 737558982 76439285 737558982 84526707 704569098 84526707 704569098 55751235 685611843 34063111 659116687 25800033 660218078 21281330 659711046 18684570 663093333 17178819 670099259 17178819 670099259 17178819 670099259 17178819 670099259) (26502493 676529694 41795345 691413880 65241256 703436427 73648650 710951762 55421715 788477355 41894322 818348445 35413569 815017246 24941814 776502184 24054497 727884264 26502493 676529694 26502493 676529694 26502493 676529694 26502493 676529694) (87169903 850237495 97833714 859788880 190749887 773994637 190749887 763804334 190749887 761711576 173877657 751919732 155247761 743258785 141665752 736944581 122332191 727804302 119170108 727804302 109890072 736512522 82735839 844756479 87169903 850237495 87169903 850237495 87169903 850237495 87169903 850237495) (99865091 833915373 92589114 838996448 113367425 764402948 121851370 740578256 152672826 749360481 177055843 767500218 176672539 768702302 157633781 788669088 113551264 827810919 99865091 833915373 99865091 833915373 99865091 833915373 99865091 833915373) (341654909 494114099 332065318 494114099 338878338 505814010 360448719 526388697 369212311 534747755 376930735 541339552 384464293 546518796 403681857 559730736 421696178 563751163 452787047 564468854 452787047 564468854 487402725 565267915 487402725 565267915 487166566 581196125 488744383 603049499 484486418 615794050 482839232 614775996 463175142 621212710 449485808 624147005 409076925 632808451 397665962 628763757 366168476 613668912 336027585 599224267 329789029 595054656 329789029 602959384 329789029 605708871 343845103 614795421 361024797 623151750 389286686 636898452 394870875 638280223 419678614 637665558 434758523 637292099 455958087 633512908 467289000 631498191 467289000 631498191 489728458 627508281 489728458 627508281 490016144 632113384 490510647 640491956 490902240 649384690 491505930 663093920 491864629 678025055 490841850 682236540 458305006 697410232 420318838 709794353 390274341 710241289 358342713 710716307 329373198 710118866 305746137 700361106 295237526 696021154 289364858 688809762 281179340 680133967 294555194 624400888 328245691 417879193 371764637 377893771 409837488 415903239 449408575 461777732 487481513 499787140 494897754 525882311 489976589 553055104 485642741 553782420 410439153 571021682 364661612 521160684 341655026 494114099 341655026 494114099 341654909 494114099 341654909 494114099) (487481396 739047359 487481396 739047359 466771375 746371050 466771375 746371050 466771375 746371050 428208395 760008094 428208395 760008094 410068453 766422918 392752779 769556090 373775423 771501806 351749742 773760062 327485715 774418773 297096780 776752106 280173697 778051494 245591882 778425144 240847235 779413517 245653886 769281314 251462584 758016161 257081604 746400335 265706605 728570440 273884729 709914340 277306101 693261220 303894893 711312544 329081256 716510098 353128198 718561907 381561103 721091491 415186691 715165975 441416989 708776709 463997972 703276327 481098263 697432298 484686836 696342997 489059418 695015717 489666601 701042469 489228468 709997765 488820648 718333377 487507101 729206203 487481396 739047359 487481396 739047359 487481396 739047359 487481396 739047359) (479122776 318486446 467958097 321360674 452529759 330589013 439502978 341832335 432129257 348196482 425525047 355206370 420899111 362074820 416977543 367897457 414477743 373618564 414136122 378758604 413086464 391135771 430409797 363511259 442877870 350810371 446984128 346428986 452636218 342531891 458721541 338938153 470569521 331941177 484059582 326094243 490978562 320062327 490713177 317238747 486526634 315299941 479122776 318486446 479122776 318486446 479122776 318486446 479122776 318486446) (473055002 369777563 468963123 372272844 465611706 374019330 462155825 378574783 458049743 383987369 454543978 390374404 451998049 396596293 446407170 410259717 442797175 422596741 450273336 422596741 452128335 422596741 455257267 414940292 458175100 407407438 460162909 402275673 462052710 397201245 463375002 394644224 466638211 388333893 474471135 380500970 480781465 377237761 483762857 362114364 475645357 368147220 473055002 369777563 473055002 369777563 473055002 369777563 473055002 369777563)
+       T)
+     
+
+
+     
+
+
+
+
+     )
+
+(put 'BLANK 'LINES '())
+
+(set 'concat
+     '((A B)
+        (make
+          (loop
+             (NIL A)
+             (link (car A))
+             (set 'A (cdr A))
+          )
+          (loop
+            (NIL B)
+            (link (car B))
+            (set 'B (cdr B))
+          )
+        )))
+
+
+(set 'scale
+     '((C V)
+       (let ((VX VY) V)
+         (list
+          (* C VX)
+          (* C VY)
+          )
+         )
+       )
+     )
+
+
+(set '/V
+     '((V N)
+       (let ((X Y) V)
+         (list (/ X N)
+               (/ Y N))
+         )
+       ))
+
+(set '+V
+     '((A B)
+       (let ((AX AY) A
+             (BX BY) B)
+         (list (+ AX BX)
+               (+ AY BY))
+         )
+       ))
+
+(set 'negV
+     '((V)
+       (let ((X Y) V)
+         (list (- X)
+               (- Y))
+         )
+       ))
+
+(set 'scale-factor 1000000000)
+
+(set 'proj-line
+     '((LINE A B C)
+       (make
+           (loop
+            (NIL LINE)
+            (let ((X Y . MORE-LINE) LINE
+                  vec-scale 1000
+                  A (scale vec-scale A)
+                  B (scale vec-scale B)
+                  C (scale vec-scale C)
+                  (SX SY) (+V A
+                              (+V (/V (scale X B) scale-factor)
+                                 (/V (scale Y C) scale-factor)))
+                  )
+              (link SX)
+              (link SY)
+              (set 'LINE MORE-LINE)
+              )
+            )
+
+           )
+         )
+       )
+
+
+
+(set 'close-const
+     '(FX
+       (let ((SYMS FN) FX
+             (_Q FNARGS . FNEXPRS) FN)
+         (eval (list 'quote FNARGS
+                     (apply list
+                            'let
+                            (make (loop
+                                   (link (car SYMS))
+                                   (link (cons 'quote (eval (car SYMS))))
+                                   (NIL (set 'SYMS (cdr SYMS)))))
+                            FNEXPRS))
+               )
+       )))
+
+
+(set 'scale-lines
+     '((LINES)
+       (close-const (LINES)
+                    '((A B C)
+                      (let (LS LINES)
+                        (make
+                            (loop
+                             (NIL LS)
+                             (let (LINE (car LS))
+                               (cond (= T LINE) ;; keep T as end of single figure marker
+                                     (link T)
+                                     T
+                                     (link (proj-line LINE A B C))))
+                             (NIL (set 'LS (cdr LS)))
+                             )
+                          )
+                        ))
+                    )))
+
+(set 'BSHAPE
+     (scale-lines (get 'BLANK 'LINES)))
+
+(set 'TRIANGLE
+     (scale-lines '((0 1000000 1000000 0)
+                    ;;(10000 900000 900000 10)
+                    (0 1000000 0 0)
+                    (0 0 1000000 0))))
+(set 'over
+     '((P Q)
+       (close-const (P Q)
+                    '((A B C)
+                      (concat
+                       (P A B C)
+                       (Q A B C))))))
+
+(set 'flip
+     '((P)
+       (close-const (P)
+                    '((A B C) (P (+V A B) (negV B) C)))))
+
+(set 'rot
+     '((P)
+       (close-const (P)
+                    '((A B C) (P (+V A B) C (negV B))))))
+
+(set 'rot45
+     '((P)
+       (close-const (P)
+                    '((A B C) (P (+V A
+                                     (/V (+V B C)
+                                         2))
+                                 (/V (+V B C)
+                                     2)
+                                 (/V (+V C (negV B)) 2))))))
+
+(set 'beside
+     '((P Q)
+       (close-const (P Q)
+                    '((A B C)
+                      (concat
+                       (P A (/V B 2) C)
+                       (Q (+V A (/V B 2)) (/V B 2) C)
+                       )))))
+
+(set 'above
+     '((P Q)
+       (close-const (P Q)
+                    '((A B C)
+                      (concat
+                       (P (+V A (/V C 2)) B (/V C 2))
+                       (Q A B (/V C 2))
+                       )))))
+
+
+(set 'beside-ratio
+     '((M N P Q)
+       (close-const (M N P Q)
+                    '((A B C)
+                      (concat
+                       (P A (/V (scale M B)
+                                (+ M N)) C)
+                       (Q (+V A
+                              (/V (scale M B)
+                                  (+ M N)))
+                          (/V (scale N B)
+                              (+ M N)) C)
+                       )))))
+
+(set 'above-ratio
+     '((M N P Q)
+       (close-const (M N P Q)
+                    '((A B C)
+                      (concat
+                       (P (+V A
+                              (/V (scale N C)
+                                  (+ M N)))
+                          B
+                          (/V (scale M C)
+                              (+ M N)))
+                       (Q A B
+                          (/V (scale N C)
+                              (+ M N)))
+                       )))))
+
+(set 'quartet
+     '((P Q R S)
+       (above
+        (beside P Q)
+        (beside R S)))
+       )
+
+(set 'cycle
+     '((P)
+       (quartet P
+                (rot P)
+                (rot (rot P))
+                (rot (rot (rot P)))
+                )))
+
+
+(set 'SIDE
+     '((P N)
+       (cond (= N 0)
+             BSHAPE ;;(quartet BSHAPE BSHAPE (rot P) P)
+             T
+             (let (SIDE-MINUS-1 (SIDE P (- N 1)))
+               (quartet SIDE-MINUS-1 SIDE-MINUS-1 (rot P) P))
+             )
+       ))
+
+(set 'CORNER
+     '((T U N)
+       (cond (= N 0)
+             BSHAPE
+             ;;(quartet BSHAPE BSHAPE BSHAPE U)
+             T
+             (let (N-DEC (- N 1)
+                   SIDE-N-DEC (SIDE T N-DEC))
+               (quartet (CORNER T U N-DEC) SIDE-N-DEC (rot SIDE-N-DEC) U)))))
+
+(set 'nonet
+     '((P Q R S T U V W X)
+       (above-ratio 1 2
+                    (beside-ratio 1 2 P (beside Q R))
+                    (above (beside-ratio 1 2 S (beside T U))
+                           (beside-ratio 1 2 V (beside W X))))
+       ))
+
+
+(set 'squarelimit-N
+     '((T U N)
+       (let (CORNER (CORNER T U N)
+                    SIDE (SIDE T N))
+         (nonet CORNER SIDE (rot (rot (rot CORNER)))
+              (rot SIDE) U (rot (rot (rot SIDE)))
+              (rot CORNER) (rot (rot SIDE)) (rot (rot CORNER))
+              )
+         )
+       ))
+
+(set 'FISH (scale-lines NICE-FISH))
+
+(set 'FISH2 (flip (rot45 FISH)))
+
+(set 'FISH3 (rot (rot (rot FISH2))))
+(set 'FISH-T
+     (over FISH
+           (over FISH2 FISH3))
+     )
+
+(set 'FISH-U
+     (over (over FISH2 (rot FISH2))
+           (over (rot (rot FISH2)) FISH3)
+           )
+     )
+
+(set 'FISH-M
+     (over FISH (flip FISH)))
+
+(draw-poly-curve
+ ((squarelimit-N FISH-T FISH-U 3) (0 0) (600 0) (0 600)))
+
+    </script>
+    <h1>fecs functional geometry Escher fishes</h1>
+    <a href="index.html">API & repl</a> - <a href="canvas.html">Escher example</a> - <a href="test_cases.html">Tests</a>
+    <br/>
+    <br/>
+    Based on: <a href="https://eprints.soton.ac.uk/257577/1/funcgeo2.pdf">Functional geometry by P. Henderson 2002</a>
+    <div class="fecs_code">
+(set 'NICE-FISH
+     '((-16233631 15267945 -108251967 97505071 -185971069 166792885 -247133988 252853570 -247133988 256629064 -241713861 270485981 -235089272 ....points elided...  369777563 473055002 369777563 473055002 369777563 473055002 369777563)
+       T)
+     )
+
+(put 'BLANK 'LINES '())
+
+(set 'concat
+     '((A B)
+        (make
+          (loop
+            (NIL A)
+            (link (car A))
+            (set 'A (cdr A))
+          )
+          (loop
+            (NIL B)
+            (link (car B))
+            (set 'B (cdr B))
+          )
+        )))
+
+
+(set 'scale
+     '((C V)
+       (let ((VX VY) V)
+         (list
+          (* C VX)
+          (* C VY)
+          )
+         )
+       ))
+
+
+(set '/V
+     '((V N)
+       (let ((X Y) V)
+         (list (/ X N)
+               (/ Y N))
+         )
+       ))
+
+(set '+V
+     '((A B)
+       (let ((AX AY) A
+             (BX BY) B)
+         (list (+ AX BX)
+               (+ AY BY))
+         )
+       ))
+
+(set 'negV
+     '((V)
+       (let ((X Y) V)
+         (list (- X)
+               (- Y))
+         )
+       ))
+
+(set 'scale-factor 1000000000)
+
+(set 'proj-line
+     '((LINE A B C)
+       (make
+         (loop
+           (NIL LINE)
+           (let ((X Y . MORE-LINE) LINE
+                 vec-scale 1000
+                 A (scale vec-scale A)
+                 B (scale vec-scale B)
+                 C (scale vec-scale C)
+                 (SX SY) (+V A
+                             (+V (/V (scale X B) scale-factor)
+                                 (/V (scale Y C) scale-factor)))
+                )
+             (link SX)
+             (link SY)
+             (set 'LINE MORE-LINE)
+            )
+          )
+       )))
+
+(set 'close-const
+     '(FX
+       (let ((SYMS FN) FX
+             (_Q FNARGS . FNEXPRS) FN)
+         (eval (list 'quote FNARGS
+                     (apply list
+                            'let
+                            (make
+                              (loop
+                                (link (car SYMS))
+                                (link (cons 'quote (eval (car SYMS))))
+                                (NIL (set 'SYMS (cdr SYMS)))))
+                            FNEXPRS))
+       )
+       )))
+
+
+(set 'scale-lines
+     '((LINES)
+       (close-const (LINES)
+                    '((A B C)
+                      (let (LS LINES)
+                        (make
+                           (loop
+                             (NIL LS)
+                             (let (LINE (car LS))
+                               (cond (= T LINE) ;; keep T as end of single figure marker
+                                     (link T)
+                                     T
+                                     (link (proj-line LINE A B C))))
+                             (NIL (set 'LS (cdr LS)))
+                           )
+                        )
+                      ))
+        )
+        ))
+
+(set 'BSHAPE
+     (scale-lines (get 'BLANK 'LINES)))
+
+(set 'TRIANGLE
+     (scale-lines '((0 1000000 1000000 0)
+                    ;;(10000 900000 900000 10)
+                    (0 1000000 0 0)
+                    (0 0 1000000 0))))
+(set 'over
+     '((P Q)
+       (close-const (P Q)
+                    '((A B C)
+                      (concat
+                        (P A B C)
+                        (Q A B C))))))
+
+(set 'flip
+     '((P)
+       (close-const (P)
+                    '((A B C)
+                      (P (+V A B) (negV B) C)))))
+
+(set 'rot
+     '((P)
+       (close-const (P)
+                    '((A B C)
+                      (P (+V A B) C (negV B))))))
+
+(set 'rot45
+     '((P)
+       (close-const (P)
+                    '((A B C)
+                      (P (+V A
+                             (/V (+V B C)
+                              2))
+                         (/V (+V B C)
+                           2)
+                         (/V (+V C (negV B)) 2))))))
+
+(set 'beside
+     '((P Q)
+       (close-const (P Q)
+                    '((A B C)
+                      (concat
+                        (P A (/V B 2) C)
+                        (Q (+V A (/V B 2)) (/V B 2) C)
+                        )))))
+
+(set 'above
+     '((P Q)
+       (close-const (P Q)
+                    '((A B C)
+                      (concat
+                        (P (+V A (/V C 2)) B (/V C 2))
+                        (Q A B (/V C 2))
+                       )))))
+
+
+(set 'beside-ratio
+     '((M N P Q)
+       (close-const (M N P Q)
+                    '((A B C)
+                      (concat
+                        (P A (/V (scale M B)
+                                 (+ M N)) C)
+                        (Q (+V A
+                               (/V (scale M B)
+                                   (+ M N)))
+                           (/V (scale N B)
+                               (+ M N)) C)
+                       )))))
+
+(set 'above-ratio
+     '((M N P Q)
+       (close-const (M N P Q)
+                    '((A B C)
+                      (concat
+                        (P (+V A
+                               (/V (scale N C)
+                                   (+ M N)))
+                           B
+                           (/V (scale M C)
+                               (+ M N)))
+                        (Q A B
+                           (/V (scale N C)
+                               (+ M N)))
+                        )))))
+
+(set 'quartet
+     '((P Q R S)
+       (above
+         (beside P Q)
+         (beside R S)))
+       )
+
+(set 'cycle
+     '((P)
+       (quartet P
+                (rot P)
+                (rot (rot P))
+                (rot (rot (rot P)))
+                )))
+
+
+(set 'SIDE
+     '((P N)
+       (cond (= N 0)
+             BSHAPE
+             T
+             (let (SIDE-MINUS-1 (SIDE P (- N 1)))
+               (quartet SIDE-MINUS-1 SIDE-MINUS-1 (rot P) P))
+             )
+       ))
+
+(set 'CORNER
+     '((T U N)
+       (cond (= N 0)
+             BSHAPE
+             T
+             (let (N-DEC (- N 1)
+                   SIDE-N-DEC (SIDE T N-DEC))
+               (quartet (CORNER T U N-DEC) SIDE-N-DEC (rot SIDE-N-DEC) U)))))
+
+(set 'nonet
+     '((P Q R S T U V W X)
+       (above-ratio 1 2
+                    (beside-ratio 1 2 P (beside Q R))
+                    (above (beside-ratio 1 2 S (beside T U))
+                           (beside-ratio 1 2 V (beside W X))))
+       ))
+
+
+(set 'squarelimit-N
+     '((T U N)
+       (let (CORNER (CORNER T U N)
+                    SIDE (SIDE T N))
+         (nonet CORNER SIDE (rot (rot (rot CORNER)))
+              (rot SIDE) U (rot (rot (rot SIDE)))
+              (rot CORNER) (rot (rot SIDE)) (rot (rot CORNER))
+              )
+         )
+       ))
+
+(set 'FISH (scale-lines NICE-FISH))
+
+(set 'FISH2 (flip (rot45 FISH)))
+
+(set 'FISH3 (rot (rot (rot FISH2))))
+(set 'FISH-T
+     (over FISH
+           (over FISH2 FISH3))
+     )
+
+(set 'FISH-U
+     (over (over FISH2 (rot FISH2))
+           (over (rot (rot FISH2)) FISH3)
+           )
+     )
+
+(set 'FISH-M
+     (over FISH (flip FISH)))
+
+(draw-poly-curve
+   ((squarelimit-N FISH-T FISH-U 3) (0 0) (600 0) (0 600)))
+
+      
+</div>
+
+    <div id="loading_status">
+      <div>Loading fecs...</div>
+    </div>
+    <canvas id="main_canvas" style="border: 1px solid black"></canvas>
+    
+
+    <script>
+
+    const canvas = document.getElementById("main_canvas");
+    canvas.width = 600;
+    canvas.height = 600;
+
+    const canvas_context = canvas.getContext("2d");
+
+    canvas_context.lineWidth = 3;
+
+    const wasm_memory = new WebAssembly.Memory({ initial: 13000,
+                                                 maximum: 13000,
+                                               });
+
+    function canvas_draw_line(static_space_start, lines_n) {
+
+        var static_space_buffer = new Int32Array(wasm_memory.buffer, static_space_start, lines_n * 4 * 32); // space will overwritten!
+
+        //console.log("wasm_memory", wasm_memory.buffer);
+
+
+        for (var line = 0; line < lines_n; line++) {
+
+            var start_x = static_space_buffer[(line * 4) + 0];
+            var start_y = static_space_buffer[(line * 4) + 1];
+            var end_x = static_space_buffer[(line * 4) + 2];
+            var end_y = static_space_buffer[(line * 4) + 3];
+
+            // console.log("line", start_x, start_y, end_x, end_y);
+            // use x pos to left, y pos upward (inverse of canvas api so y is canvas.height - y)
+            canvas_context.beginPath();
+            canvas_context.moveTo(start_x, canvas.height - start_y);
+            canvas_context.lineTo(end_x, canvas.height - end_y);
+            canvas_context.stroke();
+        }
+
+    }
+
+    function canvas_draw_curve(static_space_start, lines_n) {
+
+        var static_space_buffer = new Int32Array(wasm_memory.buffer, static_space_start, lines_n * 8 * 32); // space will overwritten!
+
+        for (var line = 0; line < lines_n; line++) {
+
+            var one_x = static_space_buffer[(line * 8) + 0];
+            var one_y = static_space_buffer[(line * 8) + 1];
+            var two_x = static_space_buffer[(line * 8) + 2];
+            var two_y = static_space_buffer[(line * 8) + 3];
+            var three_x = static_space_buffer[(line * 8) + 4];
+            var three_y = static_space_buffer[(line * 8) + 5];
+            var four_x = static_space_buffer[(line * 8) + 6];
+            var four_y = static_space_buffer[(line * 8) + 7];
+
+            // use x pos to left, y pos upward (inverse of canvas api so y is canvas.height - y)
+            canvas_context.beginPath();
+            canvas_context.moveTo(one_x, canvas.height - one_y);
+            canvas_context.bezierCurveTo(two_x, canvas.height - two_y,
+                                                three_x, canvas.height - three_y,
+                                                four_x, canvas.height - four_y);
+            canvas_context.stroke();
+        }
+
+    }
+
+      function canvas_draw_poly_curve(list_of_curves_ptr) {
+          appendOut(loading_status, "Drawing canvas...");
+          window.setTimeout(function () { canvas_draw_poly_curve_impl(list_of_curves_ptr); }, 10);
+      }
+                                  
+function canvas_draw_poly_curve_impl(list_of_curves_ptr) {
+    
+
+    var wasm_memory_arr32 = new Uint32Array(wasm_memory.buffer, 0, wasm_memory.buffer.byteLength / 4);
+
+    var curve_count = 0;
+    canvas_context.beginPath();
+    fecs_list_each(wasm_memory_arr32, list_of_curves_ptr, function(curve_ptr) {
+        curve_count++;
+
+        if (curve_ptr == 0x2c) { // T == end of figure marker
+            canvas_context.fill();
+            return;
+        }
+        var point_n = 0;
+        var point_x1 = null;
+        var point_y1 = null;
+        var point_x2 = null;
+        var point_y2 = null;
+        var point_x3 = null;
+        var point_y3 = null;
+
+        fecs_list_each(wasm_memory_arr32, curve_ptr, function(point_ptr) {
+
+
+            var point_num = fecs_num(wasm_memory_arr32, point_ptr);
+            point_num = point_num / 1000.0;// / 10000.0;
+            if (point_n == 0) {
+
+                point_x1 = point_num;
+            }
+            if (point_n == 1) {
+                point_y1 = point_num;
+
+                canvas_context.moveTo(point_x1, canvas.height - point_y1);
+            }
+
+            var p_idx = (point_n - 2) % 6;
+
+            if (p_idx == 0) {
+                point_x1 = point_num;
+            } else if (p_idx == 1) {
+
+                point_y1 = point_num;
+            } else if (p_idx == 2) {
+
+                point_x2 = point_num;
+            } else if (p_idx == 3) {
+
+                point_y2 = point_num;
+            } else if (p_idx == 4) {
+
+                point_x3 = point_num;
+            } else if (p_idx == 5) {
+                point_y3 = point_num;
+
+                canvas_context.bezierCurveTo(point_x1, canvas.height - point_y1,
+                                             point_x2, canvas.height - point_y2,
+                                             point_x3, canvas.height - point_y3);
+            }
+
+
+            point_n++;
+        });
+
+    });
+
+}
+
+    var importObject = {"env": {"memory": wasm_memory,
+                                "devlog": function() {},
+                                "canvas_draw_line": canvas_draw_line,
+                                "canvas_draw_curve": canvas_draw_curve,
+                                "canvas_draw_poly_curve": canvas_draw_poly_curve
+    }};
+
+    var wasm_ready = false;
+
+    var wasm = null;
+    fetch("fecs.wasm")
+    .then((response) => response.arrayBuffer())
+    .then((bytes) => WebAssembly.instantiate(bytes, importObject))
+    .then((result_obj) => {
+        wasm = result_obj;
+        const buf = new Uint8Array(wasm_memory.buffer);
+
+
+        //console.log("wasm_memory: ", wasm_memory);
+
+        // init heap and vm
+        wasm.instance.exports.main();
+        //console.log("wasm_memory: ", wasm_memory);
+
+        console.log("wasm ready");
+        
+        wasm_ready = true;
+    });
+
+
+
+    // repl stuff
+    var repl_box = document.getElementById("repl_one");
+    var repl_in = document.getElementById("repl_in");
+    var repl_out = document.getElementById("repl_out");
+
+    var loading_status = document.getElementById("loading_status");
+
+    function appendOut(target_el, text) {
+        console.log("append out: ", text);
+        var text_el = document.createTextNode(text);
+
+        var child_el = document.createElement("div");
+        //child_el.setAttribute("class", "outpane_child");
+        child_el.append(text_el);
+
+        target_el.appendChild(child_el);
+        //target_el.scrollTop = target_el.scrollHeight;
+
+    }
+
+
+      function fecs_list_each(mem_arr32, head_ptr, item_fn) {
+          if (head_ptr == 0x14) {
+              return;
+          }
+          //console.log("mem_arr32", mem_arr32);
+          var head_ptr_by_32 = head_ptr / 4;
+          var STOP = 0;
+          while (true) {
+              var at_val = mem_arr32[head_ptr_by_32];
+
+              item_fn(at_val);
+
+              head_ptr_by_32 = mem_arr32[head_ptr_by_32 + 1];
+              if (head_ptr_by_32 == 0x14) {
+                  break;
+              }
+              head_ptr_by_32 = head_ptr_by_32 / 4;
+          }
+      }
+
+      function fecs_num(mem_arr32, ptr) {
+          var is_num = ((ptr & 2) == 2);
+          if (!is_num) {return -1;}
+
+          var ptr = ptr - 2;
+          n = mem_arr32[ptr / 4];
+          var sign = n & 1;
+          n = n >> 1;
+          return sign ? -1 * n : n;
+
+      }
+
+      function fecs_string(mem_arr32, ptr) {
+          var is_string = ((ptr & 4) == 4) && (ptr == mem_arr32[ptr / 4]);
+
+          if (!is_string) {
+              return "";
+          }
+
+          var head = mem_arr32[(ptr - 4) / 4] - 2;
+
+          var decoder = new TextDecoder();
+          var out_parts = [];
+          var STOP = 0;
+          while (1 && STOP++ < 2000){
+              var at_val = mem_arr32[head / 4];
+
+
+              var chars = new ArrayBuffer(4);
+              var view_chars = new DataView(chars);
+              view_chars.setUint32(0, at_val, true);
+              var out_chars;
+              for (i = 0; i < 4; i++) {
+                  var c = view_chars.getUint8(i);
+                  if (c == 0) {
+                      out_chars = chars.slice(0, i);
+                      break;
+                  }
+                  if (i == 3) {
+                      out_chars = chars;
+                      break
+                  }
+              }
+              var part = decoder.decode(out_chars);
+
+              out_parts.push(part);
+              head = mem_arr32[(head / 4) + 1];
+              if (head == 0x14) {
+                  break;
+              }
+              head = head - 2;
+
+          }
+
+
+          return out_parts.join("");
+      }
+
+
+
+function exec_code(str_in) {
+
+    const encoder = new TextEncoder();
+    const str_in_bytes = encoder.encode(str_in);
+    const str_in_bytes_length = str_in_bytes.length;
+
+    const static_space_size = wasm.instance.exports.static_space_size();
+    
+    var str_in_chunk_count = Math.ceil(str_in_bytes_length / static_space_size);
+    
+    var data_out_string = "";
+    
+    for (var i = 0; i < str_in_chunk_count; i++) {
+
+        var str_in_chunk_bytes = str_in_bytes.slice(i * static_space_size, (i + 1) * static_space_size);
+        var td = new TextDecoder();
+        //console.log("doing chunk", td.decode(str_in_chunk_bytes));
+
+        var is_final_chunk = i == str_in_chunk_count - 1;
+        var static_space_ptr = wasm.instance.exports.static_start(str_in_chunk_bytes.length);
+        var static_space = new Uint8Array(wasm_memory.buffer, static_space_ptr, static_space_size);
+
+        // todo split str_in_bytes into chunk of max static_space_size
+        static_space.set(str_in_chunk_bytes);
+
+        var read_result_list_ptr = wasm.instance.exports.read_result_list(is_final_chunk);
+        // is NIL or addr of list
+
+        var wasm_memory_arr32 = new Uint32Array(wasm_memory.buffer, 0, wasm_memory.buffer.byteLength / 4);
+
+
+        fecs_list_each(wasm_memory_arr32, read_result_list_ptr, function(item) {
+
+            var item_type = item % 4;
+
+            //eval item
+            var res_ptr = wasm.instance.exports.eval(item);
+
+            var fstr_out_ptr = wasm.instance.exports.print(res_ptr);
+
+            //pr eval result
+            data_out_string = fecs_string(wasm_memory_arr32, fstr_out_ptr);
+
+
+            if (data_out_string.startsWith("ERR")) {
+                appendOut(repl_out, data_out_string);
+            }
+
+        });
+
+    }
+
+
+}
+
+
+function find_and_exec_code() {
+    appendOut(loading_status, "Loading code into wasm...");
+    var src_blocks_elems = document.getElementsByTagName("script");
+    var src_blocks = [];
+    for (var i = 0; i < src_blocks_elems.length; i++) {
+        var block = src_blocks_elems[i];
+        if (block.type == "lang/fecs") {
+            src_blocks.push(block.text);
+        }
+    }
+
+    appendOut(loading_status, "Executing code...");
+
+    for (var i = 0; i < src_blocks.length; i++) {
+       exec_code(src_blocks[i]);
+    }
+}
+
+function do_page_code_when_wasm_ready() {
+
+    if (wasm_ready) {
+        appendOut(loading_status, "fecs & wasm ready...");
+        console.log("pre find");
+        window.setTimeout(find_and_exec_code, 10);
+    } else {
+
+        window.setTimeout(do_page_code_when_wasm_ready, 100);
+    }
+}
+
+    window.onload = do_page_code_when_wasm_ready;
+</script>
+</body>
+
+</html>

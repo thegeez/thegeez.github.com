@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link id="favicon" rel="shortcut icon" type="image/png" href="" />
+    <title>fecs tests</title>
+    <style>
+      .SINGLE {
+          border: 3px solid #c0c0c0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>fecs tests</h1>
+    <a href="index.html">API & repl</a> - <a href="canvas.html">Escher example</a> - <a href="test_cases.html">Tests</a>
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">(+ 1 2)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">3</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">(set 'A 41)
+(+ 1 A)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">42</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">
+(set 'ADD '((X Y) (+ X Y)))
+(ADD 22 20)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">42</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">
+(set 'A '(() 42))
+(A)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">42</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="10" cols="120">
+(set 'fact
+     '((X)
+       (cond (= X 1)
+             X
+             T
+             (* X (fact (- X 1))))))
+(fact 6)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">720</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">('((X) (+ X 100)) 10)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">110</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">('((X Y) (+ X Y)) 10 100)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">110</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">('((X Y Z W) (+ X Y Z W)) 10 100 1000 10000)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">11110</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">
+;; do not eval args that won't be bound
+(make
+  ('((X Y) 42) (link 10) (link 20) (link 30)))</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(10 20)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">('(() 42))</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">42</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">('(@ (apply + @)) 10 100 1000 10000)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">11110</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">(quote . 12)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">12</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">
+(set 'X '+)
+(set 'Y 'X)
+(Y 42 100)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">142</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">(1 . 2)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(1 . 2)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">(1 2 . 3)</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(1 2 . 3)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">(apply list 1 2 '("a" "b" ("c" 3 4)))
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(1 2 "a" "b" ("c" 3 4))</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">(list 1 2 3)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(1 2 3)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">(list 1 2)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(1 2)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">
+(put 'A 42 333)
+(put 'A "key" "val")
+(put 'A 42 "hello")
+(list (prop 'A 42) (stail 'A))
+        </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(("hello" . 42) (("val" . "key") ("hello" . 42) . "A"))</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">
+(put 'A 42 'B)
+(put 'B "key" '("l1" "l2" "l3"))
+(get 'A 42 "key" 2)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">"l3"</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="10" cols="120">
+ ;; comment 1
+ (put 'A 42 ;; comment 2
+       '(100 ;; comment 3
+        200) ;; comment 4
+       ) ;; comment 5
+ ;; comment 6
+ (stail 'A) ;; comment 7
+ ;; comment 8
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(((100 200) . 42) . "A")</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="10" cols="120">
+(set 'N 42)
+;; loop escape clauses (T expr) or (NIl expr)
+(loop
+  (T (= 0 (set 'N (- N 1))))
+  )
+N
+
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">0</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="10" cols="120">
+(set 'N 3)
+(set 'OUT '())
+(loop
+   (set 'OUT (cons N OUT))
+   (T (= 0 (set 'N (- N 1)) ) ) )
+OUT
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(1 2 3)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="10" cols="120">
+(set 'L (10 20 30))
+(set 'OUT '())
+(set 'AT L)
+(loop
+   (set 'OUT (cons (car AT) OUT))
+   (NIL (set 'AT (cdr AT)) ) )
+OUT
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(30 20 10)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">
+(set 'L (10 20 30))
+(set (cdr L) 42)
+(set (car 'L) 999)
+L
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(999 42 30)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">
+(set 'L (10 20 30))
+(inc (cdr L) 1)
+(inc (car 'L) 1)
+L
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(11 21 30)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="10" cols="120">
+(set 'X 100)
+(set 'OUT 0)
+(let (Y 10
+      X 30)
+   (set 'OUT (+ X Y))
+)
+(+ OUT X)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">140</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="10" cols="120">
+(let (Y 10
+      (A B) (list 30 Y)
+      (C (D (E F) G H)) (40 (50 (60 70) (80 90)))
+      (I (J K)) NIL
+      (L . M) (1 2 3 4)
+      )
+   (list Y A B C D E F G H I J K L M)
+)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(10 30 10 40 50 60 70 (80 90) NIL NIL NIL NIL 1 (2 3 4))</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="10" cols="120">
+(make
+  (link 10)
+  (link 20)
+  (link)
+  (link
+    (make (link 100) (link 200)))
+  (link 30))
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(10 20 NIL (100 200) 30)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="35" cols="120">
+(set 'XS (10 20 30))
+
+(set 'map
+     '(@
+       (let (F (car @)
+             ARGS (cdr @))
+          (cond
+            (cdr ARGS) ;; (map F XS YX ...)
+            (make
+              (loop
+                (link (apply F (map car ARGS)))
+                (NIL (apply and (set 'ARGS (map cdr ARGS))))
+              )
+            ) ;; end make
+
+            T ;; (map F XS)
+            (let (ARGS (car ARGS))
+              (make
+                (loop
+                  (link (F (car ARGS)))
+                  (NIL (set 'ARGS (cdr ARGS)))
+                )
+              ) ;; end make
+            )
+          ) ;; end cond
+       )))
+
+(list
+   (map '((I) (+ I 900)) XS)
+   (map '((A B) (+ A B)) XS XS)
+)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">((910 920 930) (20 40 60))</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="40" cols="120">
+(set 'map
+     '(@
+       (let (F (car @)
+             ARGS (cdr @))
+         (cond
+           (cdr ARGS) ;; (map F XS YX ...)
+           (make
+             (loop
+               (link (apply F (map car ARGS)))
+               (NIL (apply and (set 'ARGS (map cdr ARGS))))
+             )
+           ) ;; end make
+
+           T ;; (map F XS)
+           (let (ARGS (car ARGS))
+             (make
+               (loop
+                  (link (F (car ARGS)))
+                  (NIL (set 'ARGS (cdr ARGS)))
+               )
+             ) ;; end make
+          )
+        ) ;; end cond
+      )))
+
+(set 'SHIFT-X
+     '((LINES DX)
+       (map '((LINE)
+              (map '((POINT DX) (+ POINT DX))
+                    LINE
+                    (list DX 0 DX 0)
+              )
+       ) LINES)
+     ))
+
+(put 'LAMBDA 'LINES '((10 20 30 40)))
+(SHIFT-X (get 'LAMBDA 'LINES) 50)
+
+</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">((60 20 80 40))</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="15" cols="120">
+(set 'if
+     '(X
+       (let ((C THEN ELSE) X)
+         (cond (eval C) (eval THEN)
+               T (eval ELSE))
+       )
+       ))
+
+(make
+  (if (= 1 2)
+    (link 3)
+    (link 4))
+)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(4)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="35" cols="120">
+(list
+  (list
+    (+ 100 20)
+    (+ 100 -20)
+    (+ -100 20)
+    (+ -100 -20))
+
+  (list
+    (+ 20 100)
+    (+ 20 -100)
+    (+ -20 100)
+    (+ -20 -100))
+
+  (list
+    (- 100 20)
+    (- 100 -20)
+    (- -100 20)
+    (- -100 -20)
+   )
+
+  (list
+    (- 20 100)
+    (- 20 -100)
+    (- -20 100)
+    (- -20 -100)
+  )
+
+  (list
+     (- 20)
+     (- -20)
+  )
+)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">((120 80 -80 -120) (120 -80 80 -120) (80 120 -120 -80) (-80 120 -120 80) (-20 20))</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+    
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="35" cols="120">
+(list
+   (list
+     (* 100 20)
+     (* 100 -20)
+     (* -100 20)
+     (* -100 -20))
+
+   (list
+     (* 20 100)
+     (* 20 -100)
+     (* -20 100)
+     (* -20 -100))
+
+   (list
+     (/ 100 20)
+     (/ 100 -20)
+     (/ -100 20)
+     (/ -100 -20))
+
+   (list
+     (/ 20 100)
+     (/ 20 -100)
+     (/ -20 100)
+     (/ -20 -100))
+)
+
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">((2000 -2000 -2000 2000) (2000 -2000 -2000 2000) (5 -5 -5 5) (0 0 0 0))</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">
+;; fn produce fn
+(set 'ADDER '((N) (list '(X) (list '+ 'X N))))
+(set 'ADD2 (ADDER 2))
+(ADD2 40)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">42</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="5" cols="120">
+;; fn produce fn
+(set 'PLUS '((A B) (+ A B)))
+(set 'ADDER '((F N) (list '(X) (list F 'X N))))
+(set 'ADD2 (ADDER 'PLUS 2))
+(ADD2 40)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">42</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="8" cols="120">
+;; fn produce fn
+(set 'LP '((A B C) (list "AA" A "BB" B "CC" C)))
+(set 'offset15 '((X) (+ 15 X)))
+(set 'rot '((F) (list '(A B C) (list F (list 'offset15 'C) 'B 'A))))
+(LP 10 20 30)
+((rot 'LP) 10 20 30)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">("AA" 45 "BB" 20 "CC" 10)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="20" cols="120">
+;; fn produce fn
+(set 'LP '((A B C) (list "AA" A "BB" B "CC" C)))
+
+(set 'cadr '((X) (car (cdr X))))
+
+(set 'NEG-VEC '((V) (list (- (car V)) (- (cadr V)))))
+
+(set 'PLUS-VEC '((VA VB) (list
+                           (+ (car VA) (car VB))
+                           (+ (cadr VA) (cadr VB))
+                         )))
+
+
+(set 'rot '((F) (list '(A B C) (list F (list 'PLUS-VEC 'A 'B) 'C (list 'NEG-VEC 'B)))))
+(LP (10 20) (30 40) (50 60))
+((rot 'LP) (0 0) (0 300) (300 0))
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">("AA" (0 300) "BB" (300 0) "CC" (0 -300))</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+    
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="15" cols="120">
+(set 'concat
+     '((A B)
+       (make
+         (loop
+           (link (car A))
+           (NIL (set 'A (cdr A)))
+         )
+         (loop
+           (link (car B))
+           (NIL (set 'B (cdr B)))
+         )
+      )))
+
+(concat (1 2 3) (4 5 6))
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(1 2 3 4 5 6)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case _SINGLE">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="20" cols="120">
+(set 'fill
+     '((L PAT REPLACE)
+       (cond
+         (pair L)
+         (make
+           (loop
+             (link (fill (car L) PAT REPLACE))
+             (NIL (set 'L (cdr L)))
+           ))
+
+         (= L PAT)
+         REPLACE
+
+         T
+         L
+       )
+     ))
+
+(make ((fill '(() ('(() b)) b) 'b '(link 100))))
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">(100 100)</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+
+    <div class="test_case">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="10" cols="120">
+(set 'B 42)
+(set 'C (list 1 'B))
+
+(list
+   (apply list 9 8 7 C)
+   (apply list 9 8 7 (list 1 'D))
+   (apply list (1 2))
+   (apply list '(D 42))
+   (apply list C)
+)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">((9 8 7 1 B) (9 8 7 1 D) (1 2) (D 42) (1 B))</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+
+    <div class="test_case _SINGLE">
+      Input:<br/>
+      <textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="35" cols="120">
+
+(set 'wrap-val
+     '(FX
+        (let ((SYMS FN) FX
+              (_Q FNARGS . FNEXPRS) FN)
+          (eval (list 'quote FNARGS
+                      (apply list
+                             'let
+                              (make (loop
+                                       (link (car SYMS))
+                                       (link (cons 'quote (eval (car SYMS))))
+                                       (NIL (set 'SYMS (cdr SYMS)))))
+                              FNEXPRS))
+               ))
+      ))
+
+(set 'scale-lines
+     '((LINES)
+       (wrap-val (LINES)
+                  '((A B C)
+                    LINES
+                    (make
+                      (loop
+                        (link (car LINES))
+                        (NIL (set 'LINES (cdr LINES)))
+       ))))))
+
+(set 'LSHAPE
+     (scale-lines (list (10 0 10 200)
+                        (40 0 40 200)
+     )))
+
+(LSHAPE 10 20 30)
+      </textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">((10 0 10 200) (40 0 40 200))</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    <div class="test_case _SINGLE">
+      Input:<br/>
+<textarea class="textarea_input" id="textarea_input" name="textarea_input" rows="15" cols="120">
+(set 'range
+     '((start-inc end-ex)
+       (make
+         (loop
+           (T (= start-inc end-ex))
+           (link start-inc)
+           (set 'start-inc (+ start-inc 1))
+         )
+       )))
+
+(apply * (range 1 41))</textarea><br/>
+      Expected:<br/>
+      <textarea class="textarea_expected" id="textarea_expected" name="textarea_expected" rows="3" cols="120">815915283247897734345611269596115894272000000000</textarea><br/>
+      Actual:<br/>
+      <textarea class="textarea_actual" id="textarea_actual" name="textarea_actual" rows="3" cols="120"></textarea><br/>
+    </div>
+
+    
+    <script type="text/javascript">
+
+      function make_canvas_icon(color) {
+          const cvs = document.createElement("canvas");
+          cvs.width = 16;
+          cvs.height = 16;
+
+          const ctx = cvs.getContext("2d");
+          ctx.fillStyle = color;
+          ctx.fillRect(0, 0, 16, 16);
+          return cvs.toDataURL();
+      }
+      function make_canvas_icon_half(color1, color2) {
+          const cvs = document.createElement("canvas");
+          cvs.width = 16;
+          cvs.height = 16;
+
+          const ctx = cvs.getContext("2d");
+          ctx.fillStyle = color1;
+          ctx.fillRect(0, 0, 8, 16);
+          ctx.fillStyle = color2;
+          ctx.fillRect(8, 0, 16, 16);
+
+          return cvs.toDataURL();
+      }
+
+      
+      const cvs_green = make_canvas_icon("#0d0");
+      const cvs_red = make_canvas_icon("#d00");
+      const cvs_gray = make_canvas_icon("#999999");
+
+      const cvs_half_green = make_canvas_icon_half("#999999","#0d0");
+      const cvs_half_red = make_canvas_icon_half("#999999","#d00");
+
+      
+      const icon = document.getElementById("favicon");
+      icon.href = cvs_gray;
+
+      function fecs_list_each(mem_arr32, head_ptr, item_fn) {
+          if (head_ptr == 0x14) {
+              return;
+          }
+
+          var head_ptr_by_32 = head_ptr / 4;
+          var STOP = 0;
+          while (true) {
+              var at_val = mem_arr32[head_ptr_by_32];
+
+              item_fn(at_val);
+
+              head_ptr_by_32 = mem_arr32[head_ptr_by_32 + 1];
+              if (head_ptr_by_32 == 0x14) {
+                  break;
+              }
+              head_ptr_by_32 = head_ptr_by_32 / 4;
+          }
+      }
+
+      function fecs_string(mem_arr32, ptr) {
+          var is_string = ((ptr & 4) == 4) && (ptr == mem_arr32[ptr / 4]);
+
+          if (!is_string) {
+              return "";
+          }
+
+          var head = mem_arr32[(ptr - 4) / 4] - 2;
+
+          var decoder = new TextDecoder();
+          var out_parts = [];
+          var STOP = 0;
+          while (1 && STOP++ < 2000){
+              var at_val = mem_arr32[head / 4];
+
+
+              var chars = new ArrayBuffer(4);
+              var view_chars = new DataView(chars);
+              view_chars.setUint32(0, at_val, true);
+              var out_chars;
+              for (i = 0; i < 4; i++) {
+                  var c = view_chars.getUint8(i);
+                  if (c == 0) {
+                      out_chars = chars.slice(0, i);
+                      break;
+                  }
+                  if (i == 3) {
+                      out_chars = chars;
+                      break
+                  }
+              }
+              var part = decoder.decode(out_chars);
+
+              out_parts.push(part);
+              head = mem_arr32[(head / 4) + 1];
+              if (head == 0x14) {
+                  break;
+              }
+              head = head - 2;
+
+          }
+
+
+          return out_parts.join("");
+      }
+
+      async function run_test(test_case_div) {
+          const input = test_case_div.getElementsByClassName("textarea_input")[0];
+          const expected = test_case_div.getElementsByClassName("textarea_expected")[0];
+          const actual = test_case_div.getElementsByClassName("textarea_actual")[0];
+
+
+          const wasm_memory = new WebAssembly.Memory({ initial: 1,
+                                                       maximum: 1
+                                                     });
+          var importObject = {"env": {"memory": wasm_memory,
+          "canvas_draw_line": function(){},
+          "canvas_draw_curve": function(){},
+          "canvas_draw_poly_curve": function(){}
+          }};
+
+          return fetch("fecs.wasm")
+              .then((response) => response.arrayBuffer())
+              .then((bytes) => WebAssembly.instantiate(bytes, importObject))
+              .then(function (wasm){
+
+                  //console.log("wasm_memory", wasm_memory);
+
+                  wasm.instance.exports.main()
+
+                  const str_in = input.value;
+                  const encoder = new TextEncoder();
+                  const str_in_bytes = encoder.encode(str_in);
+                  const str_in_bytes_length = str_in_bytes.length;
+
+                  const static_space_size = wasm.instance.exports.static_space_size();
+
+                  var str_in_chunk_count = Math.ceil(str_in_bytes_length / static_space_size);
+
+                  var data_out_string = "";
+
+                  for (var i = 0; i < str_in_chunk_count; i++) {
+
+                     var str_in_chunk_bytes = str_in_bytes.slice(i * static_space_size, (i + 1) * static_space_size);
+                     var td = new TextDecoder();
+
+                     var is_final_chunk = i == str_in_chunk_count - 1;
+                     var static_space_ptr = wasm.instance.exports.static_start(str_in_chunk_bytes.length);
+                     var static_space = new Uint8Array(wasm_memory.buffer, static_space_ptr, static_space_size);
+
+                     // TODO split str_in_bytes into chunk of max static_space_size like in the repl
+                     static_space.set(str_in_chunk_bytes);
+
+                     var read_result_list_ptr = wasm.instance.exports.read_result_list(is_final_chunk);
+                     // is NIL or addr of list
+
+                     var wasm_memory_arr32 = new Uint32Array(wasm_memory.buffer, 0, wasm_memory.buffer.byteLength / 4);
+
+                     fecs_list_each(wasm_memory_arr32, read_result_list_ptr, function(item) {
+
+                         var item_type = item % 4;
+
+                         //eval item
+                         var res_ptr = wasm.instance.exports.eval(item);
+
+                         var fstr_out_ptr = wasm.instance.exports.print(res_ptr);
+
+                         //pr eval result
+                         data_out_string = fecs_string(wasm_memory_arr32, fstr_out_ptr);
+
+                      });
+
+                  }
+
+                  actual.value = data_out_string;
+
+                  const result = actual.value == expected.value;
+
+                  if (result) {
+                      test_case_div.style.background = "#11cc11";
+                      test_case_div.style.border = "5px solid green";
+                  } else {
+                      test_case_div.style.background = "#cc1111";
+                      test_case_div.style.border = "5px solid red";
+                  }
+
+                  return result;
+              });
+
+      }
+
+      async function run_tests(wasm_bytes) {
+          let test_cases = document.getElementsByClassName("test_case");
+          const single_test_case = document.getElementsByClassName("SINGLE");
+          if (single_test_case.length > 0) {
+              test_cases = single_test_case;
+          }
+
+          var all_good = true;
+          for (var i = 0; i < test_cases.length; i++) {
+              const test_case_div = test_cases[i];
+
+              if (test_case_div.className.includes("OFF")) {
+                  continue; // skip if class includes OFF
+              }
+
+              const result = await run_test(test_case_div);
+              all_good = all_good && result;
+              icon.href = all_good ? cvs_half_green : cvs_half_red;
+          }
+          icon.href = all_good ? cvs_green : cvs_red;
+      }
+      run_tests().then(() => console.log("tests done"));
+
+    </script>
+  </body>
+</html>

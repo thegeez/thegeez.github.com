@@ -1,0 +1,376 @@
+<html>
+  <head><title>fecs repl</title>
+    <style>
+      .repl_outpane {
+          height: calc(50% - 200px);
+          min-height: 300px;
+          overflow-y: scroll;
+          border: 3px solid black;
+
+          white-space: pre;
+          font-family: monospace, monospace;
+
+      }
+
+      .repl_outpane .outpane_child{
+          /*border: 3px solid grey;*/
+      }
+
+      .repl_in {
+          width: 100%;
+      }
+      dd {
+          margin-left: 1em;
+          white-space: pre;
+          font-family: monospace, monospace;
+      }
+      dt {
+          margin-left: 1em;
+      }
+    </style>
+
+  </head>
+  <body>
+    <h1>fecs API & repl</h1>
+    <a href="index.html">API & repl</a> - <a href="canvas.html">Escher example</a> - <a href="test_cases.html">Tests</a>
+    <div>
+      API:
+      <dl>
+        <dd>set</dd>
+        <dt>Sets the value of a symbol:
+          <pre>
+            (set 'A 42)
+            A => 42</pre></dt>
+
+        <dd>put, get & prop</dd>
+        <dt>Set and get the property of a symbol
+          <pre>
+            (put 'A 'foo 42)
+            (get 'A 'foo) => 42
+            (prop 'A 'foo) => (42 . foo)
+            </pre>
+        </dt>
+
+        <dd>=</dd>
+        <dt>Equality
+          <pre>
+            (= 42 42) => T
+            (= '(1 (2 . 3) 4) '(1 (2 . 3) 4)) => T
+            (= "foo" "bar") => NIL
+            </pre>
+        </dt>
+
+        <dd>cond</dd>
+        <dt>Conditional
+          <pre>
+            (cond
+              (= 42 1)
+              NIL
+              T ;; always matching conditional
+              123) => 123
+          </pre>
+        </dt>
+
+        
+        <dd>do</dd>
+        <dt>Execute every expression in list, returning the result of the last one</dt>
+
+        <dd>let</dd>
+        <dt>Bind symbols to values for the expression. Saves and restores the existing bindings. Supports list destructuring.
+          <pre>
+            (let (L (1 2 3 4)
+                  (A B . C) L)
+               (list A B C))
+            => (1 2 (3 4))
+            </pre>
+        </dt>
+
+        
+        <dd>cons</dd>
+        <dt>Create a cons cell.
+          <pre>
+            (cons 1 2) => (1 . 2)
+            (cons 1 (cons 2 (cons 3 NIL))) => (1 2 3)
+          </pre>
+        </dt>
+
+        <dd>pair</dd>
+        <dt>Returns T if argument is a cons cell</dt>
+
+        <dd>car</dd>
+        <dt>Returns the car of a cell
+          <pre>
+            (car ("foo" . 42)) => "foo"
+        </pre></dt>
+
+        <dd>cdr</dd>
+        <dt>Returns the cdr of a cell
+          <pre>
+            (cdr ("foo" . 42)) => 42</pre></dt>
+
+        <dd>list</dd>
+        <dt>Create a list of the arguments
+          <pre>
+            (list 1 2 3) => (1 2 3)
+        </pre></dt>
+
+        <dd>make</dd>
+        <dt>Create a list accumulator, putting every call within the make into a list
+          <pre>
+            (make
+              (link "foo")
+                (cond
+                  (= 42 T)
+                  (link 'nope))
+              (link 123)) => ("foo" 123)
+        </pre></dt>
+
+        <dd>loop</dd>
+        <dt>Loops over its expressions. If an expression is (T ..truthy expression..) or (NIL ..expr eval'ing to NIL..) the loop is exited
+          <pre>
+            (set 'N 5)
+            (make
+              (loop
+                (T (= N 0))
+                (link N)
+                (set 'N (- N 1))))
+            => (5 4 3 2 1)
+          </pre>
+        </dt>
+
+        <dd>quote</dd>
+        <dt>Quote all the arguments. Reader shortcut: '
+          <pre>
+            (+ 1 2) => 3
+            (quote (+ 1 2)) => ((+ 1 2))
+            '(+ 1 2) => (+ 1 2)
+            </pre>
+        </dt>
+
+        <dd>eval</dd>
+        <dt>Evaluate the expression
+          <pre>
+            (eval '(+ 1 2)) => 3
+          </pre>
+        </dt>
+
+        <dd>apply</dd>
+        <dt>Applies the function to all the arguments, with the last argument list splat.
+          <pre>
+            (apply + 1 2 (3 4 5)) => 15
+          </pre>
+        </dt>
+
+        <dd>Math: + - * /</dd>
+        <dt>Math using fixed nums 
+          <pre>
+            (+ 1 2) => 3
+            (/ 1 2) => 0
+            (* 123456789123456789 123456789123456789) => 15241578780673678515622620750190521
+          </pre>
+        </dt>
+
+        <dd>Functions</dd>
+        <dl>
+          <pre>
+            Parameters in list:
+            '((X Y) (+ X Y)) ;; with evaluated args
+            '((X . REST) (apply + X REST)) ;; with evaluated args and rest bindings
+
+            ('((X Y) (+ X Y)) 3 4) => 7
+
+            Single symbol parameters:
+            '(@ (apply + @)) ;; @ is list of evaluated args
+
+            (set 'sum '(@ (apply + @)))
+            (sum 1 2 3 4) => 10
+
+            '(X (eval X)) ;; f-expression, the function gets the un-evaluated args passed as a list to X
+
+            (set 'if '(ARGS (let ((COND THEN ELSE) ARGS) (cond COND (eval THEN) T (eval ELSE)))))
+            (make (if T (link 42) (link "foo"))) => (42)
+            </pre>
+          </dl>
+        
+      </dl>
+    </div>
+    <div class="fecs_repl" id="repl_one">
+      Output:
+      <div id="repl_out" class="repl_outpane"></div>
+      Input:
+    <textarea class="repl_in" id="repl_in" name="repl_in" rows="5" autoFocus="true">(+ 1 2)</textarea>
+    </div>
+</body>
+
+  <script>
+
+    const wasm_memory = new WebAssembly.Memory({ initial: 10,
+                                                 maximum: 10,
+                                               });
+
+
+    var importObject = {"env": {"memory": wasm_memory,
+                                "devlog": function() {},
+                                "canvas_draw_line": function() {},
+                                "canvas_draw_curve": function() {},
+                                "canvas_draw_poly_curve": function() {}
+    }};
+
+    var wasm_ready = false;
+
+    var wasm = null;
+    fetch("fecs.wasm")
+    .then((response) => response.arrayBuffer())
+    .then((bytes) => WebAssembly.instantiate(bytes, importObject))
+    .then((result_obj) => {
+        wasm = result_obj;
+
+        // init heap and vm
+        wasm.instance.exports.main();
+
+//        console.log("wasm_memory: ", wasm_memory);
+
+
+        wasm_ready = true;
+    });
+
+
+
+    // repl stuff
+    var repl_box = document.getElementById("repl_one");
+    var repl_in = document.getElementById("repl_in");
+    var repl_out = document.getElementById("repl_out");
+
+      function appendOut(target_el, text) {
+        var text_el = document.createTextNode(text);
+
+        var child_el = document.createElement("div");
+        child_el.setAttribute("class", "outpane_child");
+        child_el.append(text_el);
+
+        target_el.appendChild(child_el);
+        target_el.scrollTop = target_el.scrollHeight;
+    }
+
+    repl_out.addEventListener("click", function(e) {
+        repl_in.value = e.target.innerText;
+    });
+
+    repl_in.addEventListener("keyup", function(e) {
+
+        if (e.keyCode != 13) {
+            return;
+        }
+        //console.log("wasm_memory", wasm_memory);
+
+        var f = e.target.value.substr(e.target.selectionEnd - 1, e.target.selectionEnd).charCodeAt(0);
+
+        var txt = e.target.value;
+
+        appendOut(repl_out, txt);
+        e.target.value = "";
+
+        for (var i = 0; i < txt.length + 1; i++) {
+
+            var c = i < txt.length ? txt.charCodeAt(i) : 13; // send 13/enter as end of input
+
+            var fstr_out = wasm.instance.exports.repl_stream_in_char(c);
+            var static_space_ptr = wasm.instance.exports.repl_fstr_to_static_str(fstr_out);
+
+            var static_space_str_size_buffer = new Int32Array(wasm_memory.buffer, static_space_ptr, 1); // space will overwritten!
+            var static_space_str_size = static_space_str_size_buffer[0];
+
+            var data_out_bytes = new Uint8Array(wasm_memory.buffer, static_space_ptr + 4, static_space_str_size);
+            const decoder = new TextDecoder();
+            var data_out_string = decoder.decode(data_out_bytes);
+
+            if (data_out_string.length > 0) {
+                appendOut(repl_out, "=> " + data_out_string);
+            } else {
+                console.log("repl empty string reply");
+            }
+        }
+    });
+
+    function fecs_list_each(mem_arr32, head_ptr, item_fn) {
+          if (head_ptr == 0x14) {
+              return;
+          }
+
+          var head_ptr_by_32 = head_ptr / 4;
+          var STOP = 0;
+          while (true) {
+              var at_val = mem_arr32[head_ptr_by_32];
+
+              item_fn(at_val);
+
+              head_ptr_by_32 = mem_arr32[head_ptr_by_32 + 1];
+              if (head_ptr_by_32 == 0x14) {
+                  break;
+              }
+              head_ptr_by_32 = head_ptr_by_32 / 4;
+          }
+      }
+
+function fecs_num(mem_arr32, ptr) {
+    var is_num = ((ptr & 2) == 2);
+    if (!is_num) {return -1;}
+
+    var ptr = ptr - 2;
+    n = mem_arr32[ptr / 4];
+    var sign = n & 1;
+    n = n >> 1;
+    return sign ? -1 * n : n;
+}
+
+function fecs_string(mem_arr32, ptr) {
+    var is_string = ((ptr & 4) == 4) && (ptr == mem_arr32[ptr / 4]);
+
+    if (!is_string) {
+        return "";
+    }
+
+    var head = mem_arr32[(ptr - 4) / 4] - 2;
+
+    var decoder = new TextDecoder();
+    var out_parts = [];
+    var STOP = 0;
+    while (1 && STOP++ < 2000){
+        var at_val = mem_arr32[head / 4];
+
+        var chars = new ArrayBuffer(4);
+        var view_chars = new DataView(chars);
+        view_chars.setUint32(0, at_val, true);
+        var out_chars;
+        for (i = 0; i < 4; i++) {
+            var c = view_chars.getUint8(i);
+            if (c == 0) {
+                out_chars = chars.slice(0, i);
+                break;
+            }
+            if (i == 3) {
+                out_chars = chars;
+                break
+            }
+        }
+        var part = decoder.decode(out_chars);
+
+        out_parts.push(part);
+        head = mem_arr32[(head / 4) + 1];
+        if (head == 0x14) {
+            break;
+        }
+        head = head - 2;
+
+    }
+
+    return out_parts.join("");
+}
+
+
+
+
+
+</script>
+
+</html>
