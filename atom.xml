@@ -4,12 +4,25 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.net/atom.xml" rel="self" />
  <link href="https://thegeez.net/" />
- <updated>2023-03-01T15:00:12Z</updated>
+ <updated>2024-09-15T15:25:02Z</updated>
  <id>https://thegeez.net/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>fecs: a lisp interpreter running in wasm</title>
+   <link href="https://thegeez.net/2024/09/15/fecs_lisp_wasm.html" />
+   <updated>2024-09-15T23:00:00Z</updated>
+   <id>https://thegeez.net/2024/09/15/fecs_lisp_wasm.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;fecs: a lisp interpreter running in wasm&lt;/h1&gt;
+
+
+&lt;p&gt;&lt;a href="/static/fecs/"&gt;fecs&lt;/a&gt; is a lisp interpreter in the style of &lt;a href="https://picolisp.com"&gt;PicoLisp&lt;/a&gt; running in wasm.&lt;/p&gt;
+
+&lt;p&gt;Fecs was made as an exploration of the PicoLisp system and as an attempt to make a programming language that runs on WebAssembly (wasm). It is implemented in C, and compiled to wasm with &lt;a href="https://clang.llvm.org/"&gt;clang/LLVM&lt;/a&gt;. WebAssembly can run on many platforms, including browsers. A nice advantage of running wasm in the browser is the availability of the wasm memory inspector. Because PicoLisp is an interpreter (instead of a code compiler) any running system was therefore easily inspectable and debugable during development.&lt;/p&gt;
+
+&lt;a href="2024/09/15/fecs_lisp_wasm.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>Pinball with Scittle/ClojureScript</title>
    <link href="https://thegeez.net/2023/03/01/pinball_scittle.html" />
    <updated>2023-03-01T23:00:00Z</updated>

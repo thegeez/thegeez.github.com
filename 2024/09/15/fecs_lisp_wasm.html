@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>thegeez blog - fecs: a lisp interpreter running in wasm</title>
+	 <link href="/atom.xml" rel="alternate" title="thegeez blog" type="application/atom+xml" />
+
+   <!-- Homepage CSS -->
+   <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+<div class="site">
+  <div class="title">
+    <a href="/">[<span class="lambda">λ</span>] thegeez
+    blog</a> <a href="/" class="extra">index</a>
+  </div>
+  
+  <div id="content"><h1 id="post-title">fecs: a lisp interpreter running in wasm</h1>15 Sep 2024
+
+
+<p><a href="/static/fecs/">fecs</a> is a lisp interpreter in the style of <a href="https://picolisp.com">PicoLisp</a> running in wasm.</p>
+
+<p>Fecs was made as an exploration of the PicoLisp system and as an attempt to make a programming language that runs on WebAssembly (wasm). It is implemented in C, and compiled to wasm with <a href="https://clang.llvm.org/">clang/LLVM</a>. WebAssembly can run on many platforms, including browsers. A nice advantage of running wasm in the browser is the availability of the wasm memory inspector. Because PicoLisp is an interpreter (instead of a code compiler) any running system was therefore easily inspectable and debugable during development.</p>
+
+<p>The name 'fecs' stands for 'FExprs', 'cells' and 'symbols', which refer to the building blocks of the PicoLisp system. 'FExprs' are functions that get passed the unevaluated arguments, and are an alternative to Lisp macros. The 'cell' in PicoLisp is the only datastructure as a cons cell of 2 pointers (fecs uses 4 bytes per pointer). And 'symbols' are dynamically bound, rather than the more common lexical binding and scoping, which makes symbols represent an actual place in memory. These and other choices make PicoLisp a nice and small system.</p>
+
+<p>The main example to make the interpreter work is the code from the <a href="https://eprints.soton.ac.uk/257577/1/funcgeo2.pdf">'Functional Geometry by P. Henderson'</a> paper. By composing functions, a picture is drawn from a single fish into mesh of interleaved fish, as can be seen on the <a href="/static/fecs/canvas.html">canvas example page</a>. In PicoLisp and thus fecs functions are only data, without a closure binding context. Therefore the function composition is done by putting the datastructure of a function within the data of another function.</p>
+
+<p>More information on fecs is available on the <a href="/static/fecs/">API page</a>, which has a repl running in the browser.</p>
+
+<p>
+  - <a href="/static/fecs/">API &amp; repl</a><br />
+  - <a href="/static/fecs/canvas.html">canvas example to render an Escher picture</a><br />
+  - <a href="/static/fecs/test_cases.html">test cases running in a web page</a><br />
+</p>
+
+</div>
+  <div class="footer">
+    <div class="contact">
+      <p>GitHub: <a href="https://github.com/thegeez">thegeez</a></p>
+    </div> 
+    <div class="contact">
+      <p>Twitter: <a href="http://twitter.com/thegeez">@thegeez</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/atom.xml">rss</a></p>
+    </div>
+    <div class="contact">
+      <p><a href="/#about">about</a></p>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
