@@ -1,0 +1,493 @@
+############################################### lunt/alarm.l
+# This file runs without the other files loaded if app is off
+# This file runs with the other files loaded if app is running when alarm triggers
+
+# (pbPut "lunt/App.l")(pbPut "lunt/alarm.l")(pbPut "lunt/android_ext.l")(pbPut "lunt/parse_html.l")(pbPut "lunt/settings.l")
+# (load "lunt/alarm.l")(symbols 'brwnot 'android 'pico)
+(setq StampStr (stamp))
+
+(load "lunt/android_ext.l")
+(load "lunt/parse_html.l")
+(symbols 'brwnot 'parseHtml 'android 'pico)
+
+
+(setq *TargetUrl
+   "http://localhost:8080" # NEEDS URL OF ACTUAL SITE!
+   *FilterCapCodes '("0901320" "0900300") )
+
+(setq
+   *NotifyId
+   76452         # any number will do, as long as no other app uses it
+   *AlarmId
+   76452         # any number will do, as long as no other app uses it
+   )
+
+(setq NewReqMsgs NIL)
+
+(de get-http (Url . Prg)
+   (let (Conn (prog1 (java (java "java.net.URL" T Url) 'openConnection)
+                 (java @ 'setRequestProperty "referer" Url) )
+         In
+         (java "java.io.BufferedReader" T
+            (java "java.io.InputStreamReader" T
+               (java Conn 'getInputStream) ) ) )
+      (java Conn 'connect)
+      (let (Status (java Conn 'getResponseCode)
+            Length (java Conn 'getContentLength))
+         (push 'NewReqMsgs (pack StampStr " ResponseCode: " Status " Content-Length: " Length)) )
+
+      (prog1
+         (input (when (gt0 (java In 'read))
+                   (char @) )
+            (run Prg) )
+
+         (java In 'close) ) ) )
+
+(de getSid ()
+   (let (MainPageUrl *TargetUrl)
+      (push 'NewReqMsgs (pack StampStr " Running getSid"))
+      (let Sid (get-http MainPageUrl
+                  (from "var Sid = \"")
+                  (till "\"" T) )
+         (when (or (< (length Sid) 5)
+                  (find sp? Sid) )
+            (push 'NewReqMsgs (pack StampStr " Sid doesn't look right: " Sid))
+            (quit (pack "Sid doesn't look right" Sid)) )
+
+         (rc "lunt.rc" 'Sid Sid)
+         (push 'NewReqMsgs (pack StampStr " New Sid: " Sid)) ) ) )
+
+(de singleMsg (Trs)
+   (let ((FirstTr . RestTrs) (mapcar elideAttrs Trs)) # replace tag attrs by 'AttrsElided to aid (fish str? for content
+      (use (@TimeDate @Rest @CapCode @CapDesc)
+         (match '(tr
+                    NIL
+                    (td
+                       @ # ignore attrs
+                       @TimeDate )
+                    @Rest )
+            FirstTr )
+         (let (Caps (make
+                       (for RestTr RestTrs
+                          # ignore hr rows
+                          (unless (or
+                                     (= RestTr
+                                        '(tr NIL (td AttrsElided (HR NIL))) )
+                                     (= RestTr
+                                        '(tr NIL (td AttrsElided (hr NIL))) )
+                                     (= RestTr
+                                        '(tr NIL (td AttrsElided)) ) )
+                             (match
+                                '(tr
+                                    NIL
+                                    @ #ignore td empty/Lifeliner/Middelbrand
+                                    (td
+                                       @ # ignore attrs
+                                       @CapCode )
+                                    (td
+                                       @ # ignore attrs
+                                       @CapDesc ) )
+                                RestTr )
+                             (link
+                                (list
+                                   (cons 'CapCode (car @CapCode))
+                                   (cons 'CapDesc (pack (fish str? @CapDesc))) ) ) ) ) )
+               Msg (and (fish str? @Rest)
+                      (prog     # insert space after first "GROUP" str
+                         (con @ (cons " " (cdr @)))
+                         (pack @) ) )
+               TimeDate (car @TimeDate)
+                                        # make 12:34:56 10-07-25 into 10-07-25 12:34:56
+               DateTime (glue " " (flip (split (chop TimeDate) " "))) )
+            (list
+               (cons 'DateTime DateTime)
+               (cons 'Msg Msg)
+               (cons 'Caps Caps) ) ) ) ) )
+
+(setq *NewMsgs NIL)
+# Wed Oct 01 2025 13:57:06 GMT 0200 (Central European Summer Time)
+# assumes running in GMT 0200 (Central European Summer Time)
+(de jsDate ()
+   (let (Time (time)
+         Date (date)
+         DayName (day Date '("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
+         (Y1 Y2 Y3 Y4 M1 M2 D1 D2) (chop (dat$ Date))
+         TzStr " GMT 0100 (Central European Time)" )
+      (pack DayName " " M1 M2 " " Y1 Y2 Y3 Y4 " " (tim$ Time T) TzStr) ) )
+
+(de url-escape-space (Url)
+   (glue "%20" (split (chop Url) " ")) )
+
+(de updateMsgs ()
+   (let (Sid (rc "lunt.rc" 'Sid)
+         LastIdStr (or (rc "lunt.rc" 'LastIdStr) "0")
+         EngineUrl (pack *TargetUrl "/engine.php?id=" LastIdStr "&debug=&regio=72&sid=" Sid "&adblock=false&date=" (url-escape-space (jsDate))) )
+
+      (push 'NewReqMsgs (pack StampStr " Req Url:" EngineUrl))
+      (let
+         # html text is "<tr>...</tr><SplitonThis>NNNNnextId<SplitonThis>N.NNNdb time<SplitonThis>NN/NNN" users on page/total
+         (HtmlData (make
+                      (get-http EngineUrl
+                         (while (parseHtml)
+                            (link @)) ) ) )
+
+         (push 'NewReqMsgs (pack StampStr " HtmlData Length: " (length HtmlData)))
+
+         (ifn (= (caar HtmlData) 'tr)
+            (if (= (caar HtmlData) 'SplitonThis)
+               (push 'NewReqMsgs (pack StampStr " No new message in response"))
+               (push 'NewReqMsgs (pack StampStr " Not parsing response, not starting with tr")))
+            (let ( # due to SplitonThis being single tags the end of HtmlData is
+                  # ((SplitonThis NIL) (20499825<SplitonThis NIL "0.0135" (SplitonThis NIL) "98/504^J"))
+                  (Trs SplitEnds) (cut-with '((Lst)
+                                              (= 'SplitonThis (caar Lst)) )
+                                     HtmlData )
+                  IdSymGarbage (caadr SplitEnds)
+                  IdStr (pack (car (split (chop (name IdSymGarbage)) "<"))) )
+
+               (rc "lunt.rc" 'LastIdStr IdStr)
+               (push 'NewReqMsgs (pack StampStr " LastIdStr " IdStr))
+
+               (let ( # first row is (tr NIL (td (("class" . "datetime")) "13:37:04 02-10-25") ...more..)
+                     TrMsgs (use (@DateTimeStr @Rest)
+                               (cut-with '((Lst)
+                                           (match
+                                              '(tr NIL (td (("class" . "datetime")) @DateTimeStr) @Rest)
+                                              (car Lst) ) )
+                                  Trs ) )
+                     Msgs (mapcar singleMsg TrMsgs) )
+                  (when (car Msgs)
+                     (let (NewestDt (cdr (asoq 'DateTime @)))
+                        (push 'NewReqMsgs (pack StampStr " Newest time on msg: " NewestDt))
+                        (rc "lunt.rc"
+                           'LatestMsgStr NewestDt ) ) )
+
+                  (for Msg (reverse Msgs) # first in Msgs is most recent, go through backwards to collect newest last
+                     (when (find
+                              '((CapCodeAndDesc)
+                                (member (cdar CapCodeAndDesc) *FilterCapCodes) )
+                              (cdr (asoq 'Caps Msg)) )
+                        (push '*NewMsgs Msg) ) ) ) ) ) ) ) )
+
+# Main
+(unless (rc "lunt.rc" 'Sid)
+   (rc "lunt.rc" 'LastIdStr NIL)
+   (getSid) )
+(updateMsgs)
+
+(when (gt0 (length *NewMsgs))
+   (notify
+      *NotifyId
+      "BRW Notify"                         # Ttl (= Title)
+      (pack "New messages: " @)
+      "lunt/App.l"                         # File
+      "lunt/App.l"                         # Url
+      ) )
+
+(rc "lunt.rc"
+   'LastUpdateStr StampStr )
+
+(rc "lunt.rc"
+   'ReqMsgs (append NewReqMsgs
+               (head 30 (rc "lunt.rc" 'ReqMsgs))) )
+
+(setq *Msgs (rc "lunt.rc" 'Msgs))
+(rc "lunt.rc"
+   'Msgs (setq *Msgs (append *NewMsgs (head 30 *Msgs))) )
+
+# Schedule next poll
+(android~alarm-inexact *AlarmId) # cancel existing if any
+(alarm-inexact
+   *AlarmId
+   (* 45 60) # seconds to wait before firing (can also be (<DATE> . <TIME>)
+   "lunt/alarm.l" # File to run, will be pass this alarm N (*AlarmId) as arg
+   "lunt/App.l"   # Url
+ )
+  
+################################ lunt/android_ext.l
+# like @lib/android.l alarm but with setExact and ELAPSED_REALTIME (set + ELAPSED_REALTIME won't trigger when app stopped)
+(symbols 'android 'pico)
+
+(de alarm-inexact (N When File Url)
+   (let
+      (Intent (java "android.content.Intent" T CONTEXT (java "de.software_lab.pilbox.Receiver"))
+       Alarm (java CONTEXT 'getSystemService "alarm") ) # AlarmManager
+      (ifn When
+         (java Alarm 'cancel
+            (java "android.app.PendingIntent" 'getBroadcast
+               CONTEXT N Intent `(hex "1C000000") ) ) # FLAG_ACTIVITY_NEW_TASK | FLAG_UPDATE_CURRENT | FLAG_IMMUTABLE
+         (java Intent 'putExtra "UUID" *Uuid)
+         (java Intent 'putExtra "SRC" File)
+         (java Intent 'putExtra "ARG" N)
+         (java Intent 'putExtra "URL" Url)
+         (java Alarm 'setExact
+            3                       # ELAPSED_REALTIME without wake_up
+            (cons
+               (+ (* 1000 When)
+                  (java "android.os.SystemClock" 'elapsedRealtime) )
+               'L )
+            (java "android.app.PendingIntent" 'getBroadcast
+               CONTEXT N Intent `(hex "1C000000") ) ) ) ) )
+
+################################### lunt/App.l
+"BRW Notify"
+
+(once
+   (load "lunt/android_ext.l") )
+
+(symbols 'brwnot 'android 'pico)
+
+(setq
+   *NotifyId
+   76452 # any number will do, as long as no other app uses it
+   *AlarmId
+   76452 # any number will do, as long as no other app uses it
+ )
+
+(de start-background-timer ()
+   (alarm-inexact *AlarmId)             # cancel existing if any
+   (alarm-inexact
+      *AlarmId
+      30 # seconds to wait before firing (can also be (<DATE> . <TIME>)
+      "lunt/alarm.l" # File to run, will be pass this alarm N (*AlarmId) as arg
+      "lunt/App.l"   # Url
+      ) )
+
+(setq
+   *Msgs (rc "lunt.rc" 'Msgs) # max 10 msgs, newest to old
+   *LastUpdateStr (rc "lunt.rc" 'LastUpdateStr) # time of last https req
+   *LatestMsgStr (rc "lunt.rc" 'LatestMsgStr) # time of newest (not necessarily filtered and shown) msg
+ )
+
+# header next to the icon
+
+(pilbox
+   (<h3> "fh" "BRW Notifier")
+   (<h3> "fh" "Last update: " *LastUpdateStr)
+   (<h3> "fh" "Latest msg: " *LatestMsgStr)
+   (unless (alarm?)
+      (<p> "tiny red"
+         ,"Please permit \"Alarms and reminders\"" ) ) )
+
+(de wrapStr (N S)
+   (make
+      (let L (chop S)
+         (while (head N L)
+            (link (pack @))
+            (do N (++ L)) ) ) ) )
+
+(menu "BRW"
+   (<div> NIL
+      (<table> '(width . "100%") NIL NIL
+         (for Msg *Msgs
+            (let (M (pack (cdr (asoq 'DateTime Msg)) " " (cdr (asoq 'Msg Msg))))
+               (<row> NIL
+                  (<div> '((style . "font-size: 2em"))
+                     (for L (wrapStr 30 M)
+                        (<nbsp>)
+                        (prin L)
+                        (<br>)
+                        )
+                     (for Cap (cdr (asoq 'Caps Msg))
+                        (let (((_CapCode . CapCode) (_CapDesc . CapDesc)) Cap)
+                           (<nbsp>)
+                           (prin CapCode " " CapDesc)
+                           (<br>) ) )
+                     (prin "********************")
+                     ) ) ) ) ) ) )
+
+
+(once
+   (start-background-timer) )
+################################### lunt/parse_html.l
+(symbols 'parseHtml 'pico)
+
+# destructively split Lst to new list Fun is T
+# Fun is passed succesive cdrs to be able to match items in a row
+(de cut-with (Fun Lst)
+   (let (Head Lst # Head of current sublist
+         )
+      (make
+         (loop
+            (when T
+               (when (Fun (cdr Lst))
+                  (link Head)
+                  (setq Head (cdr Lst))
+                  (con Lst NIL)
+                  (setq Lst (cons NIL Head)) ) )
+            (NIL (cdr Lst))
+            (++ Lst) )
+         (link Head) ) ) )
+
+
+(when *Dbg
+   (test
+      '((1) (2 3) (4 5 7) (8))
+      (cut-with '((X) (= 0 (% (car X) 2))) (1 2 3 4 5 7 8)) ) )
+
+# Also check that the cut parts do not share any cells
+(when *Dbg
+   (test
+      '((1 2 1000) (3 4 2000) (5 3000) (7 8 4000))
+      (make
+         (for (I .  L) (cut-with '((X) (= 1 (% (car X) 2))) (1 2 3 4 5 7 8))
+            (link
+               (conc L (list (* I 1000))) ) ) ) ) )
+
+# match elems in row
+(when *Dbg
+   (test
+      '((1) (2 3 4 5 7 8))
+      (cut-with '(((X Y)) (= (2 3) (list X Y))) (1 2 3 4 5 7 8)) ) )
+
+(setq *SingleTags '(hr HR SplitonThis))
+
+(de _tag ()
+   # after <
+   (let Tag (intern (till " >"))
+      (if (= (peek) " ")
+         # gather attrs
+         (prog
+            (link Tag)
+            (skip) # eat \space
+            (link
+               (make
+                  (loop
+                     (NIL (peek))
+                     (T (= (peek) ">"))
+                     (let AttrName (till "=" T)
+                        (char)       # eat =
+                        (if (= (peek) "\"")
+                           # string attr
+                           (prog
+                              (char)    # eat "
+                              (let AttrVal (till "\"" T)
+                                 (char) # eat \"
+                                 (skip)
+                                 (link (cons AttrName AttrVal)) ) )
+                           # number attr
+                           (link (cons AttrName (till " >" T)))
+                           (skip) ) ) ) ) )
+            (char) # eat >
+            Tag )
+         # at >, no attrs
+         (prog2
+            (char)
+            (link Tag) # return Tag from prog2
+            (link NIL) ) ) ) )
+
+# starts at a tag
+(de parseHtml ()
+   (skip)
+   (make
+      (use (Tag Content)
+         (loop
+            (NIL (peek) )
+
+            (NIL (if (= "<" (peek))
+                    (char) # eat <
+                    T ) )
+
+            (setq Tag (_tag))
+            (T (memq Tag *SingleTags)) # tag without closing tag or content
+            (setq Content (till "<" T))
+            (when Content        # text content before any nested html
+               (link Content) )
+            (char) # eat <
+
+            (loop
+               (NIL (peek))
+               (T (= (peek) "/"))
+               (link (parseHtml) )
+               (setq Content (till "<" T)) # text content after nested html
+               (char) #eat <
+               (when Content
+                  (link Content) ) )
+
+
+            (T (when (= (peek) "/")
+                  (char)
+                  (or
+                     (when (= Tag (till ">" T))
+                        (char)
+                        T )
+                     (quit "Mismatched tag" (peek) Tag) ) ) ) ) ) ) )
+
+(when *Dbg
+   (test
+      '(tr NIL "abc" (b (("class" . "date<ti>me") ("yes" . "no")) "some text") (i (("width" . "3")) "two") "def" (hr NIL) "hij")
+      (let Html (chop "<tr>abc<b class=\"date<ti>me\" yes=\"no\">some text</b><i width=3>two</i>def<hr>hij</tr>")
+         (input (++ Html)
+            (parseHtml) ) ) ) )
+
+(when *Dbg
+   (test
+      '(tr NIL (hr NIL))
+      (let Html (chop "<tr><hr></tr>")
+         (input (++ Html)
+            (parseHtml) ) ) ) )
+
+(when *Dbg
+   (test
+      '(ErrorCode (("[09]-")))
+      (let Html (chop "ErrorCode [09]-")
+         (input (++ Html)
+            (parseHtml) ) ) ) )
+
+(when *Dbg
+   (test
+      '((tr NIL (td NIL "some")) (SplitonThis NIL) (hahaha<SplitonThis NIL "234328749" (SplitonThis NIL) "48239048"))
+      (let Html (chop "<tr><td>some</td></tr><SplitonThis>hahaha<SplitonThis>234328749<SplitonThis>48239048")
+         (input (++ Html)
+            (make
+               (while (parseHtml)
+                  (link @) ) ) ) ) ) )
+
+(when *Dbg
+   (test
+      '((SplitonThis NIL) (hahaha<SplitonThis NIL "234328749" (SplitonThis NIL) "48239048"))
+      (let Html (chop "<SplitonThis>hahaha<SplitonThis>234328749<SplitonThis>48239048")
+         (input (++ Html)
+            (make
+               (while (parseHtml)
+                  (link @) ) ) ) )) )
+
+(de elideAttrs (HtmlTree)
+   (if (atom HtmlTree)
+      HtmlTree
+      (let ((Tag Attrs . Children) HtmlTree)
+         (cons Tag
+            (cons (when Attrs 'AttrsElided)
+               (mapcar elideAttrs Children) ) ) ) ) )
+########################################### lunt/settings.l
+(symbols '(brwnot android pico))
+
+(setq ReqMsgs (rc "lunt.rc" 'ReqMsgs))
+
+(menu "Settings"
+   (form NIL
+
+      (gui '(+Button) "Stop background refreshing"
+         '(cancel-alarm) )
+      (gui '(+Button) "Reset Sid"
+         '(reset-sid) )
+      (<h3> "fh" ,"Request log")
+      (<table> '(width . "100%") NIL NIL
+         (for ReqMsg ReqMsgs
+            (<row> NIL
+               (<div> '((style . "font-size: 2em"))
+                  (for L (wrapStr 30 ReqMsg)
+                     (<nbsp>)
+                     (prin L)
+                     (<br>)
+                     )
+                  (prin "********************")
+                  ) ) ) ) ) )
+
+(de cancel-alarm ()
+   (msg (pack "*AlarmId in settings: " *AlarmId))
+   (android~alarm-inexact *AlarmId) # cancel existing if any
+ )
+
+(de reset-sid ()
+   (rc "lunt.rc" 'Sid NIL))
