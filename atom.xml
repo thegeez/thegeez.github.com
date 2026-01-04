@@ -4,12 +4,30 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.net/atom.xml" rel="self" />
  <link href="https://thegeez.net/" />
- <updated>2024-09-15T15:25:02Z</updated>
+ <updated>2026-01-05T09:36:00Z</updated>
  <id>https://thegeez.net/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>A bird video poker game with PicoLisp prototype for the Sensor Watch</title>
+   <link href="https://thegeez.net/2026/01/05/watch_bird_poker_picolisp.html" />
+   <updated>2026-01-05T23:00:00Z</updated>
+   <id>https://thegeez.net/2026/01/05/watch_bird_poker_picolisp.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;A bird video poker game with PicoLisp prototype for the Sensor Watch&lt;/h1&gt;
+
+&lt;p&gt;The &lt;a href="https://www.sensorwatch.net/"&gt;Sensor Watch&lt;/a&gt; is an ARM microcontroller board replacement for the Casio F-91W wristwatch.
+ Which is the first watch I ever had.
+ The Sensor Watch is named for the possibility to add a temperature or accelerometer sensor.
+ I have no need for either of those, but I do want to program a game to create a smart, but not too smart, watch.&lt;/p&gt;
+
+&lt;p&gt;The constraints for any custom program are that the watch has 3 buttons and the LCD screen has 6 clock digits, 2 day digits and 2 weekday segments.
+ My first idea was to make a video poker game. However I couldn't figure out a way to display 5 playing cards within the available digits, where each playing card has a rank and a suit.
+ Luckily, I came across a blogpost about an alternate poker variant, called &lt;a href="https://blog.fogus.me/games/bird-poker.html"&gt;Bird Poker&lt;/a&gt;. Which uses a single suit of 13 cards, plus 4 wildcards.
+ And creating 17 different characters within a single digit segment was more feasible.&lt;/p&gt;
+
+&lt;a href="2026/01/05/watch_bird_poker_picolisp.html"&gt;Read more&lt;/a&gt;</content>
+ </entry><entry>
    <title>fecs: a lisp interpreter running in wasm</title>
    <link href="https://thegeez.net/2024/09/15/fecs_lisp_wasm.html" />
    <updated>2024-09-15T23:00:00Z</updated>
