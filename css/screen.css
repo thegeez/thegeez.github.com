@@ -87,6 +87,7 @@ ul.posts li {
 
 #post-list .date {
     display: inline;
+    font-family: monospace, ui-sans-serif;
 }
 
 #post-list .post-title {
