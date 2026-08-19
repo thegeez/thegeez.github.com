@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>fecs</title>
+  <style>
+  body {
+   font-family: helvetica, arial, clean, sans-serif;
+  }
+  div#replHistory {
+          height: calc(50% - 200px);
+          min-height: 300px;
+          overflow-y: scroll;
+          border: 3px solid black;
+
+          white-space: pre;
+          font-family: monospace;
+
+      }
+  textarea#replIn {
+      width: 100%;
+  }
+  details {
+       font-family: monospace;
+  }
+  details dd {
+      margin-inline-start: 40px;
+   }
+  details dt {
+      margin-inline-start: 60px;
+  }
+  details.examples dt {
+   white-space: pre;
+  }
+  </style>
+  <script>
+  var log = window.location.hash.includes("dbg") ? function log() {
+      console.log.apply(console.log, arguments);
+  } : function () {};
+   function submitIn() {
+      const replIn = document.getElementById("replIn");
+      const inText = replIn.value;
+      log("inText", inText);
+      replSubmitText(inText);
+      replOutText(inText);
+      replIn.value = "";
+   }
+   function doRegistering() {
+      const replIn = document.getElementById("replIn");
+      replIn.addEventListener("keyup", function(e) {
+         e = e || window.event;
+         if (e.keyCode == 13 && !e.shiftKey) { // 13 = enter
+            submitIn();
+         }
+      });
+      const replButton = document.getElementById("replButton");
+      replButton.addEventListener("click", event => {
+         submitIn();
+      });
+      const replHistory = document.getElementById("replHistory");
+      replHistory.addEventListener("click", event => {
+         const text = event.target.innerText;
+         if (!text || text.length == 0) { return; }
+         replIn.value = text;
+      });
+   }
+   function replOutText(out_text) {
+      const replOut = document.getElementById("replHistory");
+      const el = document.createElement("div");
+      el.innerHTML = out_text;
+      replOut.appendChild(el);
+   }
+   async function loadLib() {
+      var input_text = document.getElementById("prelude").innerHTML;
+      await replSubmitText(input_text);
+   }
+   window.onload =  doRegistering;
+    if ("serviceWorker" in navigator) {
+         navigator.serviceWorker.addEventListener("controllerchange", async () => {
+            log("SW CALLBACK");
+          if (window.location.hash.includes("dbg")) {
+            navigator.serviceWorker.controller?.postMessage({ type: 'enableLog' });
+          }
+            await loadLib();
+        });
+      navigator.serviceWorker.register("sw.js")
+        .then(async (reg) => {
+          reg.addEventListener('statechange', event => {
+            log("received `statechange` event", { reg, event })
+          });
+          log("service worker registered", reg);
+          if (window.location.hash.includes("dbg") && reg.active) {
+            reg.active.postMessage({ type: 'enableLog' });
+          }
+        }).catch(err => {
+          console.error("service worker registration failed", err);
+        });
+    } else {
+      console.error("serviceWorker is missing from `navigator`. Note service workers must be served over https or on localhost");
+    }
+
+   async function replSubmitText(input_text) {
+      const input_text_length = input_text.length;
+      var output = "";
+      log("size: ", input_text_length);
+      var atChar = 0;
+      while (atChar < input_text_length) {
+         const uptoChar = Math.min(input_text_length, atChar + 4096);
+         const batch = input_text.substring(atChar, uptoChar);
+          const fetchOpts = {method: "POST",
+                            body: batch};
+        await fetch("/loadMulti", fetchOpts).then((response) => {
+               log("Through loadApp2");
+             return response.arrayBuffer()
+             }).
+         then((bytes) => {
+            log("App2 response bytes", new TextDecoder().decode(bytes));
+            const outText = new TextDecoder().decode(bytes);
+            log("App2 response bytes", outText);
+            output += outText;
+            return bytes });
+         atChar = uptoChar;
+      }
+      if ((input_text_length % 4096) == 0) {
+         log("repl sends empty for end of input")
+         // final batch filled whole buffer, send empty input to force end of input processing
+          const fetchOptsFinal = {method: "POST",
+                            body: ""};
+        await fetch("/loadMulti", fetchOptsFinal).then((response) => {
+             log("Through loadApp2 final");
+             return response.arrayBuffer()
+             }).
+         then((bytes) => {
+            const outText = new TextDecoder().decode(bytes);
+            log("App2 response bytes", outText);
+            output += outText;
+            replOutText(output);
+            return bytes });
+      } else {
+            replOutText(output);
+      }
+  }
+  function reloadWasm() {
+   navigator.serviceWorker.controller?.postMessage({type: "wasmreloadreq"});
+  }
+  async function runExample(us) {
+   var input_text = us.parentElement.innerText;
+   input_text = input_text.substring(0, input_text.length - 24);
+   await replSubmitText(input_text);
+  }
+  function copyExample(us) {
+   const replIn = document.getElementById("replIn");
+   var input_text = us.parentElement.innerText;
+   input_text = input_text.substring(0, input_text.length - 24);
+   replIn.value = input_text;
+  }
+  </script>
+</head>
+
+<body>
+<h1>fecs: a lisp interpreter running in wasm</h1>
+
+<p>fecs is a programming language in the style of <a href="https://picolisp.com">PicoLisp</a> and implemented as a lisp interpreter running in wasm.
+The implementation has the basic lisp read, eval and print (REPL), garbage collection, fixedpoint big numbers, conses/lists, symbols and strings.
+Only features from the WebAssembly <a href="https://github.com/WebAssembly/tool-conventions/blob/main/Lime.md#lime1">lime1</a> standard are used.
+Therefore the wasm code can run in nearly all WebAssembly tools and settings.
+</p>
+<p>The name 'fecs' stands for 'FExprs', 'cells' and 'symbols', which refer to the building blocks of the PicoLisp system. 
+'FExprs' are functions that get passed the unevaluated arguments, and are an alternative to Lisp macros. 
+The 'cell' in PicoLisp is the only datastructure as a cons cell of 2 pointers (fecs uses 4 bytes per pointer). 
+And 'symbols' are dynamically bound, rather than the more common lexical binding and scoping, which makes symbols represent an actual place in memory. 
+These and other choices make fecs a useful and small system; the size of the .wasm file is 19kB.</p>
+<br/>
+<details>
+   <summary>Built-in functions</summary>
+   <dd> + - / * % */</dd>
+   <dt>Math on fixed point numbers without size limitation: + addition, - subtraction, / division, * multiplication, % remainder<br/>
+      */ is multiplication of all but the last arguments divided by the last argument</dt>
+   <dd>quote '</dd>
+   <dt>Returns all arguments unevaluated</dt>
+   <dd>prog</dd>
+   <dt>Excutes all expressions and returns the last result</dt>
+   <dd>set</dd>
+   <dt>Set the value of a symbol or the car of a cons</dt>
+   <dd>setq</dd>
+   <dt>Set the value of an unevaluated symbol</dt>
+   <dd>prop</dd>
+   <dt>(prop 'sym 'key) Gets the property (value . key) pair from the symbol. Will insert the property with value NIL if it does not yet exist</dt>
+   <dd>put</dd>
+   <dt>(put 'sym 'key 'value) Sets the property 'key on 'sym to 'value</dt>
+   <dd>get</dd>
+   <dt>(get 'sym 'key) Gets the value of property 'key on 'sym</dt>
+   <dd>getl<dd>
+   <dt>Gets the list of properties of a symbol</dt>
+   <dd>name</dd>
+   <dt>Gets the name of a symbol or string</dt>
+   <dd>cons</dd>
+   <dt>(cons 'any 'any) Creates a cons cell with the arguments in its car and cdr</dt>
+   <dd>car</dd>
+   <dt>Gets the car of a cons cell</dt>
+   <dd>cdr</dd>
+   <dt>Gets the cdr of a cons cell</dt>
+   <dd>con</dd>
+   <dt>(con 'cons 'val) Sets the cdr of a 'cons cell to 'val</dt>
+   <dd>loop</dd>
+   <dt>(loop .. (NIL 'cond . final-exprs) .. (T 'cond . final-exprs) .. ) Looping and conditional evaluation construct. The body of the loop is executed endlessly until a top level list clause starting with NIL or T its 'cond-itional evaluates to NIL or non-NIL respectively</dt>
+   <dd>eval</dd>
+   <dt>Evaluates an expression and returns the result</dt>
+   <dd>let</dd>
+   <dt>(let (sym 'val sym 'val ...) ...) Binds the symbols consecutively to the 'val and saves their previous values. The let form returns the final result and rebinds the symbols to the saved values</dt>
+   <dd>rest</dd>
+   <dt>('(@ (rest))) In a function with variable number of arguments (using @ as the parameter), (rest) returns the list of arguments</dt>
+   <dd>make<dd>
+   <dt>(make ... (link 1) .. (link 2) .. (link 3) ...) Convenient list constructor, the example returns (1 2 3)</dt>
+   <dd>link</dd>
+   <dt>Adds an element to end of the list of the surrounding make</dt>
+   <dd>prin</dd>
+   <dt>Prints its arguments to the output channel. Strings will be printed without quotes ("")</dt>
+   <dd>print</dd>
+   <dt>Prints its arguments to the output channel in their canonical form. String will be printed with quotes ("")</dt>
+   <dd>pack</dd>
+   <dt>Concatenates its arguments into a string</dt>
+   <dd>chop</dd>
+   <dt>Turns a string into a list of single character strings</dt>
+   <dd>any</dd>
+   <dt>(any 'string) Reads the 'string into data</dt>
+   <dd>quit</dd>
+   <dt>(quit 'msg) (quit 'msg 'arg) Stops the current execution with the error 'msg</dt>
+   <dd>up</dd>
+   <dt>(up 'sym 'val) (up 'level 'sym 'val) (up 'sym) Sets or gets the binding of 'sym in the 'level-nth scope</dt>
+   <dd>trail</dd>
+   <dt>(trail) (trail T) Returns the backtrace of all function calls. With T also returns the symbol bindings for each stack</dt>
+   <dd>atom</dd>
+   <dt>Returns true T if the argument is an atom (number, symbol or string)</dt>
+   <dd>=</dd>
+   <dt>Structured equality</dt>
+   <dd>==</dd>
+   <dt>Pointer equality</dt>
+   <dd>sort</dd>
+   <dt>(sort 'list) Sorts the list, NIL is always ordered lowest, numbers sort before symbols and symbols before lists, T is always ordered highest. Sort is destructive by reusing the cells from 'list but altering their cdr's</dt>
+   <dd>&lt;</dd>
+   <dt>Less than. Defined for all data in fecs to create the order as specified for (sort)</dt>
+   <dd>flip</dd>
+   <dt>Destructively reverses a list</dt>
+</details>
+<details>
+   <summary>Loaded functions from prelude</summary>
+<div id="prelude" style="white-space: pre;font-family: monospace;">
+# (de 'sym 'def)
+(setq de '(D
+      (set (car D) (cdr D)) ) )
+
+# (range A B) Returns a list from A upto and including B
+(de range (A B)
+   (make
+      (loop
+         (link A)
+         (T (= A B))
+         (setq A (+ A 1)) ) ) )
+
+# (apply 'fn 'list) Applies the 'fn to the 'list of arguments
+(de apply X
+   (let (Fn (car X)
+         Ls (eval (car (cdr X)))
+         Ls (make
+            (loop
+               (NIL Ls)
+               (link (cons 'quote (car Ls)))
+               (setq Ls (cdr Ls))
+               ) )
+         )
+      (eval (cons Fn Ls)) ) )
+
+(de list @ (rest))
+
+# Logical and shortcuts on first NIL result. Non-NIL results are set into @
+(de and E
+   (loop
+      (NIL (eval (car E)))
+      (up @ @)
+      (T (atom (setq E (cdr E))) (up @))
+      ) )
+
+(prin "Prelude loaded" "\n" T)
+</div>
+</details>
+<details class="examples">
+<summary>Examples</summary>
+   <dd>Large numbers</dd>
+   <dt>(apply * (range 1 40))
+
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+   <dd>Symbols</dd>
+   <dt>
+(setq Lang "fecs")
+(con (prop 'Lang 'impl) 'wasm)
+(put 'Lang 'gc T)
+(put 'Lang 'strings "uninterned")
+(cons Lang (getl 'Lang))
+
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+   <dd>Functions</dd>
+   <dt>
+(setq triplist '((A B C)
+   (cons A (cons B (cons C))) ) )
+(triplist 10 (/ 160 8) 30)
+
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+   <dd>Vararg function</dd>
+   <dt>
+(de squarelist @
+   (let (Args (rest))
+      (make
+         (loop
+            (NIL Args)
+            (link (* (car Args) (car Args)))
+            (NIL (setq Args (cdr Args))) ) ) ) )
+
+(squarelist 1 2 3 4)
+
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+   <dd>Fexpr</dd>
+   <dt>
+(de if Exe
+   (let (Cond (eval (car Exe)))
+      (loop
+         (T Cond (eval (car (cdr Exe))))
+         (NIL Cond (eval (car (cdr (cdr Exe))))) ) ) )
+
+(if (= 4 (* 2 2))
+   (print "True branch")
+   (print "False branch") )
+
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+   <dd>Sort</dd>
+   <dt>
+(sort '(T abc NIL 0 -10 'A 4 "hello" "WORLD" (12 . "haha") '(A B "LOL") '(A B C)))
+
+<button onclick="runExample(this);">Run input</button><button onclick="copyExample(this);">Copy to input</button></dt>
+   <dd>@ result</dd>
+   <dt>
+(and
+ 10
+ (+ @ 2) )
+
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+</details>
+</div>
+<br/>
+<div id="replBox">
+Output: <span style="color: grey">Click on output to copy to input</span>
+<div id="replHistory">
+</div>
+Input: <span style="color: grey">Enter to submit, Shift+Enter for newline</span>
+<textarea name="replIn" id="replIn" autofocus="true" rows="5">
+</textarea>
+<div id="replTools">
+<button id="replButton">Submit</button>
+</div>
+</div>
+<div><br/>(c) 2026 <a href="https://thegeez.net">thegeez.net</a></div>
+</body>
+
+</html>
