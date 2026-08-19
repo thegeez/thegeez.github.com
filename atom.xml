@@ -4,12 +4,28 @@
  <title>thegeez blog</title>
  <link href="https://thegeez.net/atom.xml" rel="self" />
  <link href="https://thegeez.net/" />
- <updated>2026-01-05T09:36:00Z</updated>
+ <updated>2026-08-19T19:31:36Z</updated>
  <id>https://thegeez.net/</id>
  <author>
    <name>Gijs Stuurman</name>
  </author>
  <entry>
+   <title>fecs: a lisp interpreter written in wasm</title>
+   <link href="https://thegeez.net/2026/08/19/fecs_wasm_repl.html" />
+   <updated>2026-08-19T23:00:00Z</updated>
+   <id>https://thegeez.net/2026/08/19/fecs_wasm_repl.html</id>
+   <content type="html">&lt;h1 id="post-title"&gt;fecs: a lisp interpreter written in wasm&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href="/static/fecs/repl.html"&gt;fecs&lt;/a&gt; is a programming language in the style of &lt;a href="https://picolisp.com"&gt;PicoLisp&lt;/a&gt; and implemented as a lisp interpreter running in wasm.
+This version is written in WebAssembly in the .wat format and has a REPL, garbage collection, error throwing, fixedpoint big numbers, symbols and strings.
+It is an improvement on an older version written in C, which was then compiled to wasm (the old version is &lt;a href="/2024/09/15/fecs_lisp_wasm.html"&gt;here&lt;/a&gt;).
+This project is fully human made and has not used any AI.&lt;/p&gt;
+
+&lt;p&gt;
+   - &lt;a href="/static/fecs/repl.html"&gt;fecs repl with API docs and examples&lt;/a&gt;
+&lt;/p&gt;
+</content>
+ </entry><entry>
    <title>A bird video poker game with PicoLisp prototype for the Sensor Watch</title>
    <link href="https://thegeez.net/2026/01/05/watch_bird_poker_picolisp.html" />
    <updated>2026-01-05T23:00:00Z</updated>
