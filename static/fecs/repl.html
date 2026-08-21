@@ -35,9 +35,38 @@
   }
   </style>
   <script>
-  var log = window.location.hash.includes("dbg") ? function log() {
+  var log = (false || window.location.hash.includes("dbg")) ? function log() {
       console.log.apply(console.log, arguments);
   } : function () {};
+
+   const encoder = new TextEncoder();
+   const decoder = new TextDecoder("utf-8");
+
+   const worker = new Worker("worker.js");
+   worker.onmessage = function (msg) {
+      const data = msg.data; // also type:
+      const action = data.action;
+      const payload = data.payload;
+
+      log("worker msg", msg, data, action, payload);
+      switch (action) {
+         case "ready": {
+                        log("Wasm ready", payload);
+                        loadLib();
+                        break;
+                       }
+        case "out": {
+            var text = decoder.decode(payload);
+            text = text.replaceAll("<", "&lt");
+            text = text.replaceAll(">","&gt;");
+            replOutText(text);
+            break;
+        }
+         default: {
+            console.error("unhandled worker msg", msg);
+         }
+      }
+   };
    function submitIn() {
       const replIn = document.getElementById("replIn");
       const inText = replIn.value;
@@ -71,36 +100,13 @@
       el.innerHTML = out_text;
       replOut.appendChild(el);
    }
-   async function loadLib() {
+   function loadLib() {
       var input_text = document.getElementById("prelude").innerHTML;
-      await replSubmitText(input_text);
+      replSubmitText(input_text);
    }
    window.onload =  doRegistering;
-    if ("serviceWorker" in navigator) {
-         navigator.serviceWorker.addEventListener("controllerchange", async () => {
-            log("SW CALLBACK");
-          if (window.location.hash.includes("dbg")) {
-            navigator.serviceWorker.controller?.postMessage({ type: 'enableLog' });
-          }
-            await loadLib();
-        });
-      navigator.serviceWorker.register("sw.js")
-        .then(async (reg) => {
-          reg.addEventListener('statechange', event => {
-            log("received `statechange` event", { reg, event })
-          });
-          log("service worker registered", reg);
-          if (window.location.hash.includes("dbg") && reg.active) {
-            reg.active.postMessage({ type: 'enableLog' });
-          }
-        }).catch(err => {
-          console.error("service worker registration failed", err);
-        });
-    } else {
-      console.error("serviceWorker is missing from `navigator`. Note service workers must be served over https or on localhost");
-    }
 
-   async function replSubmitText(input_text) {
+   function replSubmitText(input_text) {
       const input_text_length = input_text.length;
       var output = "";
       log("size: ", input_text_length);
@@ -108,52 +114,27 @@
       while (atChar < input_text_length) {
          const uptoChar = Math.min(input_text_length, atChar + 4096);
          const batch = input_text.substring(atChar, uptoChar);
-          const fetchOpts = {method: "POST",
-                            body: batch};
-        await fetch("/loadMulti", fetchOpts).then((response) => {
-               log("Through loadApp2");
-             return response.arrayBuffer()
-             }).
-         then((bytes) => {
-            log("App2 response bytes", new TextDecoder().decode(bytes));
-            const outText = new TextDecoder().decode(bytes);
-            log("App2 response bytes", outText);
-            output += outText;
-            return bytes });
+         const batchBuffer = encoder.encode(batch);
+         worker.postMessage({ action: "in", payload: batchBuffer });
          atChar = uptoChar;
       }
       if ((input_text_length % 4096) == 0) {
-         log("repl sends empty for end of input")
-         // final batch filled whole buffer, send empty input to force end of input processing
-          const fetchOptsFinal = {method: "POST",
-                            body: ""};
-        await fetch("/loadMulti", fetchOptsFinal).then((response) => {
-             log("Through loadApp2 final");
-             return response.arrayBuffer()
-             }).
-         then((bytes) => {
-            const outText = new TextDecoder().decode(bytes);
-            log("App2 response bytes", outText);
-            output += outText;
-            replOutText(output);
-            return bytes });
-      } else {
-            replOutText(output);
+         worker.postMessage({ action: "in", payload: encoder.encode("") });
       }
-  }
-  function reloadWasm() {
-   navigator.serviceWorker.controller?.postMessage({type: "wasmreloadreq"});
-  }
-  async function runExample(us) {
+   }
+  function runExample(us) {
    var input_text = us.parentElement.innerText;
    input_text = input_text.substring(0, input_text.length - 24);
-   await replSubmitText(input_text);
+   replSubmitText(input_text);
   }
   function copyExample(us) {
    const replIn = document.getElementById("replIn");
    var input_text = us.parentElement.innerText;
    input_text = input_text.substring(0, input_text.length - 24);
    replIn.value = input_text;
+  }
+  function enableLog() {
+   worker.postMessage({ action: "enableLog" });
   }
   </script>
 </head>
@@ -282,6 +263,12 @@ These and other choices make fecs a useful and small system; the size of the .wa
       (T (atom (setq E (cdr E))) (up @))
       ) )
 
+(de if Exe
+   (let (Cond (eval (car Exe)))
+      (loop
+         (T Cond (eval (car (cdr Exe))))
+         (NIL Cond (eval (car (cdr (cdr Exe))))) ) ) )
+
 (prin "Prelude loaded" "\n" T)
 </div>
 </details>
@@ -344,6 +331,28 @@ These and other choices make fecs a useful and small system; the size of the .wa
  10
  (+ @ 2) )
 
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+   <dd>Recur/recurse</dd>
+   <dt>
+(de run (Y)
+   (let (Res NIL)
+      (loop
+         (NIL Y)
+         (setq Res (eval (car Y)))
+         (NIL (setq Y (cdr Y)) Res) ) ) )
+
+(de recur recurse
+   (run (cdr recurse)) )
+
+(de fibo (N)
+      (recur (N)
+         (if (< N 3)
+            1
+            (+
+               (recurse (- N 1))
+               (recurse (- N 2)) ) ) ) )
+
+(fibo 10)
 <button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
 </details>
 </div>
