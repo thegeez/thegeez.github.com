@@ -29,6 +29,7 @@ function outstreamWrite(len) {
 function outstreamClose() {
    outstream_close_fn();
 }
+
 function fecsStr(m32, ptr) {
       if((ptr & 2) != 2) {
          return "NOTASTRTOPRINT";
@@ -78,6 +79,7 @@ onmessage = (msg) => {
    const payload = data.payload;
    switch(action) {
       case "in": {
+         try {
          const str_in_bytes = payload;
          const str_in_bytes_length = str_in_bytes.length;
          const nonFullBatch = str_in_bytes_length < 4096;
@@ -110,7 +112,11 @@ onmessage = (msg) => {
          }
          log("result_pointer");
          log(result_pointer);
-
+         
+         if (result_pointer == 0) {
+            console.log("parser will wait for more input");
+            return;
+         }
          var out_pointer = wasm_app.exports.fecs_print(result_pointer);
          log("out_pointer");
          log(out_pointer);
@@ -125,6 +131,16 @@ onmessage = (msg) => {
          outstreamClose();
          postMessage({ action: "out", payload: encoder.encode(outputText) });
 
+         } catch (err) {
+            if(err.message?.includes("unreachable")) {
+               console.log(wasm_memory.buffer);
+               const b = new Int32Array(wasm_memory.buffer);
+               if (b[2] == 1330336851) { // nnn = STKO
+                  postMessage({ action: "out", payload: encoder.encode("FATAL -- StackOverflow") });
+               }
+               console.error("Caught err in wasm: ", err);
+            }
+         }
         break;
       }
       case "enableLog": {
