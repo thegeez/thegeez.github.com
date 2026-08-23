@@ -61,7 +61,7 @@ if ("serviceWorker" in navigator) {
    const encoder = new TextEncoder();
    const decoder = new TextDecoder("utf-8");
 
-   const worker = new Worker("read_worker.js");
+   const worker = new Worker("worker.js");
    worker.onmessage = function (msg) {
       const data = msg.data; // also type:
       const action = data.action;
