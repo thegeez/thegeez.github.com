@@ -9,8 +9,8 @@
    font-family: helvetica, arial, clean, sans-serif;
   }
   div#replHistory {
-          height: calc(50% - 200px);
           min-height: 300px;
+          max-height: 300px;
           overflow-y: scroll;
           border: 3px solid black;
 
@@ -35,14 +35,33 @@
   }
   </style>
   <script>
-  var log = (false || window.location.hash.includes("dbg")) ? function log() {
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.getRegistrations()
+    .then((registrations) => {
+      registrations.forEach((registration) => {
+         registration.unregister().then((result) => {
+            console.log("Unregister result for deprecated serviceWorker: ", result);
+            if (result) {
+               console.log("reloading to remove service worker");
+               window.location.reload();
+            }
+         });
+      });
+    })
+    .catch((error) => {
+      // registration failed
+      console.error(`Registration removal failed with ${error}`);
+    });
+}
+  const logEnabled = (false || window.location.hash.includes("dbg"));
+  var log = logEnabled ? function log() {
       console.log.apply(console.log, arguments);
   } : function () {};
 
    const encoder = new TextEncoder();
    const decoder = new TextDecoder("utf-8");
 
-   const worker = new Worker("worker.js");
+   const worker = new Worker("read_worker.js");
    worker.onmessage = function (msg) {
       const data = msg.data; // also type:
       const action = data.action;
@@ -69,9 +88,13 @@
    };
    function submitIn() {
       const replIn = document.getElementById("replIn");
-      const inText = replIn.value;
+      var inText = replIn.value;
       log("inText", inText);
-      replSubmitText(inText);
+      if(inText.length == 0) { return; }
+      if(inText.substring(inText.length - 1) == "\n") {
+         inText = inText.substring(0, inText.length - 1);
+      }
+      replSubmitText(inText + "\n");
       replOutText(inText);
       replIn.value = "";
    }
@@ -99,10 +122,11 @@
       const el = document.createElement("div");
       el.innerHTML = out_text;
       replOut.appendChild(el);
-   }
+      replOut.scrollTo(0, replOut.scrollHeight);
+      }
    function loadLib() {
       var input_text = document.getElementById("prelude").innerHTML;
-      replSubmitText(input_text);
+      replSubmitText(input_text + "\n");
    }
    window.onload =  doRegistering;
 
@@ -114,6 +138,7 @@
       while (atChar < input_text_length) {
          const uptoChar = Math.min(input_text_length, atChar + 4096);
          const batch = input_text.substring(atChar, uptoChar);
+         log("batch size: ", batch.length);
          const batchBuffer = encoder.encode(batch);
          worker.postMessage({ action: "in", payload: batchBuffer });
          atChar = uptoChar;
@@ -133,8 +158,11 @@
    input_text = input_text.substring(0, input_text.length - 24);
    replIn.value = input_text;
   }
-  function enableLog() {
+  function enableWorkerLog() {
    worker.postMessage({ action: "enableLog" });
+  }
+  if (logEnabled) {
+   enableWorkerLog();
   }
   </script>
 </head>
@@ -269,6 +297,13 @@ These and other choices make fecs a useful and small system; the size of the .wa
          (T Cond (eval (car (cdr Exe))))
          (NIL Cond (eval (car (cdr (cdr Exe))))) ) ) )
 
+(de run (Y)
+   (let (Res NIL)
+      (loop
+         (NIL Y)
+         (setq Res (eval (car Y)))
+         (NIL (setq Y (cdr Y)) Res) ) ) )
+
 (prin "Prelude loaded" "\n" T)
 </div>
 </details>
@@ -334,13 +369,6 @@ These and other choices make fecs a useful and small system; the size of the .wa
 <button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
    <dd>Recur/recurse</dd>
    <dt>
-(de run (Y)
-   (let (Res NIL)
-      (loop
-         (NIL Y)
-         (setq Res (eval (car Y)))
-         (NIL (setq Y (cdr Y)) Res) ) ) )
-
 (de recur recurse
    (run (cdr recurse)) )
 
