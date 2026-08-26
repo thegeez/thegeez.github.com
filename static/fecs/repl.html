@@ -291,18 +291,30 @@ These and other choices make fecs a useful and small system; the size of the .wa
       (T (atom (setq E (cdr E))) (up @))
       ) )
 
+(de or E
+   (loop
+      (T (eval (car E)) (up @ @))
+      (NIL (setq E (cdr E)))
+      ) )
+
+(de not E
+   (loop
+      (NIL (eval (car E)) T)
+      (up @ @)
+      (NIL)
+      ) )
+
 (de if Exe
-   (let (Cond (eval (car Exe)))
-      (loop
-         (T Cond (eval (car (cdr Exe))))
-         (NIL Cond (eval (car (cdr (cdr Exe))))) ) ) )
+   (loop
+      (T (eval (car Exe)) (eval (car (cdr Exe))))
+      (NIL NIL (eval (car (cdr (cdr Exe))))) ) )
 
 (de run (Y)
    (let (Res NIL)
       (loop
-         (NIL Y)
+         (T (== NIL Y) Res) ;; don't set @
          (setq Res (eval (car Y)))
-         (NIL (setq Y (cdr Y)) Res) ) ) )
+         (setq Y (cdr Y))) ) )
 
 (prin "Prelude loaded" "\n" T)
 </div>
@@ -345,13 +357,12 @@ These and other choices make fecs a useful and small system; the size of the .wa
    <dd>Fexpr</dd>
    <dt>
 (de if Exe
-   (let (Cond (eval (car Exe)))
-      (loop
-         (T Cond (eval (car (cdr Exe))))
-         (NIL Cond (eval (car (cdr (cdr Exe))))) ) ) )
+   (loop
+      (T (eval (car Exe)) (eval (car (cdr Exe))))
+      (NIL NIL (eval (car (cdr (cdr Exe))))) ) )
 
 (if (= 4 (* 2 2))
-   (print "True branch")
+   (print "True branch" @)
    (print "False branch") )
 
 <button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
