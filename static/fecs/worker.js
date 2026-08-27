@@ -138,8 +138,8 @@ onmessage = (msg) => {
                if (b[2] == 1330336851) { // nnn = STKO
                   postMessage({ action: "out", payload: encoder.encode("FATAL -- StackOverflow") });
                }
-               console.error("Caught err in wasm: ", err);
             }
+            console.error("Caught err in wasm: ", err);
          }
         break;
       }
