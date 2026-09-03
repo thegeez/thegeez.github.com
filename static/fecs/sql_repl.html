@@ -3,10 +3,11 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>fecs</title>
+  <title>fecs (sqlite3)</title>
   <style>
   body {
    font-family: helvetica, arial, clean, sans-serif;
+   /* background-color: #10483973; */
   }
   div#replHistory {
           min-height: 300px;
@@ -34,12 +35,54 @@
   details.examples dt {
    white-space: pre;
   }
-  #prelude {
+   #prelude {
    white-space: pre;
    font-family: monospace;
   }
-  </style>
+ </style>
   <script>
+function jsUploadDb() {
+   log("jsUploadDb");
+   const fileEl = document.createElement("input");
+   fileEl.setAttribute("id","upload-db");
+   fileEl.setAttribute("type","file");
+   const replSubmit = document.getElementById("replButton");
+   replSubmit.insertAdjacentElement("afterend", fileEl);
+   const eUploadDb = document.querySelector('#upload-db');
+   eUploadDb.addEventListener('change',function(){
+     const f = this.files[0];
+     if(!f) return;
+     const r = new FileReader();
+     r.addEventListener('load', function(){
+       // this.result is an ArrayBuffer with the file's contents
+       log("Got File: ", this.result);
+       worker.postMessage({ action: "uploadDb", payload: this.result });
+       fileEl.remove();
+     });
+     r.readAsArrayBuffer(f);
+   });
+   fileEl.click();
+}
+function jsExportDb(byteBuffer, dbFilename) {
+    const blob = new Blob([byteBuffer], {type:"application/x-sqlite3"});
+    const a = document.createElement('a');
+   a.href = window.URL.createObjectURL(blob);
+   var filename = dbFilename ? dbFilename : "export.sqlite3";
+   if (filename.startsWith("/")) {
+      filename = filename.substring(1);
+   }
+   a.download = filename;
+   a.addEventListener('click',function(){
+     setTimeout(function(){
+          log("Exported (possibly auto-downloaded) database");
+       window.URL.revokeObjectURL(a.href);
+       a.remove();
+     },500);
+   });
+   const replSubmit = document.getElementById("replButton");
+   replSubmit.insertAdjacentElement("afterend", a);
+   a.click();
+}
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.getRegistrations()
     .then((registrations) => {
@@ -66,7 +109,7 @@ if ("serviceWorker" in navigator) {
    const encoder = new TextEncoder();
    const decoder = new TextDecoder("utf-8");
 
-   const worker = new Worker("worker.js");
+   const worker = new Worker("sql_worker.js");
    worker.onmessage = function (msg) {
       const data = msg.data; // also type:
       const action = data.action;
@@ -77,6 +120,7 @@ if ("serviceWorker" in navigator) {
          case "ready": {
                         log("Wasm ready", payload);
                         loadLib();
+                        loadSqlLib();
                         break;
                        }
         case "out": {
@@ -84,6 +128,14 @@ if ("serviceWorker" in navigator) {
             text = text.replaceAll("<", "&lt");
             text = text.replaceAll(">","&gt;");
             replOutText(text);
+            break;
+        }
+        case "jsUploadDb": {
+            jsUploadDb();
+            break;
+        }
+        case "jsExportDb": {
+            jsExportDb(payload, data.dbFilename);
             break;
         }
          default: {
@@ -133,6 +185,9 @@ if ("serviceWorker" in navigator) {
       var input_text = document.getElementById("prelude").textContent;
       replSubmitText(input_text + "\n");
    }
+   function loadSqlLib() {
+      replSubmitText("(prin \"Sqlite3 loaded\" \"\\n\" T)");
+   }
    window.onload =  doRegistering;
 
    var replRequestId = 0;
@@ -140,7 +195,6 @@ if ("serviceWorker" in navigator) {
       const input_text_length = input_text.length;
       var output = "";
       replRequestId++;
-      log("input_text: ", input_text);
       log("size: ", input_text_length);
       var atChar = 0;
       while (atChar < input_text_length) {
@@ -188,7 +242,8 @@ Therefore the wasm code can run in nearly all WebAssembly tools and settings.
 'FExprs' are functions that get passed the unevaluated arguments, and are an alternative to Lisp macros. 
 The 'cell' in PicoLisp is the only datastructure as a cons cell of 2 pointers (fecs uses 4 bytes per pointer). 
 And 'symbols' are dynamically bound, rather than the more common lexical binding and scoping, which makes symbols represent an actual place in memory. 
-These and other choices make fecs a useful and small system; the size of the .wasm file is 19kB.</p>
+These and other choices make fecs a useful and small system; the size of the .wasm file is 30kB.</p>
+<p>The repl also includes <a href="https://sqlite.org/wasm/doc/trunk/index.md">sqlite3</a>, in its wasm form. Fecs and sqlite3 run in the same wasm process using the same shared wasm linear memory. The sql api in fecs supports prepared statements, bindings and result iterations, and database file import and export.</p>
 <br/>
 <details>
    <summary>Built-in functions</summary>
@@ -408,6 +463,7 @@ These and other choices make fecs a useful and small system; the size of the .wa
 (prin "Prelude loaded" "\n" T)
 
 </div>
+
    </details>
    <details class="examples">
    <summary>Examples</summary>
@@ -491,6 +547,89 @@ These and other choices make fecs a useful and small system; the size of the .wa
    (prin @ "\n")
    (setq L (cdr L)))
 <button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+</details>
+<details>
+   <summary>Built-in sql functions</summary>
+   <dd>(sdb~open string-or-symbol)</dd>
+   <dt>(sdb~open "new_filename.db") Creates a new sqlite3 database and returns it.</br>
+(sdb~open 'Symbol-to-store-db-in) Import an sqlite3 file by launching a file-picker and uploading the file. The 'Symbol will hold the imported database</dt>
+   <dd>(sdb~export Db)</dd>
+   <dt>Exports the db by downloading the sqlite3 file</dt>
+   <dd>(sdb~prepare DB "Query or statement string with perhaps @Parameter and @MoreParameters")</dd> 
+   <dt>Creates an sqlite3 compiled prepared statement. The parameters prefixed with "@" can be bound later.</dt>
+   <dd>(sdb~bind S @SomeParameter @AnotherParameter ...)</dd>
+   <dt>Binds in the prepared statement S the @SomeParameter with the value of the @SomeParameter symbol. For each @Parameter in the prepared statement Stmt a matching symbol with the same name starting with an @ must be passed to bind</dt>
+   <dd>(sdb~step S ..)</dd>
+   <dt>(sdb~step S) Evaluates the prepared statement S once upto the next result. Returns T if a row is available, returns 'sdb~constraint if a constraint error was raised, returns NIL when there are no more results</br>
+   (sdb~step Q Col1Symbol Col2Sym ..) Evaluates the prepared statement S and if a row is available the columns from the row are stored as the value in the supplied symbols. The number of supplied symbols must be equal to the number of columns in the row</dt>
+   <dd>(sdb~cols S)</dd>
+   <dt>Returns a list of the column names of the prepared statement S</dt>
+   <dd>(sdb~row S)</dd>
+   <dt>Returns a list of the column values of the result row of a successful step of prepared statement S</dt>
+   <dd>(sdb~finalize S)</dd>
+   <dt>Finalizes a prepared statement S, after which S should not be used anymore</dt>
+</details>
+<details class="examples">
+   <summary>Sqlite examples</summary>
+   <dd>Import an existing sqlite3 file</dd>
+   <dt>(sdb~open 'DB)
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+</dt>
+   <dd>Create a new sqlite3 db</dd>
+   <dt>(setq DB (sdb~open "mydb.db"))
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+</dt>
+   <dd>Export</dd>
+   <dt>(sdb~export DB)
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+</dt>
+   <dd>Generic query for a DB</dd>
+   <dt>(setq Q (sdb~prepare DB "select * from sqlite_master"))
+
+(print (sdb~cols Q))
+(prin "\n")
+
+(while (sdb~step Q)
+   (print (sdb~row Q))
+   (prin "\n") )
+# prints generic info about the tables in DB
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+</dt>
+   <dd>Sports example<dd>
+   <dt>(setq SportsDB (sdb~open "sports.db"))
+
+(setq CreateTableStmt (sdb~prepare SportsDB "CREATE TABLE IF NOT EXISTS sports(name TEXT NOT NULL UNIQUE, players_per_side INT NOT NULL)"))
+(sdb~step CreateTableStmt)
+
+(setq InsertStmt (sdb~prepare SportsDB "INSERT INTO sports(name, players_per_side) VALUES (@Name, @PlayerCount)"))
+(let (@Name "Football"
+      @PlayerCount 11 )
+   (sdb~bind InsertStmt @Name @PlayerCount)
+   (sdb~step InsertStmt) )
+
+(let (@Name "Football"
+      @PlayerCount 11 )
+   (sdb~bind InsertStmt @Name @PlayerCount)
+   # can't insert duplicate name due to UNIQUE constraint
+   (if (= 'sdb~constraint (sdb~step InsertStmt))
+      (let (@Name "American Football" )
+         (sdb~bind InsertStmt @Name @PlayerCount)
+         (sdb~step InsertStmt) ) ) )
+
+(setq Sports '(("Basketball" . 5)
+               ("Tennis" . 1) ) )
+(for Sport Sports
+   (let (@Name (car Sport)
+         @PlayerCount (cdr Sport) )
+      (sdb~bind InsertStmt @Name @PlayerCount)
+      (sdb~step InsertStmt) ) )
+
+(setq QueryStmt (sdb~prepare SportsDB "SELECT name, players_per_side FROM sports"))
+
+(while (sdb~step QueryStmt Name PlayerCount)
+   (prin "The sport " Name " has " PlayerCount " player" (if (< 1 PlayerCount) "s") " per side.\n") )
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+</dt>
 </details>
 </div>
 <br/>
