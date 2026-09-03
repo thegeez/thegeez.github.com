@@ -242,7 +242,7 @@ Therefore the wasm code can run in nearly all WebAssembly tools and settings.
 'FExprs' are functions that get passed the unevaluated arguments, and are an alternative to Lisp macros. 
 The 'cell' in PicoLisp is the only datastructure as a cons cell of 2 pointers (fecs uses 4 bytes per pointer). 
 And 'symbols' are dynamically bound, rather than the more common lexical binding and scoping, which makes symbols represent an actual place in memory. 
-These and other choices make fecs a useful and small system; the size of the .wasm file is 30kB.</p>
+These and other choices make fecs a useful and small system; the size of the .wasm file is 24kB.</p>
 <p>The repl also includes <a href="https://sqlite.org/wasm/doc/trunk/index.md">sqlite3</a>, in its wasm form. Fecs and sqlite3 run in the same wasm process using the same shared wasm linear memory. The sql api in fecs supports prepared statements, bindings and result iterations, and database file import and export.</p>
 <br/>
 <details>
@@ -628,6 +628,32 @@ These and other choices make fecs a useful and small system; the size of the .wa
 
 (while (sdb~step QueryStmt Name PlayerCount)
    (prin "The sport " Name " has " PlayerCount " player" (if (< 1 PlayerCount) "s") " per side.\n") )
+<button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
+</dt>
+<dd>Mandelbrot</dd>
+<dt>
+(setq DB (sdb~open "mandelbrot.db"))
+(setq MQ (sdb~prepare DB "
+-- Mandelbrot from https://sqlite.org/fiddle/
+WITH RECURSIVE  xaxis(x) AS (VALUES(-2.0) UNION ALL SELECT x+0.05 FROM xaxis WHERE x<1.2),
+  yaxis(y) AS (VALUES(-1.0) UNION ALL SELECT y+0.1 FROM yaxis WHERE y<1.0),
+  m(iter, cx, cy, x, y) AS (
+    SELECT 0, x, y, 0.0, 0.0 FROM xaxis, yaxis
+    UNION ALL
+    SELECT iter+1, cx, cy, x*x-y*y + cx, 2.0*x*y + cy FROM m 
+     WHERE (x*x + y*y) < 4.0 AND iter<28
+  ),
+  m2(iter, cx, cy) AS (
+    SELECT max(iter), cx, cy FROM m GROUP BY cx, cy
+  ),
+  a(t) AS (
+    SELECT group_concat( substr(' .+*#', 1+min(iter/7,4), 1), '') 
+    FROM m2 GROUP BY cy
+  )
+SELECT group_concat(rtrim(t),x'0a') as Mandelbrot FROM a;"))
+(while (sdb~step MQ)
+  (prin (sdb~row MQ) "\n") )
+
 <button onclick="runExample(this);">Run example</button><button onclick="copyExample(this);">Copy to input</button></dt>
 </dt>
 </details>
