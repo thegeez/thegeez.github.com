@@ -63,10 +63,31 @@ function outstreamWrite(len) {
    const bytesArr = memory.slice(start, start + len); // reuse buffer with memory.subarray(start, start + len)
    outstream_write_fn(bytesArr);
 }
+
 function outstreamClose() {
    outstream_close_fn();
 }
 
+var domOutputText;
+
+var prev_outstream_write_fn;
+var prev_outstream_close_fn;
+function jsOutputToDom(on_off) {
+   if (on_off == 1) {
+     prev_outstream_write_fn = outstream_write_fn;
+     prev_outstream_close_fn = outstream_close_fn;
+     outstream_write_fn = function(bytesArr) {
+          domOutputText += decoder.decode(bytesArr);
+     }
+     outstream_close_fn = function () {};
+     domOutputText = "";
+   } else {
+     console.log("TO WRITE TO DOM: ", domOutputText);
+     postMessage({ action: "appendDom", payload: encoder.encode(domOutputText) });
+     outstream_write_fn = prev_outstream_write_fn;
+     outstream_close_fn = prev_outstream_close_fn;
+   }
+}
 function fecsStr(m32, ptr) {
       if((ptr & 2) != 2) {
          return "NOTASTRTOPRINT";
@@ -99,6 +120,9 @@ function fecsStr(m32, ptr) {
           }
           return decoder.decode(new Uint8Array(out_chars).buffer);
       }
+function jsUpload(symName) {
+     postMessage({ action: "jsUpload", payload: symName });
+}
 function jsUploadDb() {
      postMessage({ action: "jsUploadDb" });
 }
@@ -118,6 +142,8 @@ async function loadFecsWasm(sqlite3) {
     const db = new oo.DB("/mydb.sqlite3",'cwt'); // c create is not exists, t trace, w write
    var importObject = {"env": {"memory": wasm_memory,
                               "outstreamWrite": outstreamWrite,
+                              "jsOutputToDom" : jsOutputToDom,
+                              "jsUpload": jsUpload,
                               "jsUploadDb": jsUploadDb,
                               "jsExportDb": jsExportDb,
                               "sqlite3_malloc": sqlite3.wasm.exports.sqlite3_malloc,
@@ -158,10 +184,11 @@ onmessage = (msg) => {
    const data = msg.data;
    const action = data.action;
    const payload = data.payload;
-   const replRequestId = data.replRequestId;
+   var replRequestId = data.replRequestId;
    switch(action) {
       case "in": {
        if (seenErrorForReplRequestId == replRequestId) {
+         log("ignoring \"in\" msg due to replRequestId",seenErrorForReplRequestId, replRequestId);
          return;
        } else if (seenErrorForReplRequestId < replRequestId) {
          seenErrorForReplRequestId = 0;
@@ -171,6 +198,7 @@ onmessage = (msg) => {
          const str_in_bytes_length = str_in_bytes.length;
          const nonFullBatch = str_in_bytes_length < 4096;
          const buf_length = nonFullBatch ? str_in_bytes_length + 1 : 4096;
+         log("str_in_bytes", str_in_bytes);
          var bb_ptr = wasm_app.exports.fecs_ioInBufferStart();
          var bb_chars = new Uint8Array(wasm_memory.buffer, bb_ptr, buf_length);
          bb_chars.set(str_in_bytes.slice(0, str_in_bytes_length));
@@ -184,12 +212,18 @@ onmessage = (msg) => {
          var outputText = "";
          outstream_write_fn = function(bytesArr) {
             outputText += decoder.decode(bytesArr);
+            if (outputText.length > 1024) {
+               postMessage({ action: "out", payload: encoder.encode(outputText) });
+               outputText = "";
+            }
          };
          outstream_close_fn = function() {
             outstream_write_fn = function() {};
             outstream_close_fn = function() {};
          }
+         log("Calling readEvalInMulti()");
          var result_pointer = wasm_app.exports.readEvalInMulti();
+         log("Done calling readEvalInMulti()");
          if (str_in_bytes_length == 4096) {
             log("Worker expects more in calls");
             if (result_pointer & 1) {
@@ -197,6 +231,7 @@ onmessage = (msg) => {
                // go through printing and returning of results below
             } else {
                outstream_close_fn();
+               log("outputText", outputText);
                postMessage({ action: "out", payload: encoder.encode(outputText) });
                outputText = "";
                return;
@@ -209,6 +244,7 @@ onmessage = (msg) => {
             log("parser will wait for more input");
             return;
          }
+         log("before printing result");
          var out_pointer = wasm_app.exports.fecs_print(result_pointer);
          log("out_pointer");
          log(out_pointer);
@@ -225,16 +261,23 @@ onmessage = (msg) => {
          postMessage({ action: "out", payload: encoder.encode(outputText) });
 
        } catch (err) {
+            if(outputText.length > 0) {
+               postMessage({ action: "out", payload: encoder.encode(outputText) });
+               outputText = "";
+            }
             if(err.message?.includes("unreachable")) {
                console.log(wasm_memory.buffer);
                const b = new Int32Array(wasm_memory.buffer);
                if (b[2] == 1330336851) { // nnn = STKO
                   postMessage({ action: "out", payload: encoder.encode("FATAL -- StackOverflow") });
+               } else if (b[2] == 1162694479) { // nnn = OOME
+                  postMessage({ action: "out", payload: encoder.encode("FATAL -- Out of Memory") });
                }
+            } else {
+               postMessage({ action: "out", payload: encoder.encode("FATAL -- WASM error") });
             }
             console.error("Caught err in wasm: ", err);
             seenErrorForReplRequestId = replRequestId;
-            postMessage({ action: "out", payload: encoder.encode("FATAL -- WASM error") });
        }
        break;
       }
@@ -246,6 +289,39 @@ onmessage = (msg) => {
             console.error.apply(console.error, arguments);
          }
          break;
+      }
+      case "upload": {
+          console.log("UPLOAD worker", data);
+           const arrayBuffer = payload;
+           const m32 = new Uint32Array(wasm_memory.buffer);
+           const symName = fecsStr(m32, data.symName);
+           const buffer = new Uint8Array(arrayBuffer);
+            postMessage({ action: "out", payload: encoder.encode("Importing file with byteLength: "+ buffer.byteLength +"\n") });
+             log("Got file length: ", buffer.byteLength);
+             const preamble = "(setq " + symName + " NIL)(setq " + symName + " `(here " + buffer.byteLength + ")";
+             const postamble = ") (prin \"Loaded input into " + symName + "\")T\n"; // do not print whole result number
+          console.log("preamble", preamble);
+          console.log("symName", data.symName);
+             const preambleBuffer = encoder.encode(preamble);
+             const postambleBuffer = encoder.encode(postamble);
+             const bytesTotal = preambleBuffer.byteLength + buffer.byteLength + postambleBuffer.byteLength;
+             const uintArrB = new Uint8Array(bytesTotal);
+             uintArrB.set(preambleBuffer);
+             uintArrB.set(buffer, preambleBuffer.byteLength);
+             uintArrB.set(postambleBuffer, preambleBuffer.byteLength + buffer.byteLength);
+          // console.log("preambleB", preambleBuffer, preambleBuffer.byteLength, "buffer", buffer, "uintArrB", uintArrB);
+             var replRequestId = 1;
+             var bytesAt = 0;
+             while (bytesAt < bytesTotal) {
+               const uptoByte = Math.min(bytesTotal, bytesAt + 4096);
+               postMessage({ action: "out", payload: encoder.encode("Read file upto byte: "+ uptoByte + " ("+ Math.floor(uptoByte / bytesTotal * 100) +"%)\n") });
+            log("doing upto", uptoByte, bytesTotal);
+               const uintSlice = uintArrB.slice(bytesAt, uptoByte);
+            log("slice", uintSlice);
+               onmessage({data: { action: "in", payload: uintSlice, replRequestId }});
+               bytesAt = uptoByte;
+             }
+            break;
       }
       case "uploadDb": {
            const arrayBuffer = payload; 
@@ -274,7 +350,7 @@ onmessage = (msg) => {
             break;
       }
       default: {
-         console.error("unhandled worker msg", msg);
+         console.error("unhandled sql worker msg", msg);
       }
    }
 }

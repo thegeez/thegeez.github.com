@@ -64,6 +64,7 @@ async function loadFecsWasm() {
                                           });
    var importObject = {"env": {"memory": wasm_memory,
                               "outstreamWrite": outstreamWrite,
+                              "jsOutputToDom": function(){}
                                  } };
       WebAssembly.instantiateStreaming(fetch(wasm_uri, { cache: "no-cache" }), importObject).then((result) => {
          wasm_app = result.instance;
@@ -110,6 +111,10 @@ onmessage = (msg) => {
          var outputText = "";
          outstream_write_fn = function(bytesArr) {
             outputText += decoder.decode(bytesArr);
+            if (outputText.length > 4096) {
+               postMessage({ action: "out", payload: encoder.encode(outputText) });
+               outputText = "";
+            }
          };
          outstream_close_fn = function() {
             outstream_write_fn = function() {};
@@ -151,16 +156,23 @@ onmessage = (msg) => {
          postMessage({ action: "out", payload: encoder.encode(outputText) });
 
        } catch (err) {
+            if(outputText.length > 0) {
+               postMessage({ action: "out", payload: encoder.encode(outputText) });
+               outputText = "";
+            }
             if(err.message?.includes("unreachable")) {
                console.log(wasm_memory.buffer);
                const b = new Int32Array(wasm_memory.buffer);
                if (b[2] == 1330336851) { // nnn = STKO
                   postMessage({ action: "out", payload: encoder.encode("FATAL -- StackOverflow") });
+               } else if (b[2] == 1162694479) { // nnn = OOME
+                  postMessage({ action: "out", payload: encoder.encode("FATAL -- Out of Memory") });
                }
+            } else {
+               postMessage({ action: "out", payload: encoder.encode("FATAL -- WASM error") });
             }
             console.error("Caught err in wasm: ", err);
             seenErrorForReplRequestId = replRequestId;
-            postMessage({ action: "out", payload: encoder.encode("FATAL -- WASM error") });
        }
        break;
       }

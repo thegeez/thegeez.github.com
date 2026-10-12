@@ -125,8 +125,6 @@ if ("serviceWorker" in navigator) {
                        }
         case "out": {
             var text = decoder.decode(payload);
-            text = text.replaceAll("<", "&lt");
-            text = text.replaceAll(">","&gt;");
             replOutText(text);
             break;
         }
@@ -177,7 +175,7 @@ if ("serviceWorker" in navigator) {
    function replOutText(out_text) {
       const replOut = document.getElementById("replHistory");
       const el = document.createElement("span");
-      el.innerHTML = out_text;
+      el.innerText = out_text;
       replOut.appendChild(el);
       replOut.scrollTo(0, replOut.scrollHeight);
       }
@@ -410,6 +408,13 @@ These and other choices make fecs a useful and small system; the size of the .wa
 (zap 'E)
 (zap 'Cond)
 
+(de when E
+   (loop
+      (T (eval (car E)) (run (cdr E)))
+      (NIL NIL) ) )
+
+(zap 'E)
+
 (de while E
    (loop
       (NIL (eval (car E)))
@@ -417,35 +422,67 @@ These and other choices make fecs a useful and small system; the size of the .wa
 
 (zap 'E)
 
+(de num? (Any)
+   (if (and (< NIL Any)
+         (< Any "!") )
+      Any ) )
+
 # (for Elem List ... (NIL Cond . Prg) ... (T Cond . Prg) ...)
 # (for (Idx . Elem) List ... (NIL Cond . Prg) ... (T Cond . Prg) ...)
+# (for I Num ... (NIL Cond . Prg) ... (T Cond . Prg) ...)
 (de for E
-   (eval
-      (let (IdxSym NIL
-            ItemSym (car E)
-            ItemSym (if (atom ItemSym) # I or (Idx . X)
-               ItemSym
-               (setq IdxSym (car ItemSym))
-               (set IdxSym 0)
-               (cdr ItemSym) )
-            LBox (box)
-            Body (cdr (cdr E))
-            BodyTail Body )
-         (loop
-            (NIL (cdr BodyTail))
-            (setq BodyTail (cdr BodyTail)) )
-         (con BodyTail (cons (list 'NIL (list 'setq LBox (list 'cdr LBox)))))
-         (set LBox (eval (car (cdr E))))
-         (cons 'loop
-            (cons (list NIL LBox T IdxSym ItemSym (atom (car E)))
-               (cons (list 'setq ItemSym (list 'car LBox))
-                  (if IdxSym
-                     (cons (list 'setq IdxSym (list '+ IdxSym 1))
+   (let (Coll (eval (car (cdr E))))
+      (eval
+         (if (num? Coll)
+            # (for I Num ...)
+            (let (ISym (car E)
+                  UptoN @
+                  Body (cdr (cdr E))
+                  BodyTail (box)
+                  E Body )
+               (loop
+                  (NIL (cdr E))
+                  (setq E (cdr E)) )
+               (set BodyTail E)
+               (con E
+                   (list (list T (list '= ISym UptoN))
+                     (list 'NIL (list 'setq ISym (list '+ ISym 1)) ) ) )
+               (cons 'prog
+                  (list (list 'setq ISym 1)
+                     (cons 'loop
                         Body )
-                     Body) ) ) )
-         ) ) )
+                     (list 'con BodyTail NIL) ) ) )
+            # (for .. List ...)
+            (let (IdxSym NIL
+                  ItemSym (car E)
+                  ItemSym (if (atom ItemSym) # I or (Idx . X)
+                     ItemSym
+                     (setq IdxSym (car ItemSym))
+                     (set IdxSym 0)
+                     (cdr ItemSym) )
+                  LBox (box)
+                  Body (cdr (cdr E))
+                  BodyTail (box)
+                  E Body )
+               (loop
+                  (NIL (cdr E))
+                  (setq E (cdr E)) )
+               (set BodyTail E)
+               (con E (cons (list 'NIL (list 'setq LBox (list 'cdr LBox)))))
+               (set LBox Coll)
+               (list 'prog
+                  (cons 'loop
+                     (cons (list NIL LBox)
+                        (cons (list 'setq ItemSym (list 'car LBox))
+                           (if IdxSym
+                              (cons (list 'setq IdxSym (list '+ IdxSym 1))
+                                 Body )
+                              Body) ) ) )
+                  (list 'con BodyTail NIL) )
+               ) ) ) ) )
 
 (zap 'E)
+(zap 'Coll)
 
 # (finally Exe . Prg) Always executes Exe after Prg, also if Prg had a (quit)
 (de finally E
@@ -459,6 +496,15 @@ These and other choices make fecs a useful and small system; the size of the .wa
 
 (zap 'E)
 (zap 'Res)
+
+(de cond E
+   (loop
+      (T (eval (car (car E)))
+         (run (cdr (car E))) )
+      (NIL (setq E (cdr E)))
+      ) )
+
+(zap 'E)
 
 (prin "Prelude loaded" "\n" T)
 
